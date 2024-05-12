@@ -1,4 +1,4 @@
-import 'package:donation_system/pages/donation_list.dart';
+import 'package:donation_system/pages/org_list.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/pages/signup_page.dart';
 import 'package:flutter/material.dart';

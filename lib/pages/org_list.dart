@@ -1,4 +1,5 @@
 import 'package:donation_system/mock/mock_organization.dart';
+import 'package:donation_system/pages/org_details.dart';
 import 'package:flutter/material.dart';
 
 import '../model/model_organization.dart';
@@ -29,8 +30,8 @@ class _DonationListState extends State<DonationList> {
               subtitle: Text(org.about),
               trailing: Text(org.status),
               onTap: () {
-                // Navigator.push(
-                // context, MaterialPageRoute(builder: (context) => const UserDetailsPage()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => OrgDetailsPage(org: org)));
               },
             );
           }),
