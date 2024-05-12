@@ -1,4 +1,5 @@
 import 'package:donation_system/model/model_organization.dart';
+import 'package:donation_system/pages/donate_page.dart';
 import 'package:flutter/material.dart';
 
 class OrgDetailsPage extends StatelessWidget {
@@ -20,7 +21,7 @@ class OrgDetailsPage extends StatelessWidget {
             children: [
               orgName(org.name),
               orgAbout(org.about),
-              donateButton,
+              donateButton(context),
             ],
           ),
         ),
@@ -48,14 +49,15 @@ class OrgDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget get donateButton => Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigator.push(
-            // context, MaterialPageRoute(builder: (context) => const UserDetailsPage()));
-          },
-          child: const Text("Donate"),
-        ),
-      );
+  Widget donateButton(context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 30),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const DonatePage()));
+        },
+        child: const Text("Donate"),
+      ),
+    );
+  }
 }
