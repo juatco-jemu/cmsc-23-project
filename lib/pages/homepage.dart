@@ -1,3 +1,4 @@
+import 'package:donation_system/pages/admin_homepage.dart';
 import 'package:donation_system/pages/org_list.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/pages/signup_page.dart';
@@ -39,6 +40,12 @@ class _HomePageState extends State<HomePage> {
                         context, MaterialPageRoute(builder: (context) => const SignUpPage()));
                   },
                   child: const Text("Sign Up page")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const AdminPage()));
+                  },
+                  child: const Text("Admin Page")),
             ],
           ),
         ));

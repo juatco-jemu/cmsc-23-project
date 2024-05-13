@@ -100,7 +100,7 @@ class _DonatePageState extends State<DonatePage> {
                       }
                     });
                   },
-                  controlAffinity: ListTileControlAffinity.trailing,
+                  controlAffinity: ListTileControlAffinity.leading,
                 ))
             .toList(),
       );

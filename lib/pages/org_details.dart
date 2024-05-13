@@ -1,6 +1,9 @@
 import 'package:donation_system/model/model_organization.dart';
 import 'package:donation_system/pages/donate_page.dart';
+import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
+
+import '../components/appbar.dart';
 
 class OrgDetailsPage extends StatelessWidget {
   final Organization org;
@@ -9,20 +12,23 @@ class OrgDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Organization Details"),
+      appBar: const CustomAppBar(
+        title: "Organization Details",
       ),
-      body: Align(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              orgName(org.name),
-              orgAbout(org.about),
-              donateButton(context),
-            ],
+      body: Container(
+        decoration: CustomWidgetDesigns.gradientBackground(),
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                orgName(org.name),
+                orgAbout(org.about),
+                donateButton(context),
+              ],
+            ),
           ),
         ),
       ),
