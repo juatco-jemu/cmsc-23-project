@@ -21,6 +21,10 @@ class MockDonor extends Donor {
     );
 
     jemu.donations.add(MockDonation.fetchDonation(jemu));
+    jemu.donations.add(MockDonation.fetchDonation(jemu));
+    jemu.donations.add(MockDonation.fetchDonation(jemu));
+    jemu.donations.add(MockDonation.fetchDonation(jemu));
+    jemu.donations.add(MockDonation.fetchDonation(jemu));
 
     return jemu;
   }
