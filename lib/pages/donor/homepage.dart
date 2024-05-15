@@ -1,5 +1,6 @@
 import 'package:donation_system/pages/admin/admin_homepage.dart';
 import 'package:donation_system/pages/donor/home.dart';
+import 'package:donation_system/pages/donor/profile.dart';
 import 'package:donation_system/pages/org_list.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/pages/signup_page.dart';
@@ -20,9 +21,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const DonorHomepage(),
     const DonationList(),
-    const SignInPage(),
-    const SignUpPage(),
-    const AdminPage(),
+    const DonorProfilePage()
   ];
 
   @override
