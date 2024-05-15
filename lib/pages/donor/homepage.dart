@@ -27,9 +27,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CustomAppBar(
-          title: 'Elbi Donation System',
-        ),
+        // appBar: const CustomAppBar(
+        //   title: 'Elbi Donation System',
+        // ),
         bottomNavigationBar: botNavBar,
         body: Center(child: _pages.elementAt(_selectedIndex)));
   }

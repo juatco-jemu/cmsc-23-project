@@ -24,28 +24,33 @@ class _DonationListState extends State<DonationList> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     // Stream<QuerySnapshot> todosStream = context.watch<TodoListProvider>().todo;
-    return Container(
-      height: screenHeight,
-      width: screenWidth,
-      decoration: CustomWidgetDesigns.gradientBackground(),
-      child: ListView.builder(
-        itemCount: org_list.length,
-        itemBuilder: ((context, index) {
-          Organization org = org_list[index];
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: CustomWidgetDesigns.customTileContainer(),
-            child: ListTile(
-              title: Text(org.name),
-              subtitle: Text(org.about),
-              trailing: Text(org.status),
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => OrgDetailsPage(org: org)));
-              },
-            ),
-          );
-        }),
+    return Scaffold(
+      appBar: const CustomAppBar(
+        title: "Choose an Organization\nto Donate to",
+      ),
+      body: Container(
+        height: screenHeight,
+        width: screenWidth,
+        decoration: CustomWidgetDesigns.gradientBackground(),
+        child: ListView.builder(
+          itemCount: org_list.length,
+          itemBuilder: ((context, index) {
+            Organization org = org_list[index];
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: CustomWidgetDesigns.customTileContainer(),
+              child: ListTile(
+                title: Text(org.name),
+                subtitle: Text(org.about),
+                trailing: Text(org.status),
+                onTap: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => OrgDetailsPage(org: org)));
+                },
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
