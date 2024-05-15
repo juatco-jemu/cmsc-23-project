@@ -1,7 +1,6 @@
 import 'package:donation_system/model/model_donation.dart';
 
 import '../model/model_organization.dart';
-import '../model/model_user.dart';
 
 class MockDonation extends Donation {
   MockDonation({
@@ -19,16 +18,9 @@ class MockDonation extends Donation {
     required super.status,
   });
 
-  static Donation fetchAny() {
+  static Donation fetchDonation(donor) {
     return Donation(
-      donor: User(
-        name: "Jemuel",
-        username: "jemueljuatco",
-        email: "jmjuatco@gmail.com",
-        password: "password",
-        addresses: ["Cebu City, Cebu"],
-        contactNo: "09123456789",
-      ),
+      donor: donor,
       organization: Organization(
         name: "Red Cross",
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],

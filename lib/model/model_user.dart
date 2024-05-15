@@ -1,8 +1,9 @@
+import 'model_donation.dart';
+
 class User {
   String name;
   String username;
   String email;
-  String password;
   List<String> addresses;
   String contactNo;
 
@@ -10,8 +11,19 @@ class User {
     required this.name,
     required this.username,
     required this.email,
-    required this.password,
     required this.addresses,
     required this.contactNo,
   });
+}
+
+class Donor extends User {
+  Donor({
+    required super.name,
+    required super.username,
+    required super.email,
+    required super.addresses,
+    required super.contactNo,
+  });
+
+  List<Donation> donations = [];
 }
