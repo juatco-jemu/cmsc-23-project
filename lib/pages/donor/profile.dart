@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:donation_system/components/appbar.dart';
+import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
@@ -18,23 +19,22 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "${donor.name}'s Profile Page"),
+      // appBar: CustomAppBar(title: "${donor.name}'s Profile Page"),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: CustomWidgetDesigns.gradientBackground(),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                profileHeader,
-                spacer,
-                spacer,
-                carouselSlider,
-                spacer,
-              ],
-            ),
+          child: Column(
+            children: [
+              profileHeader,
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const SignInPage()));
+                  },
+                  child: const Text("Sign In")),
+            ],
           ),
         ),
       ),
@@ -42,9 +42,8 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
   }
 
   Widget get profileHeader => Container(
-        height: 100,
+        height: 500,
         width: MediaQuery.of(context).size.width,
-        decoration: CustomWidgetDesigns.customContainer(),
         child: Text(
           "Name: ${donor.name}",
           style: const TextStyle(fontSize: 20),
