@@ -4,7 +4,7 @@ import 'colors.dart';
 class CustomWidgetDesigns {
   static BoxDecoration customContainer() {
     return BoxDecoration(
-      color: AppColors.aliceBlue,
+      color: AppColors.appWhite,
       borderRadius: BorderRadius.circular(12),
     );
   }

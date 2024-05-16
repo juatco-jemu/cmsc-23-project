@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
 
   CurvedNavigationBar get botNavBar => CurvedNavigationBar(
           color: AppColors.tiffanyBlue,
-          backgroundColor: AppColors.appWhite,
+          backgroundColor: AppColors.aliceBlue,
           onTap: _onItemTapped,
           index: _selectedIndex,
           animationDuration: const Duration(milliseconds: 150),

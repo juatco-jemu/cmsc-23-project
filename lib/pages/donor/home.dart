@@ -3,6 +3,7 @@ import 'package:donation_system/components/appbar.dart';
 import 'package:donation_system/mock/mock_donor.dart';
 import 'package:donation_system/model/model_user.dart';
 import 'package:donation_system/pages/org_list.dart';
+import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,8 @@ class _DonorHomepageState extends State<DonorHomepage> {
       appBar: const CustomAppBar(title: 'Elbi Donation System'),
       body: SingleChildScrollView(
         child: Container(
-            decoration: CustomWidgetDesigns.gradientBackground(),
+            color: AppColors.aliceBlue,
+            // decoration: CustomWidgetDesigns.gradientBackground(),
             child: Column(
               children: [
                 spacer,

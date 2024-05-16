@@ -1,5 +1,6 @@
 import 'package:donation_system/mock/mock_organization.dart';
 import 'package:donation_system/pages/org_details.dart';
+import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,8 @@ class _DonationListState extends State<DonationList> {
       body: Container(
         height: screenHeight,
         width: screenWidth,
-        decoration: CustomWidgetDesigns.gradientBackground(),
+        // decoration: CustomWidgetDesigns.gradientBackground(),
+        color: AppColors.aliceBlue,
         child: ListView.builder(
           itemCount: org_list.length,
           itemBuilder: ((context, index) {
