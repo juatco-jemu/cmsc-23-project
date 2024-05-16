@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/colors.dart';
 import 'signup_org_page.dart';
 // import 'package:provider/provider.dart';
 // import '../providers/auth_provider.dart';
@@ -19,29 +20,61 @@ class _SignUpState extends State<SignUpPage> {
   String? lastName;
   bool _obscureText = true; // added this to hide password
 
+  late Size screen = MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Container(
-            margin: const EdgeInsets.all(30),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  heading,
-                  firstNameField, // added this as a new field required
-                  lastNameField, // same as above
-                  emailField,
-                  passwordField,
-                  submitButton,
-                  orDivider,
-                  signUpAsOrgButton
-                ],
-              ),
-            )),
+        appBar: AppBar(),
+        body: SingleChildScrollView(
+          child: Container(
+            width: screen.width,
+            height: screen.height -
+                MediaQuery.of(context).padding.top -
+                kToolbarHeight, // size of screen - appbar height - status bar height
+            decoration: const BoxDecoration(
+              color: AppColors.tiffanyBlue,
+            ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+              _buildBot(),
+            ]),
+          ),
+        ));
+  }
+
+  Widget _buildForm() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            spacer,
+            heading,
+            firstNameField, // added this as a new field required
+            lastNameField, // same as above
+            emailField,
+            passwordField,
+            submitButton,
+            orDivider,
+            signUpAsOrgButton,
+            spacer,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBot() {
+    return SizedBox(
+      width: screen.width,
+      child: Card(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: _buildForm(),
       ),
     );
   }
@@ -170,4 +203,6 @@ class _SignUpState extends State<SignUpPage> {
         },
         child: const Text("Sign Up as Organization"),
       );
+
+  Widget get spacer => const SizedBox(height: 20);
 }

@@ -1,3 +1,4 @@
+import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'signup_page.dart';
@@ -16,28 +17,58 @@ class _SignInPageState extends State<SignInPage> {
   bool showSignInErrorMessage = false;
   bool _obscureText = true; // added this to hide password
 
+  late Size screen = MediaQuery.of(context).size;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 30),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  heading,
-                  emailField,
-                  passwordField,
-                  showSignInErrorMessage ? signInErrorMessage : Container(),
-                  submitButton,
-                  signUpButton
-                ],
-              ),
-            )),
+            width: screen.width,
+            height: screen.height,
+            decoration: const BoxDecoration(
+              color: AppColors.tiffanyBlue,
+            ),
+            // margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 30),
+            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+              _buildBot(),
+            ])),
       ),
     );
+  }
+
+  Widget _buildForm() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            spacer,
+            heading,
+            emailField,
+            passwordField,
+            showSignInErrorMessage ? signInErrorMessage : Container(),
+            submitButton,
+            signUpButton
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBot() {
+    return SizedBox(
+        width: screen.width,
+        child: Card(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: _buildForm(),
+        ));
   }
 
   Widget get heading => const Padding(
@@ -137,4 +168,6 @@ class _SignInPageState extends State<SignInPage> {
           ],
         ),
       );
+
+  Widget get spacer => const SizedBox(height: 30);
 }
