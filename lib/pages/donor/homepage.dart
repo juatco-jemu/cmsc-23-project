@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:donation_system/pages/admin/admin_homepage.dart';
 import 'package:donation_system/pages/donor/home.dart';
 import 'package:donation_system/pages/donor/profile.dart';
@@ -34,23 +35,16 @@ class _HomePageState extends State<HomePage> {
         body: Center(child: _pages.elementAt(_selectedIndex)));
   }
 
-  BottomNavigationBar get botNavBar => BottomNavigationBar(
-          backgroundColor: AppColors.tiffanyBlue,
+  CurvedNavigationBar get botNavBar => CurvedNavigationBar(
+          color: AppColors.tiffanyBlue,
+          backgroundColor: AppColors.appWhite,
           onTap: _onItemTapped,
-          currentIndex: _selectedIndex,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.approval),
-              label: 'Donate',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: 'You',
-            ),
+          index: _selectedIndex,
+          animationDuration: const Duration(milliseconds: 150),
+          items: const [
+            Icon(Icons.home),
+            Icon(Icons.approval),
+            Icon(Icons.account_circle),
           ]);
 
   void _onItemTapped(int index) {
