@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:donation_system/components/appbar.dart';
+import 'package:donation_system/pages/donor/list_of_user_donations_page.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
@@ -28,7 +29,7 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
       body: SingleChildScrollView(
         child: Container(
           // decoration: CustomWidgetDesigns.gradientBackground(),
-          color: AppColors.appWhite,
+          color: AppColors.aliceBlue,
           height: screen.height - MediaQuery.of(context).padding.top - kToolbarHeight,
           child: Column(
             children: [
@@ -39,6 +40,8 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
                         context, MaterialPageRoute(builder: (context) => const SignInPage()));
                   },
                   child: const Text("Sign In")),
+              subHeader("Recent Donations"),
+              _buildRecentDonations(),
             ],
           ),
         ),
@@ -108,4 +111,39 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
       ));
 
   Widget get spacer => const SizedBox(height: 30);
+
+  Widget _buildRecentDonations() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: donor.donations.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+            child: Container(
+              decoration: CustomWidgetDesigns.customTileContainer(),
+              child: ListTile(
+                title: Text(donor.donations[index].organization.name),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget subHeader(title) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => const UserDonationsList()));
+                },
+                child: const Text("View All")),
+          ],
+        ),
+      );
 }
