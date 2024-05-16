@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:donation_system/components/appbar.dart';
 import 'package:donation_system/pages/signin_page.dart';
+import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
@@ -16,18 +17,22 @@ class DonorProfilePage extends StatefulWidget {
 
 class _DonorProfilePageState extends State<DonorProfilePage> {
   Donor donor = MockDonor.fetchDonor();
+  late final coverHeight = 250 - MediaQuery.of(context).padding.top - kToolbarHeight;
+  final double imageSize = 120;
+
+  late Size screen = MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: CustomAppBar(title: "${donor.name}'s Profile Page"),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: CustomWidgetDesigns.gradientBackground(),
+          // decoration: CustomWidgetDesigns.gradientBackground(),
+          color: AppColors.appWhite,
+          height: screen.height - MediaQuery.of(context).padding.top - kToolbarHeight,
           child: Column(
             children: [
-              profileHeader,
+              _buildTop(),
               TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -41,12 +46,42 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
     );
   }
 
-  Widget get profileHeader => Container(
-        height: 500,
-        width: MediaQuery.of(context).size.width,
-        child: Text(
-          "Name: ${donor.name}",
-          style: const TextStyle(fontSize: 20),
+  Widget _buildTop() {
+    return Column(
+      children: [
+        Stack(clipBehavior: Clip.none, alignment: Alignment.bottomCenter, children: [
+          profileHeaderBackground,
+          Positioned(top: coverHeight - (imageSize / 2), child: profileImage),
+        ]),
+        spacer,
+        spacer,
+        Text("Hello, ${donor.name}",
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+      ],
+    );
+  }
+
+  Widget get profileHeaderBackground => SizedBox(
+        width: screen.width,
+        height: coverHeight,
+        child: Card(
+          color: AppColors.tiffanyBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.elliptical(screen.width / 2, 100),
+                bottomRight: Radius.elliptical(screen.width / 2, 100)),
+          ),
+        ),
+      );
+
+  Widget get profileImage => SizedBox(
+        width: imageSize,
+        height: imageSize,
+        child: Card(
+          color: AppColors.appWhite,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
         ),
       );
 
