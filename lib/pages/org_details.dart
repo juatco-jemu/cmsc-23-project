@@ -1,13 +1,24 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:donation_system/mock/mock_donor.dart';
 import 'package:donation_system/model/model_organization.dart';
+import 'package:donation_system/model/model_user.dart';
 import 'package:donation_system/pages/donate_page.dart';
+import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
 import '../components/appbar.dart';
 
-class OrgDetailsPage extends StatelessWidget {
+class OrgDetailsPage extends StatefulWidget {
   final Organization org;
   const OrgDetailsPage({super.key, required this.org});
+
+  @override
+  State<OrgDetailsPage> createState() => _OrgDetailsPageState();
+}
+
+class _OrgDetailsPageState extends State<OrgDetailsPage> {
+  Donor donor = MockDonor.fetchDonor();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +27,8 @@ class OrgDetailsPage extends StatelessWidget {
         title: "Organization Details",
       ),
       body: Container(
-        decoration: CustomWidgetDesigns.gradientBackground(),
+        // decoration: CustomWidgetDesigns.gradientBackground(),
+        color: AppColors.aliceBlue,
         child: Align(
           alignment: Alignment.center,
           child: Padding(
@@ -24,8 +36,11 @@ class OrgDetailsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                orgName(org.name),
-                orgAbout(org.about),
+                orgName(widget.org.name),
+                orgAbout(widget.org.about),
+                const SizedBox(height: 20),
+                const Text("Donation Drives"),
+                carouselSlider,
                 donateButton(context),
               ],
             ),
@@ -66,4 +81,26 @@ class OrgDetailsPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget get carouselSlider => CarouselSlider(
+      items: donor.donations
+          .map((donation) => Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                decoration: CustomWidgetDesigns.customContainer(),
+                child: Column(
+                  children: [
+                    Text(donation.organization.name),
+                    Text(donation.status),
+                    Text(donation.dateTime.toString()),
+                  ],
+                ),
+              ))
+          .toList(),
+      options: CarouselOptions(
+        height: 350,
+        initialPage: 0,
+        enableInfiniteScroll: false,
+        scrollDirection: Axis.horizontal,
+      ));
 }
