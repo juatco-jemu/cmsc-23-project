@@ -30,56 +30,59 @@ class _DonationListState extends State<DonationList> {
         title: "Choose an Organization\nto Donate to",
       ),
       body: Container(
-        height: screenHeight,
-        width: screenWidth,
-        // decoration: CustomWidgetDesigns.gradientBackground(),
-        color: AppColors.aliceBlue,
-        child: ListView.builder(
-          itemCount: org_list.length,
-          itemBuilder: ((context, index) {
-            Organization org = org_list[index];
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: CustomWidgetDesigns.customTileContainer(),
-              child: ListTile(
-                title: Text(org.name),
-                subtitle: Text(org.about),
-                trailing: Text(org.status),
-                onTap: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => OrgDetailsPage(org: org)));
-                },
-              ),
-            );
-          }),
-        ),
+          height: screenHeight,
+          width: screenWidth,
+          // decoration: CustomWidgetDesigns.gradientBackground(),
+          color: AppColors.aliceBlue,
+          child: Column(
+            children: [
+              _buildSearch(),
+              _buildList(),
+            ],
+          )),
+    );
+  }
+
+  Widget _buildSearch() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: CustomWidgetDesigns.customTileContainer(),
+      child: ListTile(
+        title: const Text("Search for an Organization"),
+        trailing: const Icon(Icons.search),
+        onTap: () {
+          // Navigator.push(
+          // context, MaterialPageRoute(builder: (context) => OrgDetailsPage(org: org)));
+        },
       ),
     );
   }
 
-  Drawer get drawer => Drawer(
-          child: ListView(padding: EdgeInsets.zero, children: [
-        const DrawerHeader(child: Text("Todo")),
-        ListTile(
-          title: const Text('Details'),
-          onTap: () {
-            // Navigator.push(
-            // context, MaterialPageRoute(builder: (context) => const UserDetailsPage()));
-          },
-        ),
-        ListTile(
-          title: const Text('Todo List'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, "/");
-          },
-        ),
-        ListTile(
-          title: const Text('Logout'),
-          onTap: () {
-            // context.read<UserAuthProvider>().signOut();
-            Navigator.pop(context);
-          },
-        ),
-      ]));
+  Widget _buildList() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: org_list.length,
+        itemBuilder: ((context, index) {
+          Organization org = org_list[index];
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: CustomWidgetDesigns.customTileContainer(),
+            child: ListTile(
+              leading: const Icon(
+                Icons.circle,
+                size: 50,
+                color: AppColors.tiffanyBlue,
+              ),
+              title: Text(org.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(org.status),
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => OrgDetailsPage(org: org)));
+              },
+            ),
+          );
+        }),
+      ),
+    );
+  }
 }
