@@ -5,7 +5,7 @@ ListTile customDonorListTile({
   required String subtitle,
 }) {
   return ListTile(
-    title: Text(title),
+    title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
     subtitle: Text(subtitle),
     trailing: const Icon(
       Icons.favorite,
