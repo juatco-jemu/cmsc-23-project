@@ -1,3 +1,5 @@
+import 'package:donation_system/mock/mock_donation_drive.dart';
+
 import '../model/model_organization.dart';
 
 class MockOrganization extends Organization {
@@ -10,13 +12,15 @@ class MockOrganization extends Organization {
   });
 
   static Organization fetchOne() {
-    return Organization(
+    Organization org = new Organization(
       name: "Red Cross",
       proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
       status: "Open",
       about: "Red Cross is a humanitarian organization",
       donationDrives: [],
     );
+    org.donationDrives.add(MockDonationDrive.fetchOne());
+    return org;
   }
 
   static List<Organization> fetchAll() {
@@ -26,28 +30,28 @@ class MockOrganization extends Organization {
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Open",
         about: "Red Cross is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: [MockDonationDrive.fetchOne()],
       ),
       Organization(
         name: "Caritas",
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Open",
         about: "Caritas is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: MockDonationDrive.fetchMany(),
       ),
       Organization(
         name: "World Vision",
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Closed",
         about: "World Vision is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: MockDonationDrive.fetchMany(),
       ),
       Organization(
         name: "UNICEF",
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Open",
         about: "UNICEF is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: [MockDonationDrive.fetchOne()],
       ),
       Organization(
         name: "Save the Children",
@@ -61,7 +65,7 @@ class MockOrganization extends Organization {
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Open",
         about: "Habitat for Humanity is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: MockDonationDrive.fetchMany(),
       ),
       Organization(
         name: "Red Cross",
@@ -75,35 +79,35 @@ class MockOrganization extends Organization {
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Open",
         about: "Caritas is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: MockDonationDrive.fetchMany(),
       ),
       Organization(
         name: "World Vision",
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Closed",
         about: "World Vision is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: [MockDonationDrive.fetchOne()],
       ),
       Organization(
         name: "UNICEF",
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Open",
         about: "UNICEF is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: [MockDonationDrive.fetchOne()],
       ),
       Organization(
         name: "Save the Children",
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Closed",
         about: "Save the Children is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: MockDonationDrive.fetchMany(),
       ),
       Organization(
         name: "Habitat for Humanity",
         proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
         status: "Open",
         about: "Habitat for Humanity is a humanitarian organization",
-        donationDrives: [],
+        donationDrives: MockDonationDrive.fetchMany(),
       ),
     ];
   }

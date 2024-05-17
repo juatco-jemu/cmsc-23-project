@@ -1,5 +1,3 @@
-import 'package:donation_system/mock/mock_organization.dart';
-
 import '../model/model_donation_drive.dart';
 
 class MockDonationDrive extends DonationDrive {
@@ -12,14 +10,67 @@ class MockDonationDrive extends DonationDrive {
     required super.status,
   });
 
-  static DonationDrive fetchOne() {
+  static DonationDrive fetchOne({org}) {
     return DonationDrive(
-      organization: MockOrganization.fetchOne(),
+      organization: org,
       id: "123456",
       title: "Typhoon Relief",
       description: "Donations for typhoon victims",
       location: "Cebu City, Cebu",
       status: "Open",
     );
+  }
+
+  static List<DonationDrive> fetchMany({org}) {
+    return [
+      DonationDrive(
+        organization: org,
+        id: "123456",
+        title: "Typhoon Relief",
+        description: "Donations for typhoon victims",
+        location: "Cebu City, Cebu",
+        status: "Open",
+      ),
+      DonationDrive(
+        organization: org,
+        id: "123456",
+        title: "Earthquake Relief",
+        description: "Donations for earthquake victims",
+        location: "Bohol City, Bohol",
+        status: "Open",
+      ),
+      DonationDrive(
+        organization: org,
+        id: "123456",
+        title: "Fire Relief",
+        description: "Donations for fire victims",
+        location: "Manila City, Manila",
+        status: "Closed",
+      ),
+      DonationDrive(
+        organization: org,
+        id: "123456",
+        title: "Flood Relief",
+        description: "Donations for flood victims",
+        location: "Davao City, Davao",
+        status: "Open",
+      ),
+      DonationDrive(
+        organization: org,
+        id: "123456",
+        title: "Pandemic Relief",
+        description: "Donations for pandemic victims",
+        location: "Cebu City, Cebu",
+        status: "Closed",
+      ),
+      DonationDrive(
+        organization: org,
+        id: "123456",
+        title: "Tsunami Relief",
+        description: "Donations for tsunami victims",
+        location: "Cebu City, Cebu",
+        status: "Open",
+      ),
+    ];
   }
 }
