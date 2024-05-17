@@ -16,6 +16,7 @@ class DonorHomepage extends StatefulWidget {
 
 class _DonorHomepageState extends State<DonorHomepage> {
   Donor donor = MockDonor.fetchDonor();
+  late Size screen = MediaQuery.of(context).size;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class _DonorHomepageState extends State<DonorHomepage> {
         child: Container(
             color: AppColors.aliceBlue,
             // decoration: CustomWidgetDesigns.gradientBackground(),
+            height: screen.height + 100,
             child: Column(
               children: [
                 spacer,
@@ -33,7 +35,7 @@ class _DonorHomepageState extends State<DonorHomepage> {
                 carouselSlider,
                 spacer,
                 subHeader("Recent Donations"),
-                carouselSlider,
+                _buildRecentDonations(),
                 spacer,
               ],
             )),
@@ -88,4 +90,23 @@ class _DonorHomepageState extends State<DonorHomepage> {
       ));
 
   Widget get spacer => const SizedBox(height: 30);
+
+  Widget _buildRecentDonations() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: donor.donations.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+            child: Container(
+              decoration: CustomWidgetDesigns.customTileContainer(),
+              child: ListTile(
+                title: Text(donor.donations[index].organization.name),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
