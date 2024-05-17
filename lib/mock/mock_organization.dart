@@ -8,6 +8,15 @@ class MockOrganization extends Organization {
     required super.about,
   });
 
+  static Organization fetchOne() {
+    return Organization(
+      name: "Red Cross",
+      proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
+      status: "Open",
+      about: "Red Cross is a humanitarian organization",
+    );
+  }
+
   static List<Organization> fetchAll() {
     return [
       Organization(
