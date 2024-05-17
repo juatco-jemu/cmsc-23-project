@@ -32,31 +32,33 @@ class _DonatePageState extends State<DonatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Donate"),
-      ),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         child: Align(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                donationCategory,
-                pickupAndWeight,
-                addressField,
-                contactNoField,
-                donateButton,
-                const SizedBox(height: 20)
-              ],
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            spacer,
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text("Make your donation",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
             ),
-          ),
+            donationCategory,
+            pickupAndWeight,
+            addressField,
+            contactNoField,
+            donateButton,
+            const SizedBox(height: 20)
+          ],
         ),
       ),
-    );
+    ));
   }
+
+  Widget get spacer => const SizedBox(height: 20);
 
   Widget get pickupAndWeight => Column(
         children: [
