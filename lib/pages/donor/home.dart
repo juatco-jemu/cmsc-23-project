@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import '../../components/listTile.dart';
 import '../../mock/mock_organization.dart';
 import '../../model/model_donation.dart';
+import '../drive_details_page.dart';
 
 class DonorHomepage extends StatefulWidget {
   const DonorHomepage({super.key});
@@ -64,32 +65,40 @@ class _DonorHomepageState extends State<DonorHomepage> {
 
   Widget carouselSlider() => CarouselSlider(
       items: drive
-          .map((drive) => Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                decoration: CustomWidgetDesigns.customContainer(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width,
-                      color: AppColors.tiffanyBlue,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(drive.title,
-                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text(drive.description, style: const TextStyle(fontSize: 15)),
-                          spacer,
-                          Text(drive.status, style: const TextStyle(fontSize: 15)),
-                        ],
+          .map((drive) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DriveDetailsPage(donationDrive: drive)));
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                  decoration: CustomWidgetDesigns.customContainer(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: MediaQuery.of(context).size.width,
+                        color: AppColors.tiffanyBlue,
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(drive.title,
+                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            Text(drive.description, style: const TextStyle(fontSize: 15)),
+                            spacer,
+                            Text(drive.status, style: const TextStyle(fontSize: 15)),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ))
           .toList(),
@@ -98,6 +107,7 @@ class _DonorHomepageState extends State<DonorHomepage> {
         initialPage: 0,
         enableInfiniteScroll: false,
         scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.antiAlias,
       ));
 
   Widget get spacer => const SizedBox(height: 30);
