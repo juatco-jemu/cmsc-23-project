@@ -10,14 +10,14 @@ import '../model/model_organization.dart';
 //TODO:implement recent donation list (can be done by getting the last 3 donations from the database)
 //TODO: add donation list to the database
 
-class DonationList extends StatefulWidget {
-  const DonationList({super.key});
+class OrganizationsList extends StatefulWidget {
+  const OrganizationsList({super.key});
 
   @override
-  State<DonationList> createState() => _DonationListState();
+  State<OrganizationsList> createState() => _OrganizationsListState();
 }
 
-class _DonationListState extends State<DonationList> {
+class _OrganizationsListState extends State<OrganizationsList> {
   List<Organization> org_list = MockOrganization.fetchAll();
 
   @override
