@@ -1,11 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:donation_system/components/appbar.dart';
+import 'package:donation_system/components/subHeader.dart';
 import 'package:donation_system/mock/mock_donor.dart';
 import 'package:donation_system/model/model_user.dart';
 import 'package:donation_system/pages/org_list.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
+
+import '../../components/listTile.dart';
+import '../../model/model_donation.dart';
 
 class DonorHomepage extends StatefulWidget {
   const DonorHomepage({super.key});
@@ -31,10 +35,13 @@ class _DonorHomepageState extends State<DonorHomepage> {
               children: [
                 spacer,
                 header,
-                subHeader("Featured Organizations"),
+                const SubHeader(title: "Featured Organizations", route: "/org-list"),
                 carouselSlider,
                 spacer,
-                subHeader("Recent Donations"),
+                const SubHeader(
+                  title: "Recent Donations",
+                  route: "/user-donation-list",
+                ),
                 _buildRecentDonations(),
                 spacer,
               ],
@@ -49,22 +56,6 @@ class _DonorHomepageState extends State<DonorHomepage> {
               style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
           const Text("A little help goes a long way!"),
         ],
-      );
-
-  Widget subHeader(title) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const DonationList()));
-                },
-                child: const Text("View All")),
-          ],
-        ),
       );
 
   Widget get carouselSlider => CarouselSlider(
@@ -94,14 +85,16 @@ class _DonorHomepageState extends State<DonorHomepage> {
   Widget _buildRecentDonations() {
     return Expanded(
       child: ListView.builder(
-        itemCount: donor.donations.length,
+        itemCount: 3,
         itemBuilder: (context, index) {
+          Donation dono = donor.donations[index];
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
             child: Container(
               decoration: CustomWidgetDesigns.customTileContainer(),
-              child: ListTile(
-                title: Text(donor.donations[index].organization.name),
+              child: customDonorListTile(
+                title: dono.organization.name,
+                subtitle: dono.status,
               ),
             ),
           );
