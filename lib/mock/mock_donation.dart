@@ -1,6 +1,5 @@
+import 'package:donation_system/mock/mock_organization.dart';
 import 'package:donation_system/model/model_donation.dart';
-
-import '../model/model_organization.dart';
 
 class MockDonation extends Donation {
   MockDonation({
@@ -21,12 +20,7 @@ class MockDonation extends Donation {
   static Donation fetchDonation(donor) {
     return Donation(
       donor: donor,
-      organization: Organization(
-        name: "Red Cross",
-        proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
-        status: "Verified",
-        about: "Red Cross is a humanitarian organization",
-      ),
+      organization: MockOrganization.fetchOne(),
       itemCategories: ["Clothes", "Food"],
       itemDescription: "Clothes and food",
       weight: 10.0,
