@@ -40,8 +40,6 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
                         context, MaterialPageRoute(builder: (context) => const SignInPage()));
                   },
                   child: const Text("Sign In")),
-              subHeader("Recent Donations"),
-              _buildRecentDonations(),
             ],
           ),
         ),
@@ -111,39 +109,4 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
       ));
 
   Widget get spacer => const SizedBox(height: 30);
-
-  Widget _buildRecentDonations() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: donor.donations.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-            child: Container(
-              decoration: CustomWidgetDesigns.customTileContainer(),
-              child: ListTile(
-                title: Text(donor.donations[index].organization.name),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget subHeader(title) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const UserDonationsList()));
-                },
-                child: const Text("View All")),
-          ],
-        ),
-      );
 }
