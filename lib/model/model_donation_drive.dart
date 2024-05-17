@@ -1,7 +1,7 @@
 import 'package:donation_system/model/model_organization.dart';
 
 class DonationDrive {
-  Organization organization;
+  // Organization organization;
   String id;
   String title;
   String description;
@@ -9,7 +9,8 @@ class DonationDrive {
   String status;
 
   DonationDrive(
-      {required this.organization,
+      {
+      // required this.organization,
       required this.id,
       required this.title,
       required this.description,

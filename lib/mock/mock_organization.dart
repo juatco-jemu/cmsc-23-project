@@ -12,7 +12,7 @@ class MockOrganization extends Organization {
   });
 
   static Organization fetchOne() {
-    Organization org = new Organization(
+    Organization org = Organization(
       name: "Red Cross",
       proofsOfLegitimacy: ["Business Permit", "DTI Registration"],
       status: "Open",

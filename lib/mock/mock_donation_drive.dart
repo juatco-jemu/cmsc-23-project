@@ -2,7 +2,7 @@ import '../model/model_donation_drive.dart';
 
 class MockDonationDrive extends DonationDrive {
   MockDonationDrive({
-    required super.organization,
+    // required super.organization,
     required super.id,
     required super.title,
     required super.description,
@@ -10,9 +10,9 @@ class MockDonationDrive extends DonationDrive {
     required super.status,
   });
 
-  static DonationDrive fetchOne({org}) {
+  static DonationDrive fetchOne() {
     return DonationDrive(
-      organization: org,
+      // organization: org,
       id: "123456",
       title: "Typhoon Relief",
       description: "Donations for typhoon victims",
@@ -21,10 +21,10 @@ class MockDonationDrive extends DonationDrive {
     );
   }
 
-  static List<DonationDrive> fetchMany({org}) {
+  static List<DonationDrive> fetchMany() {
     return [
       DonationDrive(
-        organization: org,
+        // organization: org,
         id: "123456",
         title: "Typhoon Relief",
         description: "Donations for typhoon victims",
@@ -32,7 +32,7 @@ class MockDonationDrive extends DonationDrive {
         status: "Open",
       ),
       DonationDrive(
-        organization: org,
+        // organization: org,
         id: "123456",
         title: "Earthquake Relief",
         description: "Donations for earthquake victims",
@@ -40,7 +40,7 @@ class MockDonationDrive extends DonationDrive {
         status: "Open",
       ),
       DonationDrive(
-        organization: org,
+        // organization: org,
         id: "123456",
         title: "Fire Relief",
         description: "Donations for fire victims",
@@ -48,7 +48,7 @@ class MockDonationDrive extends DonationDrive {
         status: "Closed",
       ),
       DonationDrive(
-        organization: org,
+        // organization: org,
         id: "123456",
         title: "Flood Relief",
         description: "Donations for flood victims",
@@ -56,7 +56,7 @@ class MockDonationDrive extends DonationDrive {
         status: "Open",
       ),
       DonationDrive(
-        organization: org,
+        // organization: org,
         id: "123456",
         title: "Pandemic Relief",
         description: "Donations for pandemic victims",
@@ -64,7 +64,7 @@ class MockDonationDrive extends DonationDrive {
         status: "Closed",
       ),
       DonationDrive(
-        organization: org,
+        // organization: org,
         id: "123456",
         title: "Tsunami Relief",
         description: "Donations for tsunami victims",
