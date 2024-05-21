@@ -2,7 +2,7 @@ import './model_organization.dart';
 import 'model_user.dart';
 
 class Donation {
-  User donor;
+  Users donor;
   Organization organization;
   List<String> itemCategories;
   String itemDescription;

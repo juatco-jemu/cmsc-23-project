@@ -1,13 +1,13 @@
 import 'model_donation.dart';
 
-class User {
+class Users {
   String name;
   String username;
   String email;
   List<String> addresses;
   String contactNo;
 
-  User({
+  Users({
     required this.name,
     required this.username,
     required this.email,
@@ -16,7 +16,7 @@ class User {
   });
 }
 
-class Donor extends User {
+class Donor extends Users {
   Donor({
     required super.name,
     required super.username,

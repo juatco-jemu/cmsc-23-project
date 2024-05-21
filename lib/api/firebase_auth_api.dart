@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import '../model/model_user.dart';
 
 class FirebaseAuthAPI {
   static final FirebaseAuth auth = FirebaseAuth.instance;
@@ -44,11 +45,9 @@ class FirebaseAuthAPI {
       //than just print an error message to improve UI/UX
       if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
-      }
-      else if (e.code == 'weak-password') {
+      } else if (e.code == 'weak-password') {
         print('The password must be at least 6 characters long.');
       }
-      
     } catch (e) {
       print(e);
     }
