@@ -1,5 +1,8 @@
+import 'package:donation_system/providers/auth_provider.dart';
 import 'package:donation_system/theme/colors.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'signup_page.dart';
 
@@ -88,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
               hintText: "juandelacruz09@gmail.com"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
-            if (value == null || value.isEmpty) {
+            if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
               return "Please enter your email";
             }
             return null;
@@ -136,8 +139,10 @@ class _SignInPageState extends State<SignInPage> {
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
-          String? message = "message";
-          // await context.read<UserAuthProvider>().authService.signIn(email!, password!);
+          String? message = await context
+              .read<UserAuthProvider>()
+              .authService
+              .signIn(email!, password!);
 
           print(message);
           print(showSignInErrorMessage);

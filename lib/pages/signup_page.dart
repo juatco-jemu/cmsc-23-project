@@ -1,9 +1,8 @@
+import 'package:donation_system/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../theme/colors.dart';
 import 'signup_org_page.dart';
-// import 'package:provider/provider.dart';
-// import '../providers/auth_provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -175,10 +174,10 @@ class _SignUpState extends State<SignUpPage> {
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
-          // await context
-          // .read<UserAuthProvider>()
-          // .authService
-          // .signUp(firstName!, lastName!, email!, password!); // added firstName and lastName
+          await context
+          .read<UserAuthProvider>()
+          .authService
+          .signUp(firstName!, lastName!, email!, password!); // added firstName and lastName
 
           // check if the widget hasn't been disposed of after an asynchronous action
           if (mounted) Navigator.pop(context);

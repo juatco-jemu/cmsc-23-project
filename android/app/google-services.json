@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "481382897971",
+    "project_id": "cmsc-23-project-maiso-juatco",
+    "storage_bucket": "cmsc-23-project-maiso-juatco.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481382897971:android:a21364d861fc115ea24646",
+        "android_client_info": {
+          "package_name": "com.example.donation_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-T-OQFdcwFFSLaW9RTnuno5-BguGb2rk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
