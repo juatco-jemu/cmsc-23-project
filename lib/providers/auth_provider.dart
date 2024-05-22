@@ -28,6 +28,7 @@ class UserAuthProvider with ChangeNotifier {
 
   Future<String?> signIn(String email, String password) async {
     String? message = await authService.signIn(email, password);
+    print('Current user: ${authService.getUser()}');
     notifyListeners();
 
     return message;

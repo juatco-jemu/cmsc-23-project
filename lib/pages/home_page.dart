@@ -1,5 +1,4 @@
 import 'package:donation_system/pages/donor/homepage.dart';
-import 'package:donation_system/pages/donor/profile.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/providers/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,6 +28,7 @@ class _MainPageState extends State<MainPage> {
     return StreamBuilder(
         stream: userStream,
         builder: (context, snapshot) {
+          print("Snapshot: $snapshot");
           if (snapshot.hasError) {
             return Scaffold(
               body: Center(

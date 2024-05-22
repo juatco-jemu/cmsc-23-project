@@ -141,7 +141,7 @@ class _SignInPageState extends State<SignInPage> {
           _formKey.currentState!.save();
           String? message =
               await context.read<UserAuthProvider>().authService.signIn(email!, password!);
-
+          print("Current user: ${context.read<UserAuthProvider>().authService.getUser()}");
           print("message: $message");
           print(showSignInErrorMessage);
 

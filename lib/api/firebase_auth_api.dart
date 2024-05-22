@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import '../model/model_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseAuthAPI {
   static final FirebaseAuth auth = FirebaseAuth.instance;
+  static final FirebaseFirestore db = FirebaseFirestore.instance;
 
   User? getUser() {
     return auth.currentUser;
@@ -15,7 +16,7 @@ class FirebaseAuthAPI {
   Future<String?> signIn(String email, String password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
-      return "";
+      return "successfully signed in";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
         //possible to return something more useful
@@ -36,6 +37,14 @@ class FirebaseAuthAPI {
         email: email,
         password: password,
       );
+
+      await credential.user!.updateDisplayName("$firstName $lastName");
+
+      await db.collection("donors").doc(credential.user!.uid).set({
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email,
+      });
 
       //let's print the object returned by signInWithEmailAndPassword
       //you can use this object to get the user's id, email, etc.\
