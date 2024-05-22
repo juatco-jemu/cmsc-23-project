@@ -41,48 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAjZV6saViAYEJdUEfJBBzmjQSq_K9A2Yg',
-    appId: '1:481382897971:web:d69b3375130b01e6a24646',
-    messagingSenderId: '481382897971',
-    projectId: 'cmsc-23-project-maiso-juatco',
-    authDomain: 'cmsc-23-project-maiso-juatco.firebaseapp.com',
-    storageBucket: 'cmsc-23-project-maiso-juatco.appspot.com',
-    measurementId: 'G-0295VQDJBZ',
+    apiKey: 'AIzaSyDtR6VKFXGqT9YFIgiJlH-w2PR64gZcd2A',
+    appId: '1:57337771510:web:d0dce47aed56b67120c3d7',
+    messagingSenderId: '57337771510',
+    projectId: 'cmsc23-project-juatco-maiso',
+    authDomain: 'cmsc23-project-juatco-maiso.firebaseapp.com',
+    storageBucket: 'cmsc23-project-juatco-maiso.appspot.com',
+    measurementId: 'G-WM686NMVBP',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC-T-OQFdcwFFSLaW9RTnuno5-BguGb2rk',
-    appId: '1:481382897971:android:a21364d861fc115ea24646',
-    messagingSenderId: '481382897971',
-    projectId: 'cmsc-23-project-maiso-juatco',
-    storageBucket: 'cmsc-23-project-maiso-juatco.appspot.com',
+    apiKey: 'AIzaSyBaSD1sLEVtG-hM3bEUQ5P5f4pQ802UUPs',
+    appId: '1:57337771510:android:3a07c4fbd13c70a920c3d7',
+    messagingSenderId: '57337771510',
+    projectId: 'cmsc23-project-juatco-maiso',
+    storageBucket: 'cmsc23-project-juatco-maiso.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCvmSg9tc2oTLTUKS21X6mZKuszLEXiqNk',
-    appId: '1:481382897971:ios:973768e5190c2100a24646',
-    messagingSenderId: '481382897971',
-    projectId: 'cmsc-23-project-maiso-juatco',
-    storageBucket: 'cmsc-23-project-maiso-juatco.appspot.com',
+    apiKey: 'AIzaSyC7EXPSlH7igkvqCRzOgRzRkohwjaWcPW8',
+    appId: '1:57337771510:ios:903e08555a04961e20c3d7',
+    messagingSenderId: '57337771510',
+    projectId: 'cmsc23-project-juatco-maiso',
+    storageBucket: 'cmsc23-project-juatco-maiso.appspot.com',
     iosBundleId: 'com.example.donationSystem',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCvmSg9tc2oTLTUKS21X6mZKuszLEXiqNk',
-    appId: '1:481382897971:ios:973768e5190c2100a24646',
-    messagingSenderId: '481382897971',
-    projectId: 'cmsc-23-project-maiso-juatco',
-    storageBucket: 'cmsc-23-project-maiso-juatco.appspot.com',
+    apiKey: 'AIzaSyC7EXPSlH7igkvqCRzOgRzRkohwjaWcPW8',
+    appId: '1:57337771510:ios:903e08555a04961e20c3d7',
+    messagingSenderId: '57337771510',
+    projectId: 'cmsc23-project-juatco-maiso',
+    storageBucket: 'cmsc23-project-juatco-maiso.appspot.com',
     iosBundleId: 'com.example.donationSystem',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyAjZV6saViAYEJdUEfJBBzmjQSq_K9A2Yg',
-    appId: '1:481382897971:web:b6ba3e198a669626a24646',
-    messagingSenderId: '481382897971',
-    projectId: 'cmsc-23-project-maiso-juatco',
-    authDomain: 'cmsc-23-project-maiso-juatco.firebaseapp.com',
-    storageBucket: 'cmsc-23-project-maiso-juatco.appspot.com',
-    measurementId: 'G-J8X6JZY51L',
+    apiKey: 'AIzaSyDtR6VKFXGqT9YFIgiJlH-w2PR64gZcd2A',
+    appId: '1:57337771510:web:833c1da942814e6f20c3d7',
+    messagingSenderId: '57337771510',
+    projectId: 'cmsc23-project-juatco-maiso',
+    authDomain: 'cmsc23-project-juatco-maiso.firebaseapp.com',
+    storageBucket: 'cmsc23-project-juatco-maiso.appspot.com',
+    measurementId: 'G-48BBYXMDT1',
   );
+
 }

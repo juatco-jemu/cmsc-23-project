@@ -15,7 +15,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    Stream<Users?> userStream = context.watch<UserAuthProvider>().userStream;
+    Stream<Users?> userStream = context.watch<UserAuthProvider>().userStream as Stream<Users?>;
 
     return StreamBuilder(
         stream: userStream,
