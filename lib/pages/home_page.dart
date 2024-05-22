@@ -1,7 +1,8 @@
-import 'package:donation_system/model/model_user.dart';
+import 'package:donation_system/pages/donor/homepage.dart';
 import 'package:donation_system/pages/donor/profile.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/providers/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,14 +17,14 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<UserAuthProvider>().fetchAuthentication();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Stream<Users?> userStream = context.watch<UserAuthProvider>().userStream as Stream<Users?>;
+    Stream<User?> userStream = context.watch<UserAuthProvider>().userStream;
 
     return StreamBuilder(
         stream: userStream,
@@ -43,7 +44,7 @@ class _MainPageState extends State<MainPage> {
           } else if (!snapshot.hasData) {
             return const SignInPage();
           }
-          return const DonorProfilePage();
+          return const HomePage();
         });
   }
 }
