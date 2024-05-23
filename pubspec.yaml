@@ -96,3 +96,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Baguet Script
+      fonts:
+        - asset: fonts/Melvastype - Baguet Script Regular.otf
+        - asset: fonts/Melvastype - Baguet Script Italic.otf
+          style: italic
+        - asset: fonts/Melvastype - Baguet Script Bold.otf
+          weight: 300
