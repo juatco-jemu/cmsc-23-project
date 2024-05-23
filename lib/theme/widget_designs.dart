@@ -12,9 +12,8 @@ class CustomWidgetDesigns {
   static BoxDecoration gradientBackground() {
     return const BoxDecoration(
         gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-      AppColors.paleDogwood,
-      AppColors.paleDogwood,
-      AppColors.tiffanyBlue,
+      AppColors.appWhiteYellow,
+      AppColors.appWhite,
     ]));
   }
 
