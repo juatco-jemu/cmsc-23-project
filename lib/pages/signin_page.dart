@@ -30,10 +30,11 @@ class _SignInPageState extends State<SignInPage> {
             width: screen.width,
             height: screen.height,
             decoration: const BoxDecoration(
-              color: AppColors.tiffanyBlue,
+              color: AppColors.appWhite,
             ),
             // margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 30),
-            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              _buildHeader(),
               _buildBot(),
             ])),
       ),
@@ -47,7 +48,6 @@ class _SignInPageState extends State<SignInPage> {
         key: _formKey,
         child: Column(
           children: [
-            spacer,
             heading,
             emailField,
             passwordField,
@@ -56,6 +56,26 @@ class _SignInPageState extends State<SignInPage> {
             signUpButton
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            height: 300,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/login_bg.png',
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
