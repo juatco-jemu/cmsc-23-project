@@ -1,5 +1,6 @@
 import 'package:donation_system/providers/auth_provider.dart';
 import 'package:donation_system/theme/colors.dart';
+import 'package:donation_system/theme/widget_designs.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,14 +30,15 @@ class _SignInPageState extends State<SignInPage> {
         child: Container(
             width: screen.width,
             height: screen.height,
-            decoration: const BoxDecoration(
-              color: AppColors.appWhite,
-            ),
-            // margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 30),
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              _buildHeader(),
-              _buildBot(),
-            ])),
+            decoration: CustomWidgetDesigns.gradientBackground(),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildHeader(),
+                  spacer,
+                  _buildForm(),
+                ])),
       ),
     );
   }
@@ -48,7 +50,6 @@ class _SignInPageState extends State<SignInPage> {
         key: _formKey,
         child: Column(
           children: [
-            heading,
             emailField,
             passwordField,
             showSignInErrorMessage ? signInErrorMessage : Container(),
@@ -61,54 +62,37 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Widget _buildHeader() {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            height: 300,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/login_bg.png',
-                ),
-                fit: BoxFit.fill,
+    return Column(
+      children: [
+        Container(
+          height: 350,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                'assets/images/login_bg.png',
               ),
+              fit: BoxFit.fill,
             ),
           ),
-        ],
-      ),
+          child: Stack(children: [
+            Positioned(
+                top: 210,
+                left: screen.width / 2 - 80,
+                child: const Text(
+                  "sign in",
+                  style: TextStyle(
+                      fontFamily: "Baguet Script", fontSize: 60, color: AppColors.darkYellow01),
+                )),
+          ]),
+        ),
+      ],
     );
   }
-
-  Widget _buildBot() {
-    return SizedBox(
-        width: screen.width,
-        child: Card(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
-          child: _buildForm(),
-        ));
-  }
-
-  Widget get heading => const Padding(
-        padding: EdgeInsets.only(bottom: 30),
-        child: Text(
-          "Sign In",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-      );
 
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              label: Text("Email"),
-              hintText: "juandelacruz09@gmail.com"),
+          decoration: CustomWidgetDesigns.customFormField("Email", "Enter your email"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
             if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
@@ -122,10 +106,8 @@ class _SignInPageState extends State<SignInPage> {
   Widget get passwordField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            label: const Text("Password"),
-            hintText: "******",
+          decoration:
+              CustomWidgetDesigns.customFormField("Password", "Enter your password").copyWith(
             suffixIcon: IconButton(
               // added IconButton to show/hide password
               icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
@@ -156,6 +138,7 @@ class _SignInPageState extends State<SignInPage> {
       );
 
   Widget get submitButton => ElevatedButton(
+      style: CustomWidgetDesigns.customSubmitButton(),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
@@ -183,6 +166,7 @@ class _SignInPageState extends State<SignInPage> {
           children: [
             const Text("No account yet?"),
             TextButton(
+                style: TextButton.styleFrom(foregroundColor: AppColors.yellow03),
                 onPressed: () {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => const SignUpPage()));
@@ -192,5 +176,5 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
 
-  Widget get spacer => const SizedBox(height: 30);
+  Widget get spacer => const SizedBox(height: 60);
 }
