@@ -115,8 +115,8 @@ class _DonorHomepageState extends State<DonorHomepage> {
                           children: [
                             Text(drive.title,
                                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                            Text(drive.description, style: const TextStyle(fontSize: 15)),
-                            spacer,
+                            // Text(drive.description, style: const TextStyle(fontSize: 15)),
+                            // spacer,
                             Text(drive.status, style: const TextStyle(fontSize: 15)),
                           ],
                         ),
