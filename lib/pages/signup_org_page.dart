@@ -123,63 +123,78 @@ class _SignUpState extends State<SignUpOrgPage> {
   // added this to get the first name
   Widget get orgNameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration:
-              CustomWidgetDesigns.customFormField("Organization Name", "Enter organization name"),
-          onSaved: (value) => setState(() => firstName = value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please enter organization name";
-            }
-            return null;
-          },
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration:
+                CustomWidgetDesigns.customFormField("Organization Name", "Enter organization name"),
+            onSaved: (value) => setState(() => firstName = value),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter organization name";
+              }
+              return null;
+            },
+          ),
         ),
       );
 
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration: CustomWidgetDesigns.customFormField("Email", "Enter your email"),
-          onSaved: (value) => setState(() => email = value),
-          validator: (value) {
-            // added proper email validation
-            if (value == null || value.isEmpty) {
-              return "Please enter an email";
-            } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
-                .hasMatch(value)) {
-              return "Please enter a valid email format";
-            }
-            return null;
-          },
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration: CustomWidgetDesigns.customFormField("Email", "Enter your email"),
+            onSaved: (value) => setState(() => email = value),
+            validator: (value) {
+              // added proper email validation
+              if (value == null || value.isEmpty) {
+                return "Please enter an email";
+              } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
+                  .hasMatch(value)) {
+                return "Please enter a valid email format";
+              }
+              return null;
+            },
+          ),
         ),
       );
 
   Widget get passwordField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration:
-              CustomWidgetDesigns.customFormField("Password", "Enter your password").copyWith(
-            suffixIcon: IconButton(
-              icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration:
+                CustomWidgetDesigns.customFormField("Password", "Enter your password").copyWith(
+              suffixIcon: IconButton(
+                icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              ),
             ),
+            obscureText: _obscureText,
+            onSaved: (value) => setState(() => password = value),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                // added password validation
+                return "Please enter password";
+              } else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                  .hasMatch(value)) {
+                return "Password must have at least 8 characters\nconsisting of at least:\n1 small letter,\n1 capital letter,\n1 digit, and\n1 special character";
+              }
+              return null;
+            },
           ),
-          obscureText: _obscureText,
-          onSaved: (value) => setState(() => password = value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              // added password validation
-              return "Please enter password";
-            } else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-                .hasMatch(value)) {
-              return "Password must have at least 8 characters\nconsisting of at least:\n1 small letter,\n1 capital letter,\n1 digit, and\n1 special character";
-            }
-            return null;
-          },
         ),
       );
 

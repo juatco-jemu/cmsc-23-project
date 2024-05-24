@@ -17,6 +17,17 @@ class CustomWidgetDesigns {
     ]));
   }
 
+  static BoxDecoration boxShadow() {
+    return BoxDecoration(boxShadow: [
+      BoxShadow(
+        color: AppColors.darkYellow01.withOpacity(0.2),
+        spreadRadius: 1,
+        blurRadius: 2,
+        offset: const Offset(0, 3),
+      )
+    ]);
+  }
+
   static InputDecoration customFormField(label, hint) {
     return InputDecoration(
       fillColor: Colors.white, // Change the background color to white

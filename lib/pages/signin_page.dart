@@ -91,41 +91,51 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration: CustomWidgetDesigns.customFormField("Email", "Enter your email"),
-          onSaved: (value) => setState(() => email = value),
-          validator: (value) {
-            if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
-              return "Please enter your email";
-            }
-            return null;
-          },
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration: CustomWidgetDesigns.customFormField("Email", "Enter your email"),
+            onSaved: (value) => setState(() => email = value),
+            validator: (value) {
+              if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
+                return "Please enter your email";
+              }
+              return null;
+            },
+          ),
         ),
       );
 
   Widget get passwordField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration:
-              CustomWidgetDesigns.customFormField("Password", "Enter your password").copyWith(
-            suffixIcon: IconButton(
-              // added IconButton to show/hide password
-              icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration:
+                CustomWidgetDesigns.customFormField("Password", "Enter your password").copyWith(
+              suffixIcon: IconButton(
+                // added IconButton to show/hide password
+                icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              ),
             ),
+            obscureText: _obscureText,
+            onSaved: (value) => setState(() => password = value),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter your password";
+              }
+              return null;
+            },
           ),
-          obscureText: _obscureText,
-          onSaved: (value) => setState(() => password = value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please enter your password";
-            }
-            return null;
-          },
         ),
       );
 
