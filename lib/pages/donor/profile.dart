@@ -1,6 +1,5 @@
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/theme/colors.dart';
-import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -29,7 +28,8 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
       // appBar: CustomAppBar(title: "${donor.name}'s Profile Page"),
       body: SingleChildScrollView(
         child: Container(
-          decoration: CustomWidgetDesigns.gradientBackground(),
+          color: AppColors.backgroundYellow,
+          // decoration: CustomWidgetDesigns.gradientBackground(),
           // height: screen.height - extraHeight,
           child: Column(
             children: [
