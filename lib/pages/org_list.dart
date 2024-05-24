@@ -10,7 +10,8 @@ import '../model/model_organization.dart';
 //TODO: add donation list to the database
 
 class OrganizationsList extends StatefulWidget {
-  const OrganizationsList({super.key});
+  final bool isPage;
+  const OrganizationsList({required this.isPage, super.key});
 
   @override
   State<OrganizationsList> createState() => _OrganizationsListState();
@@ -24,18 +25,20 @@ class _OrganizationsListState extends State<OrganizationsList> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     // Stream<QuerySnapshot> todosStream = context.watch<TodoListProvider>().todo;
-    return Container(
-      height: screenHeight,
-      width: screenWidth,
-      // decoration: CustomWidgetDesigns.gradientBackground(),
-      color: AppColors.backgroundYellow,
-      child: Column(
-        children: [
-          spacer,
-          _buildHeader(),
-          _buildSearch(),
-          _buildList(),
-        ],
+    return Scaffold(
+      body: Container(
+        height: screenHeight,
+        width: screenWidth,
+        // decoration: CustomWidgetDesigns.gradientBackground(),
+        color: AppColors.backgroundYellow,
+        child: Column(
+          children: [
+            spacer,
+            _buildHeader(),
+            _buildSearch(),
+            _buildList(),
+          ],
+        ),
       ),
     );
   }
@@ -44,12 +47,22 @@ class _OrganizationsListState extends State<OrganizationsList> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const Text("Choose and organization\nto donate to",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        Image.asset('assets/images/cloud01.png', height: 100)
+        !widget.isPage ? backButton : Container(),
+        const Text("Choose an organization\nto donate to",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Image.asset('assets/images/cloud01.png', height: 80),
+        )
       ],
     );
   }
+
+  Widget get backButton => Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: IconButton(
+            onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios)),
+      );
 
   Widget _buildSearch() {
     return Container(

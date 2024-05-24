@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         "/sign-up-donor": (context) => const SignUpPage(),
         "/sign-up-org": (context) => const SignUpOrgPage(),
         "/": (context) => const HomePage(),
-        "/org-list": (context) => const OrganizationsList(),
+        "/org-list": (context) => const OrganizationsList(isPage: false),
         "/user-donation-list": (context) => const UserDonationsList(),
       },
     );
