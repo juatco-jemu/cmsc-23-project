@@ -1,14 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:donation_system/pages/admin/admin_homepage.dart';
 import 'package:donation_system/pages/donor/home.dart';
 import 'package:donation_system/pages/donor/profile.dart';
 import 'package:donation_system/pages/org_list.dart';
-import 'package:donation_system/pages/signin_page.dart';
-import 'package:donation_system/pages/signup_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
-
-import '../../components/appbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,8 +31,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   CurvedNavigationBar get botNavBar => CurvedNavigationBar(
-          color: AppColors.tiffanyBlue,
-          backgroundColor: AppColors.aliceBlue,
+          color: AppColors.yellow03,
+          backgroundColor: AppColors.appWhite,
           onTap: _onItemTapped,
           index: _selectedIndex,
           animationDuration: const Duration(milliseconds: 150),
