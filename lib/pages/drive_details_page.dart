@@ -19,18 +19,18 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
+        backgroundColor: AppColors.yellow03,
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: AppColors.aliceBlue,
+          color: AppColors.backgroundYellow,
           width: screen.width,
-          height: screen.height,
           child: Column(
             children: [
               Container(
                 height: 250,
                 width: screen.width,
-                color: AppColors.tiffanyBlue,
+                color: AppColors.yellow01,
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -44,13 +44,15 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                         const Icon(Icons.favorite_border),
                       ],
                     ),
-                    spacer,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Status: ${widget.donationDrive.status}"),
+                        Text(widget.donationDrive.status),
                         Text("Location: ${widget.donationDrive.location}"),
+                        spacer,
                         Text("Description: ${widget.donationDrive.description}"),
+                        spacer,
+                        const DonateForm(),
                       ],
                     ),
                     spacer,
@@ -67,11 +69,19 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
 
   Widget donateButton(context) {
     return Container(
-      color: AppColors.tiffanyBlue,
+      color: AppColors.backgroundYellow,
       width: screen.width,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
           onPressed: () {
             // Navigator.push(context, MaterialPageRoute(builder: (context) => const DonatePage()));
             showModalBottomSheet(
@@ -81,7 +91,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                   child: Column(
                     children: [
                       hBar,
-                      const Flexible(child: DonatePage()),
+                      const Flexible(child: DonateForm()),
                     ],
                   )),
               shape: RoundedRectangleBorder(
@@ -90,7 +100,10 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
               isScrollControlled: true,
             );
           },
-          child: const Text("Donate"),
+          child: const Text(
+            "Donate",
+            style: TextStyle(color: AppColors.appWhite),
+          ),
         ),
       ),
     );

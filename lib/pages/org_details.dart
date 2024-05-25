@@ -8,6 +8,9 @@ import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
 import '../components/appbar.dart';
+import '../mock/mock_donation_drive.dart';
+import '../model/model_donation_drive.dart';
+import 'drive_details_page.dart';
 
 class OrgDetailsPage extends StatefulWidget {
   final Organization org;
@@ -19,6 +22,7 @@ class OrgDetailsPage extends StatefulWidget {
 
 class _OrgDetailsPageState extends State<OrgDetailsPage> {
   Donor donor = MockDonor.fetchDonor();
+  List<DonationDrive> drive = MockDonationDrive.fetchMany();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
       ),
       body: Container(
         // decoration: CustomWidgetDesigns.gradientBackground(),
-        color: AppColors.aliceBlue,
+        color: AppColors.backgroundYellow,
         child: Align(
           alignment: Alignment.center,
           child: Padding(
@@ -40,8 +44,7 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
                 orgAbout(widget.org.about),
                 const SizedBox(height: 20),
                 const Text("Donation Drives"),
-                carouselSlider,
-                donateButton(context),
+                carouselSlider(),
               ],
             ),
           ),
@@ -75,25 +78,49 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
       padding: const EdgeInsets.only(top: 30),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const DonatePage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const DonateForm()));
         },
         child: const Text("Donate"),
       ),
     );
   }
 
-  Widget get carouselSlider => CarouselSlider(
-      items: donor.donations
-          .map((donation) => Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                decoration: CustomWidgetDesigns.customContainer(),
-                child: Column(
-                  children: [
-                    Text(donation.organization.name),
-                    Text(donation.status),
-                    Text(donation.dateTime.toString()),
-                  ],
+  Widget carouselSlider() => CarouselSlider(
+      items: drive
+          .map((drive) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DriveDetailsPage(donationDrive: drive)));
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                  decoration: CustomWidgetDesigns.customContainer(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: MediaQuery.of(context).size.width,
+                        color: AppColors.yellow01,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(drive.title,
+                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            // Text(drive.description, style: const TextStyle(fontSize: 15)),
+                            // spacer,
+                            Text(drive.status, style: const TextStyle(fontSize: 15)),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ))
           .toList(),
@@ -102,5 +129,7 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
         initialPage: 0,
         enableInfiniteScroll: false,
         scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.antiAlias,
       ));
+  Widget get spacer => const SizedBox(height: 30);
 }

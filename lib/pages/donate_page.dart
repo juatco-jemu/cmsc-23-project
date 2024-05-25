@@ -1,15 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class DonatePage extends StatefulWidget {
-  const DonatePage({super.key});
+import '../theme/colors.dart';
+
+class DonateForm extends StatefulWidget {
+  const DonateForm({super.key});
 
   @override
-  State<DonatePage> createState() => _DonatePageState();
+  State<DonateForm> createState() => _DonateFormState();
 }
 
-class _DonatePageState extends State<DonatePage> {
+class _DonateFormState extends State<DonateForm> {
   final List<String> _category = [
     "Food",
     "Clothes",
@@ -19,9 +20,9 @@ class _DonatePageState extends State<DonatePage> {
 
   Set<String> selectedCategories = {};
 
-  final MaterialStateProperty<Icon?> thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
+  final WidgetStateProperty<Icon?> thumbIcon = WidgetStateProperty.resolveWith<Icon?>(
+    (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
         return const Icon(Icons.favorite_rounded);
       }
       return const Icon(Icons.heart_broken_rounded);
@@ -29,28 +30,26 @@ class _DonatePageState extends State<DonatePage> {
   );
 
   bool _currentStatus = false;
-
+  late Size screen = MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Align(
       alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        decoration: CustomWidgetDesigns.customContainer(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            spacer,
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Make your donation",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-            ),
+            formHeader("Donation Categories"),
             donationCategory,
-            pickupAndWeight,
-            addressField,
-            contactNoField,
-            donateButton,
+            spacer(10),
+            weightForm,
+            spacer(30),
+            pickupDropoff,
+            spacer(50),
+            // addressField,
+            // contactNoField,
             const SizedBox(height: 20)
           ],
         ),
@@ -58,34 +57,71 @@ class _DonatePageState extends State<DonatePage> {
     ));
   }
 
-  Widget get spacer => const SizedBox(height: 20);
+  Widget spacer(double size) {
+    return SizedBox(height: size);
+  }
 
-  Widget get pickupAndWeight => Column(
+  Widget get weightForm => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text("Pickup?"),
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: Switch(
-              thumbIcon: thumbIcon,
-              value: _currentStatus,
-              onChanged: (bool val) {
-                setState(() {
-                  _currentStatus = val;
-                });
-              },
-            ),
+          const Text(
+            "Weight(in kg): ",
+            style: TextStyle(fontSize: 18),
           ),
-          const Text("Weight:"),
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: const TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter weight',
-              ),
-            ),
+          SizedBox(
+            width: 130,
+            // margin: const EdgeInsets.all(20),
+            child: TextField(
+                decoration: CustomWidgetDesigns.customFormField("", "Enter weight").copyWith(
+              border: const OutlineInputBorder(),
+            )),
           ),
         ],
+      );
+
+  Widget get pickupDropoff => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 30),
+        height: 60,
+        color: Colors.grey[200],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Icon(Icons.wheelchair_pickup),
+            const Text(
+              "Pickup",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            TextButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) => FractionallySizedBox(
+                        heightFactor: 0.75,
+                        child: Column(
+                          children: [
+                            hBar,
+                            Flexible(child: _buildPickupDropoff()),
+                          ],
+                        )),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    isScrollControlled: true,
+                  );
+                },
+                child: const Text("Change")),
+          ],
+        ),
+      );
+
+  Widget get hBar => Container(
+        width: 100,
+        height: 4,
+        margin: const EdgeInsets.only(top: 12, bottom: 12),
+        decoration: BoxDecoration(
+          color: Colors.grey[500],
+          borderRadius: BorderRadius.circular(12),
+        ),
       );
 
   Widget get donationCategory => Column(
@@ -107,34 +143,45 @@ class _DonatePageState extends State<DonatePage> {
             .toList(),
       );
 
-  Widget get addressField => Container(
-        margin: const EdgeInsets.all(20),
-        child: const TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Enter address',
-          ),
-        ),
-      );
+  Widget formHeader(String title) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(20, 15, 0, 5),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
 
-  Widget get contactNoField => Container(
-        margin: const EdgeInsets.all(20),
-        child: const TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Enter contact number',
-          ),
-        ),
-      );
+  Widget _buildPickupDropoff() {
+    return Scaffold(
+      bottomSheet: donateButton(context),
+    );
+  }
 
-  Widget get donateButton => Padding(
-        padding: const EdgeInsets.only(top: 30),
+  Widget donateButton(context) {
+    return Container(
+      color: AppColors.appWhite,
+      width: screen.width,
+      height: 70,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
         child: ElevatedButton(
-          onPressed: () {
-            // Navigator.push(
-            // context, MaterialPageRoute(builder: (context) => const UserDetailsPage()));
-          },
-          child: const Text("Donate"),
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          onPressed: () {},
+          child: const Text(
+            "Update",
+            style: TextStyle(color: AppColors.appWhite),
+          ),
         ),
-      );
+      ),
+    );
+  }
 }
