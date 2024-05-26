@@ -1,5 +1,6 @@
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../theme/colors.dart';
 
@@ -10,7 +11,7 @@ class DonateForm extends StatefulWidget {
   State<DonateForm> createState() => _DonateFormState();
 }
 
-class _DonateFormState extends State<DonateForm> {
+class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateMixin {
   final List<String> _category = [
     "Food",
     "Clothes",
@@ -29,8 +30,23 @@ class _DonateFormState extends State<DonateForm> {
     },
   );
 
-  bool _currentStatus = false;
+  bool isPickup = true;
+  DateTime dateTime = DateTime.now();
   late Size screen = MediaQuery.of(context).size;
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -81,36 +97,47 @@ class _DonateFormState extends State<DonateForm> {
 
   Widget get pickupDropoff => Container(
         margin: const EdgeInsets.symmetric(horizontal: 30),
-        height: 60,
+        // height: 60,
         color: Colors.grey[200],
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Icon(Icons.wheelchair_pickup),
-            const Text(
-              "Pickup",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            TextButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => FractionallySizedBox(
-                        heightFactor: 0.75,
-                        child: Column(
-                          children: [
-                            hBar,
-                            Flexible(child: _buildPickupDropoff()),
-                          ],
-                        )),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    isScrollControlled: true,
-                  );
-                },
-                child: const Text("Change")),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(isPickup ? Icons.wheelchair_pickup : Icons.delivery_dining,
+                      size: 30, color: Colors.black),
+                  Text(
+                    isPickup ? "Pickup" : "Dropoff",
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) => FractionallySizedBox(
+                              heightFactor: 0.6,
+                              child: Column(
+                                children: [
+                                  hBar,
+                                  Flexible(child: _buildPickupDropoff()),
+                                ],
+                              )),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          isScrollControlled: true,
+                        );
+                      },
+                      child: const Text("Change")),
+                ],
+              ),
+              Text("Date: ${dateTime.year}/${dateTime.month}/${dateTime.day}"),
+              Text("Time: ${dateTime.hour}:${dateTime.minute}")
+            ],
+          ),
         ),
       );
 
@@ -154,10 +181,99 @@ class _DonateFormState extends State<DonateForm> {
   }
 
   Widget _buildPickupDropoff() {
-    return Scaffold(
-      bottomSheet: donateButton(context),
+    return DefaultTabController(
+      length: 2,
+      child: StatefulBuilder(builder: (context, setStateDT) {
+        return Scaffold(
+          appBar: TabBar(
+            controller: _tabController,
+            tabs: const [
+              Tab(
+                text: "Pickup",
+              ),
+              Tab(
+                text: "Dropoff",
+              ),
+            ],
+          ),
+          body: TabBarView(children: [
+            Container(
+              color: AppColors.backgroundYellow,
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  spacer(30),
+                  ElevatedButton(
+                      style: CustomWidgetDesigns.customSubmitButton(),
+                      onPressed: () async {
+                        await pickDateTime();
+                        setStateDT(() {});
+                      },
+                      child: Text(
+                          "${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}")),
+                  spacer(20),
+                  TextField(
+                    decoration: CustomWidgetDesigns.customFormField("Address", "Enter address"),
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    decoration: CustomWidgetDesigns.customFormField(
+                        "Contact Number", "Enter contact number"),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              color: AppColors.backgroundYellow,
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  spacer(30),
+                  ElevatedButton(
+                      style: CustomWidgetDesigns.customSubmitButton(),
+                      onPressed: () async {
+                        await pickDateTime();
+                        setStateDT(() {});
+                      },
+                      child: Text(
+                          "${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}")),
+                  spacer(20),
+                  TextField(
+                    decoration: CustomWidgetDesigns.customFormField(
+                        "Contact Number", "Enter contact number"),
+                  ),
+                ],
+              ),
+            ),
+          ]),
+          bottomSheet: donateButton(context),
+        );
+      }),
     );
   }
+
+  Future pickDateTime() async {
+    DateTime? date = await pickDate();
+    if (date == null) return;
+
+    TimeOfDay? time = await pickTime();
+    if (time == null) return;
+
+    final newDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    setState(() => dateTime = newDateTime);
+  }
+
+  Future<DateTime?> pickDate() => showDatePicker(
+        context: context,
+        firstDate: DateTime(2024),
+        lastDate: DateTime(2100),
+        initialDate: dateTime,
+      );
+
+  Future<TimeOfDay?> pickTime() => showTimePicker(
+        context: context,
+        initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute),
+      );
 
   Widget donateButton(context) {
     return Container(
@@ -175,7 +291,17 @@ class _DonateFormState extends State<DonateForm> {
               ),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              if (_tabController.index == 0) {
+                isPickup = true;
+              } else {
+                isPickup = false;
+              }
+            });
+
+            Navigator.pop(context);
+          },
           child: const Text(
             "Update",
             style: TextStyle(color: AppColors.appWhite),
