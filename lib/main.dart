@@ -1,4 +1,5 @@
 import 'package:donation_system/firebase_options.dart';
+import 'package:donation_system/pages/admin/admin_homepage.dart';
 import 'package:donation_system/pages/donor/homepage.dart';
 import 'package:donation_system/pages/donor/list_of_user_donations_page.dart';
 import 'package:donation_system/pages/org_list.dart';
@@ -10,6 +11,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/provider_admin.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -18,7 +21,10 @@ Future<void> main() async {
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: ((context) => UserAuthProvider()))],
+      providers: [
+        ChangeNotifierProvider(create: ((context) => UserAuthProvider())),
+        ChangeNotifierProvider(create: ((context) => AdminProvider()))
+      ],
       child: const MyApp(),
     ),
   );
@@ -38,7 +44,7 @@ class MyApp extends StatelessWidget {
         "/sign-in": (context) => const SignInPage(),
         "/sign-up-donor": (context) => const SignUpPage(),
         "/sign-up-org": (context) => const SignUpOrgPage(),
-        "/": (context) => const HomePage(),
+        "/": (context) => const AdminHomePage(),
         "/org-list": (context) => const OrganizationsList(isPage: false),
         "/user-donation-list": (context) => const UserDonationsList(),
       },

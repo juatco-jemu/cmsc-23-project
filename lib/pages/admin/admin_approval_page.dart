@@ -1,3 +1,4 @@
+import 'package:donation_system/pages/org_list.dart';
 import 'package:flutter/material.dart';
 
 class AdminApprovalPage extends StatefulWidget {
@@ -8,15 +9,23 @@ class AdminApprovalPage extends StatefulWidget {
 }
 
 class _AdminApprovalPageState extends State<AdminApprovalPage> {
+  final pendingOrgApproval = [];
+
+  @override
+  void initState() {
+    //plavceholder for initialization of pendingOrgApproval
+    super.initState();
+    // pendingOrgApproval = context.read<OrganizationProvider>().pendingOrgApproval;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Admin Approval Page"),
-        ],
-      ),
-    );
+    if (pendingOrgApproval.isEmpty) {
+      return const Center(
+        child: Text("No pending organization approval"),
+      );
+    }
+
+    return const OrganizationsList(isPage: true);
   }
 }
