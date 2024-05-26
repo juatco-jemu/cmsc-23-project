@@ -1,11 +1,10 @@
-import 'package:donation_system/providers/auth_provider.dart';
+import 'package:donation_system/providers/provider_auth.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'signup_page.dart';
+import 'signUp_donor_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -16,7 +15,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
-  String? email;
+  String? username;
   String? password;
   bool showSignInErrorMessage = false;
   bool _obscureText = true; // added this to hide password
@@ -50,7 +49,7 @@ class _SignInPageState extends State<SignInPage> {
         key: _formKey,
         child: Column(
           children: [
-            emailField,
+            usernameField,
             passwordField,
             showSignInErrorMessage ? signInErrorMessage : Container(),
             submitButton,
@@ -89,18 +88,18 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Widget get emailField => Padding(
+  Widget get usernameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: Material(
           elevation: 2,
           shadowColor: Colors.grey,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
-            decoration: CustomWidgetDesigns.customFormField("Email", "Enter your email"),
-            onSaved: (value) => setState(() => email = value),
+            decoration: CustomWidgetDesigns.customFormField("Username", "Enter your username"),
+            onSaved: (value) => setState(() => username = value),
             validator: (value) {
-              if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
-                return "Please enter your email";
+              if (value == null || value.isEmpty) {
+                return "Please enter your username";
               }
               return null;
             },
@@ -153,7 +152,7 @@ class _SignInPageState extends State<SignInPage> {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
           String? message =
-              await context.read<UserAuthProvider>().authService.signIn(email!, password!);
+              await context.read<UserAuthProvider>().authService.signIn(username!, password!);
           print("Current user: ${context.read<UserAuthProvider>().authService.getUser()}");
           print("message: $message");
           print(showSignInErrorMessage);
@@ -179,7 +178,7 @@ class _SignInPageState extends State<SignInPage> {
                 style: TextButton.styleFrom(foregroundColor: AppColors.yellow03),
                 onPressed: () {
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const SignUpPage()));
+                      context, MaterialPageRoute(builder: (context) => const SignUpDonorPage()));
                 },
                 child: const Text("Sign Up"))
           ],
