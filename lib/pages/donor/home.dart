@@ -1,18 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:donation_system/components/appbar.dart';
 import 'package:donation_system/components/subHeader.dart';
 import 'package:donation_system/mock/mock_donation_drive.dart';
 import 'package:donation_system/mock/mock_donor.dart';
 import 'package:donation_system/model/model_donation_drive.dart';
-import 'package:donation_system/model/model_organization.dart';
 import 'package:donation_system/model/model_user.dart';
-import 'package:donation_system/pages/org_list.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/listTile.dart';
-import '../../mock/mock_organization.dart';
 import '../../model/model_donation.dart';
 import '../drive_details_page.dart';
 
@@ -31,10 +27,10 @@ class _DonorHomepageState extends State<DonorHomepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Elbi Donation System'),
+      // appBar: const CustomAppBar(title: 'HopeHaven'),
       body: SingleChildScrollView(
         child: Container(
-            color: AppColors.aliceBlue,
+            color: AppColors.backgroundYellow,
             // decoration: CustomWidgetDesigns.gradientBackground(),
             height: screen.height + 100,
             child: Column(
@@ -49,6 +45,7 @@ class _DonorHomepageState extends State<DonorHomepage> {
                   route: "/user-donation-list",
                 ),
                 _buildRecentDonations(),
+                spacer
               ],
             )),
       ),
@@ -57,8 +54,35 @@ class _DonorHomepageState extends State<DonorHomepage> {
 
   Widget get header => Column(
         children: [
-          Text("Hello, ${donor.name}",
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Image.asset(
+                'assets/images/cloud01.png',
+                // width: screen.width,
+                height: 110,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Hello, ",
+                  style: const TextStyle(
+                      fontFamily: "Baguet Script",
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.yellow03)),
+              Text(donor.name,
+                  style: const TextStyle(
+                      fontFamily: "Baguet Script",
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.darkYellow01)),
+            ],
+          ),
           const Text("A little help goes a long way!"),
         ],
       );
@@ -82,7 +106,7 @@ class _DonorHomepageState extends State<DonorHomepage> {
                       Container(
                         height: 200,
                         width: MediaQuery.of(context).size.width,
-                        color: AppColors.tiffanyBlue,
+                        color: AppColors.yellow01,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -91,8 +115,8 @@ class _DonorHomepageState extends State<DonorHomepage> {
                           children: [
                             Text(drive.title,
                                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                            Text(drive.description, style: const TextStyle(fontSize: 15)),
-                            spacer,
+                            // Text(drive.description, style: const TextStyle(fontSize: 15)),
+                            // spacer,
                             Text(drive.status, style: const TextStyle(fontSize: 15)),
                           ],
                         ),
@@ -114,21 +138,25 @@ class _DonorHomepageState extends State<DonorHomepage> {
 
   Widget _buildRecentDonations() {
     return Expanded(
-      child: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          Donation dono = donor.donations[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-            child: Container(
-              decoration: CustomWidgetDesigns.customTileContainer(),
-              child: customDonorListTile(
-                title: dono.organization.name,
-                subtitle: dono.status,
+      child: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: ListView.builder(
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            Donation dono = donor.donations[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+              child: Container(
+                decoration: CustomWidgetDesigns.customTileContainer(),
+                child: customDonorListTile(
+                  title: "Donation ID: ${dono.donationID}",
+                  subtitle: dono.status!,
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

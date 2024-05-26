@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../theme/colors.dart';
+import '../theme/widget_designs.dart';
 // import 'package:provider/provider.dart';
 // import '../providers/auth_provider.dart';
 
@@ -26,20 +27,77 @@ class _SignUpState extends State<SignUpOrgPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: SingleChildScrollView(
-          child: Container(
-              width: screen.width,
-              height: screen.height -
-                  MediaQuery.of(context).padding.top -
-                  kToolbarHeight, // size of screen - appbar height - status bar height
-              decoration: const BoxDecoration(
-                color: AppColors.tiffanyBlue,
+      // appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Container(
+          width: screen.width,
+          // height: screen.height,
+          decoration: CustomWidgetDesigns.gradientBackground(),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildHeader(),
+                _buildForm(),
+              ]),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Column(
+      children: [
+        Container(
+          height: 250,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                'assets/images/signup_org_bg.png',
               ),
-              child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                _buildBot(),
-              ])),
-        ));
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: Stack(children: [
+            Positioned(
+                top: 40,
+                left: 10,
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      size: 40,
+                    ))),
+            Positioned(
+                top: 60,
+                left: screen.width / 2 - 80,
+                child: const Text(
+                  "sign up",
+                  style: TextStyle(
+                      fontFamily: "Baguet Script", fontSize: 50, color: AppColors.darkYellow01),
+                )),
+            Positioned(
+                top: 115,
+                left: screen.width / 2 - 20,
+                child: const Text(
+                  "as",
+                  style: TextStyle(
+                      fontFamily: "Baguet Script", fontSize: 30, color: AppColors.darkYellow01),
+                )),
+            Positioned(
+                top: 140,
+                left: screen.width / 2 - 130,
+                child: const Text(
+                  "organization",
+                  style: TextStyle(
+                      fontFamily: "Baguet Script", fontSize: 50, color: AppColors.darkYellow01),
+                )),
+          ]),
+        ),
+      ],
+    );
   }
 
   Widget _buildForm() {
@@ -50,7 +108,6 @@ class _SignUpState extends State<SignUpOrgPage> {
         child: Column(
           children: [
             spacer,
-            heading,
             orgNameField, // added this as a new field required
             emailField,
             passwordField,
@@ -63,103 +120,89 @@ class _SignUpState extends State<SignUpOrgPage> {
     );
   }
 
-  Widget _buildBot() {
-    return SizedBox(
-      width: screen.width,
-      child: Card(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-        ),
-        child: _buildForm(),
-      ),
-    );
-  }
-
-  Widget get heading => const Padding(
-        padding: EdgeInsets.only(bottom: 30),
-        child: Text(
-          "Sign Up as Organization",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-      );
   // added this to get the first name
   Widget get orgNameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              label: Text("Organization Name"),
-              hintText: "Enter organization name"),
-          onSaved: (value) => setState(() => firstName = value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please enter organization name";
-            }
-            return null;
-          },
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration:
+                CustomWidgetDesigns.customFormField("Organization Name", "Enter organization name"),
+            onSaved: (value) => setState(() => firstName = value),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter organization name";
+              }
+              return null;
+            },
+          ),
         ),
       );
 
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(), label: Text("Email"), hintText: "Enter a valid email"),
-          onSaved: (value) => setState(() => email = value),
-          validator: (value) {
-            // added proper email validation
-            if (value == null || value.isEmpty) {
-              return "Please enter an email";
-            } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
-                .hasMatch(value)) {
-              return "Please enter a valid email format";
-            }
-            return null;
-          },
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration: CustomWidgetDesigns.customFormField("Email", "Enter your email"),
+            onSaved: (value) => setState(() => email = value),
+            validator: (value) {
+              // added proper email validation
+              if (value == null || value.isEmpty) {
+                return "Please enter an email";
+              } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
+                  .hasMatch(value)) {
+                return "Please enter a valid email format";
+              }
+              return null;
+            },
+          ),
         ),
       );
 
   Widget get passwordField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            label: const Text("Password"),
-            hintText: "At least 8 characters",
-            suffixIcon: IconButton(
-              icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration:
+                CustomWidgetDesigns.customFormField("Password", "Enter your password").copyWith(
+              suffixIcon: IconButton(
+                icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              ),
             ),
+            obscureText: _obscureText,
+            onSaved: (value) => setState(() => password = value),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                // added password validation
+                return "Please enter password";
+              } else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                  .hasMatch(value)) {
+                return "Password must have at least 8 characters\nconsisting of at least:\n1 small letter,\n1 capital letter,\n1 digit, and\n1 special character";
+              }
+              return null;
+            },
           ),
-          obscureText: _obscureText,
-          onSaved: (value) => setState(() => password = value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              // added password validation
-              return "Please enter password";
-            } else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-                .hasMatch(value)) {
-              return "Password must have at least 8 characters\nconsisting of at least:\n1 small letter,\n1 capital letter,\n1 digit, and\n1 special character";
-            }
-            return null;
-          },
         ),
       );
 
   Widget get proofsOfLegitimacyField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
-          decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              label: Text("Proofs of Legitimacy"),
-              hintText: "Upload your organization's proofs of legitimacy"),
+          decoration: CustomWidgetDesigns.customFormField(
+              "Proofs of Legitimacy", "Upload your organization's proofs of legitimacy"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -171,6 +214,7 @@ class _SignUpState extends State<SignUpOrgPage> {
       );
 
   Widget get submitButton => ElevatedButton(
+      style: CustomWidgetDesigns.customSubmitButton(),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();

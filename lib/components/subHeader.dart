@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/colors.dart';
+
 class SubHeader extends StatelessWidget {
   final String title;
   final String route;
@@ -14,10 +16,14 @@ class SubHeader extends StatelessWidget {
         children: [
           Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           TextButton(
+              style: ButtonStyle(
+                foregroundColor: WidgetStateProperty.all<Color>(AppColors.yellow03),
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, route);
               },
-              child: const Text("View All")),
+              child: const Text("View All",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
         ],
       ),
     );

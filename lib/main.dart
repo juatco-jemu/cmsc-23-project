@@ -33,17 +33,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'CMSC 23 Project',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      initialRoute: "/sign-in",
+      initialRoute: "/",
       routes: {
         "/sign-in": (context) => const SignInPage(),
         "/sign-up-donor": (context) => const SignUpPage(),
         "/sign-up-org": (context) => const SignUpOrgPage(),
         "/": (context) => const HomePage(),
-        "/org-list": (context) => const OrganizationsList(),
+        "/org-list": (context) => const OrganizationsList(isPage: false),
         "/user-donation-list": (context) => const UserDonationsList(),
       },
     );

@@ -1,11 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:donation_system/components/appbar.dart';
-import 'package:donation_system/pages/donor/list_of_user_donations_page.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/theme/colors.dart';
-import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
+import '../../components/profileButton.dart';
 import '../../mock/mock_donor.dart';
 import '../../model/model_user.dart';
 
@@ -18,7 +16,9 @@ class DonorProfilePage extends StatefulWidget {
 
 class _DonorProfilePageState extends State<DonorProfilePage> {
   Donor donor = MockDonor.fetchDonor();
-  late final coverHeight = 250 - MediaQuery.of(context).padding.top - kToolbarHeight;
+  late final extraHeight =
+      MediaQuery.of(context).padding.top - kToolbarHeight; // contains the height of the status bar
+  late final coverHeight = 150 - extraHeight;
   final double imageSize = 120;
 
   late Size screen = MediaQuery.of(context).size;
@@ -28,9 +28,9 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
       // appBar: CustomAppBar(title: "${donor.name}'s Profile Page"),
       body: SingleChildScrollView(
         child: Container(
+          color: AppColors.backgroundYellow,
           // decoration: CustomWidgetDesigns.gradientBackground(),
-          color: AppColors.aliceBlue,
-          height: screen.height - MediaQuery.of(context).padding.top - kToolbarHeight,
+          // height: screen.height - extraHeight,
           child: Column(
             children: [
               _buildTop(),
@@ -40,10 +40,23 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
                         context, MaterialPageRoute(builder: (context) => const SignInPage()));
                   },
                   child: const Text("Sign In")),
+              _buildButtons(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildButtons() {
+    return const Column(
+      children: [
+        ProfileButton(title: "My Profile", route: "/"),
+        ProfileButton(title: "My Addresses", route: "/"),
+        ProfileButton(title: "My Favorites", route: "/"),
+        ProfileButton(title: "My Donations", route: "/"),
+        ProfileButton(title: "Logout", route: "/"),
+      ],
     );
   }
 
@@ -58,19 +71,22 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
         spacer,
         Text("Hello, ${donor.name}",
             style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+        const Text(
+          "Donor",
+          style: TextStyle(fontSize: 20),
+        ),
       ],
     );
   }
 
-  Widget get profileHeaderBackground => SizedBox(
-        width: screen.width,
-        height: coverHeight,
-        child: Card(
-          color: AppColors.tiffanyBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.elliptical(screen.width / 2, 100),
-                bottomRight: Radius.elliptical(screen.width / 2, 100)),
+  Widget get profileHeaderBackground => Container(
+        height: 180,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/signup_org_bg.png',
+            ),
+            fit: BoxFit.fill,
           ),
         ),
       );
@@ -85,28 +101,6 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
           ),
         ),
       );
-
-  Widget get carouselSlider => CarouselSlider(
-      items: donor.donations
-          .map((donation) => Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                decoration: CustomWidgetDesigns.customContainer(),
-                child: Column(
-                  children: [
-                    Text(donation.organization.name),
-                    Text(donation.status),
-                    Text(donation.dateTime.toString()),
-                  ],
-                ),
-              ))
-          .toList(),
-      options: CarouselOptions(
-        height: 350,
-        initialPage: 0,
-        enableInfiniteScroll: false,
-        scrollDirection: Axis.horizontal,
-      ));
 
   Widget get spacer => const SizedBox(height: 30);
 }
