@@ -135,7 +135,8 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
                 ],
               ),
               Text("Date: ${dateTime.year}/${dateTime.month}/${dateTime.day}"),
-              Text("Time: ${dateTime.hour}:${dateTime.minute}")
+              Text(
+                  "Time: ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}")
             ],
           ),
         ),
@@ -196,7 +197,7 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
               ),
             ],
           ),
-          body: TabBarView(children: [
+          body: TabBarView(controller: _tabController, children: [
             Container(
               color: AppColors.backgroundYellow,
               padding: const EdgeInsets.all(20),
@@ -237,11 +238,7 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
                       },
                       child: Text(
                           "${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}")),
-                  spacer(20),
-                  TextField(
-                    decoration: CustomWidgetDesigns.customFormField(
-                        "Contact Number", "Enter contact number"),
-                  ),
+                  // spacer(20),
                 ],
               ),
             ),
