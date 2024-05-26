@@ -1,5 +1,3 @@
-import 'package:donation_system/model/model_organization.dart';
-
 class DonationDrive {
   // Organization organization;
   String id;

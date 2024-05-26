@@ -150,8 +150,8 @@ class _DonorHomepageState extends State<DonorHomepage> {
               child: Container(
                 decoration: CustomWidgetDesigns.customTileContainer(),
                 child: customDonorListTile(
-                  title: dono.organization.name,
-                  subtitle: dono.status,
+                  title: "Donation ID: ${dono.donationID}",
+                  subtitle: dono.status!,
                 ),
               ),
             );

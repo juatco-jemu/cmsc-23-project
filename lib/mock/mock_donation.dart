@@ -1,34 +1,29 @@
-import 'package:donation_system/mock/mock_organization.dart';
 import 'package:donation_system/model/model_donation.dart';
 
 class MockDonation extends Donation {
   MockDonation({
-    required super.donor,
-    required super.organization,
-    required super.itemCategories,
-    required super.itemDescription,
+    required super.donationID,
+    required super.itemsToDonate,
     required super.weight,
-    required super.photoUrl,
-    required super.pickupOrDropOff,
+    required super.mode,
     required super.dateTime,
-    required super.address,
-    required super.contactNo,
+    required super.addresses,
+    required super.contactNumber,
+    required super.imageURL,
     required super.qrCode,
     required super.status,
   });
 
   static Donation fetchDonation(donor) {
     return Donation(
-      donor: donor,
-      organization: MockOrganization.fetchOne(),
-      itemCategories: ["Clothes", "Food"],
-      itemDescription: "Clothes and food",
-      weight: 10.0,
-      photoUrl: "https://via.placeholder.com/150",
-      pickupOrDropOff: "Pickup",
+      donationID: 1,
+      itemsToDonate: ["Clothes", "Food"],
+      weight: 10,
+      mode: "Pickup",
       dateTime: DateTime.now(),
-      address: "Cebu City, Cebu",
-      contactNo: "09123456789",
+      addresses: ["Cebu City, Cebu"],
+      contactNumber: "09123456789",
+      imageURL: "https://www.google.com",
       qrCode: "123456",
       status: "Pending",
     );

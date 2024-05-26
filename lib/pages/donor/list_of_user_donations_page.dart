@@ -39,7 +39,7 @@ class _UserDonationsListState extends State<UserDonationsList> {
             return Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: CustomWidgetDesigns.customTileContainer(),
-                child: customDonorListTile(title: dono.organization.name, subtitle: dono.status));
+                child: customDonorListTile(title: "Donation ID", subtitle: dono.status!));
           }),
         ),
       ),
