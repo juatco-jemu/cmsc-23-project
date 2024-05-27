@@ -97,8 +97,8 @@ class _OrganizationsListState extends State<OrganizationsList> {
                   size: 50,
                   color: AppColors.yellow03,
                 ),
-                title: Text(org.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text(org.status),
+                title: Text(org.orgName!, style: const TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text(org.orgStatus!),
                 onTap: () {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => OrgDetailsPage(org: org)));

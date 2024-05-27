@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'signin_page.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key});
 
@@ -45,8 +47,7 @@ class _MainPageState extends State<MainPage> {
                 .get(),
             builder: (context, donorSnapshot) {
               if (donorSnapshot.hasData) {
-                QuerySnapshot snapshotData =
-                    donorSnapshot.data as QuerySnapshot;
+                QuerySnapshot snapshotData = donorSnapshot.data as QuerySnapshot;
                 if (snapshotData.docs.isNotEmpty) {
                   // Email exists in donors collection, navigate to DonorPage
                   return const DonorPage();
@@ -60,8 +61,7 @@ class _MainPageState extends State<MainPage> {
                         .get(),
                     builder: (context, orgSnapshot) {
                       if (orgSnapshot.hasData) {
-                        QuerySnapshot snapshotData =
-                            orgSnapshot.data as QuerySnapshot;
+                        QuerySnapshot snapshotData = orgSnapshot.data as QuerySnapshot;
                         if (snapshotData.docs.isNotEmpty) {
                           // Email exists in organizations collection, navigate to OrganizationPage
                           return const OrganizationPage();
@@ -72,8 +72,7 @@ class _MainPageState extends State<MainPage> {
                       } else if (orgSnapshot.hasError) {
                         return Scaffold(
                           body: Center(
-                            child: Text(
-                                "Error encountered! ${orgSnapshot.error}"),
+                            child: Text("Error encountered! ${orgSnapshot.error}"),
                           ),
                         );
                       } else {

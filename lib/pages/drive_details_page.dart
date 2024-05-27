@@ -1,7 +1,7 @@
-import 'package:donation_system/model/model_donation_drive.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 
+import '../model/model_drive.dart';
 import 'donate_page.dart';
 
 class DriveDetailsPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(widget.donationDrive.title,
+                        Text(widget.donationDrive.driveName!,
                             style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                         const Icon(Icons.favorite_border),
                       ],
@@ -47,10 +47,10 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.donationDrive.status),
-                        Text("Location: ${widget.donationDrive.location}"),
+                        Text(widget.donationDrive.driveStatus!),
+                        Text("Location: ${widget.donationDrive.driveLocation}"),
                         spacer,
-                        Text("Description: ${widget.donationDrive.description}"),
+                        Text("Description: ${widget.donationDrive.driveDescription}"),
                         spacer,
                         const DonateForm(),
                       ],

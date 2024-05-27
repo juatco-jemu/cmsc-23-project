@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../components/profileButton.dart';
 import '../../mock/mock_donor.dart';
-import '../../model/model_user.dart';
+import '../../model/model_donor.dart';
 
 class DonorProfilePage extends StatefulWidget {
   const DonorProfilePage({super.key});
@@ -69,7 +69,7 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
         ]),
         spacer,
         spacer,
-        Text("Hello, ${donor.name}",
+        Text("Hello, ${donor.username!}",
             style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
         const Text(
           "Donor",

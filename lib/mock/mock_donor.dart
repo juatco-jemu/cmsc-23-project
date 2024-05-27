@@ -1,30 +1,31 @@
-import 'package:donation_system/model/model_user.dart';
-
+import '../model/model_donor.dart';
 import 'mock_donation.dart';
 
 class MockDonor extends Donor {
   MockDonor({
-    required super.name,
+    required super.firstName,
+    required super.lastName,
     required super.username,
     required super.email,
-    required super.addresses,
-    required super.contactNo,
+    required super.addressList,
+    required super.contactNumber,
   });
 
   static Donor fetchDonor() {
     Donor jemu = Donor(
-      name: "Jemuel",
-      username: "jemueljuatco",
-      email: "jmjuatco@gmail.com",
-      addresses: ["Cebu City, Cebu"],
-      contactNo: "09123456789",
-    );
+        firstName: "Jemuel",
+        lastName: "Juatco",
+        username: "jemueljuatco",
+        email: "jmjuatco@gmail.com",
+        addressList: ["Cebu City, Cebu"],
+        contactNumber: "09123456789",
+        donationList: []);
 
-    jemu.donations.add(MockDonation.fetchDonation(jemu));
-    jemu.donations.add(MockDonation.fetchDonation(jemu));
-    jemu.donations.add(MockDonation.fetchDonation(jemu));
-    jemu.donations.add(MockDonation.fetchDonation(jemu));
-    jemu.donations.add(MockDonation.fetchDonation(jemu));
+    jemu.donationList!.add(MockDonation.fetchDonation(jemu));
+    jemu.donationList!.add(MockDonation.fetchDonation(jemu));
+    jemu.donationList!.add(MockDonation.fetchDonation(jemu));
+    jemu.donationList!.add(MockDonation.fetchDonation(jemu));
+    jemu.donationList!.add(MockDonation.fetchDonation(jemu));
 
     return jemu;
   }

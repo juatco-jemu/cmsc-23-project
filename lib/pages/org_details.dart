@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:donation_system/mock/mock_donor.dart';
 import 'package:donation_system/model/model_organization.dart';
-import 'package:donation_system/model/model_user.dart';
 import 'package:donation_system/pages/donate_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
@@ -9,7 +8,8 @@ import 'package:flutter/material.dart';
 
 import '../components/appbar.dart';
 import '../mock/mock_donation_drive.dart';
-import '../model/model_donation_drive.dart';
+import '../model/model_donor.dart';
+import '../model/model_drive.dart';
 import 'drive_details_page.dart';
 
 class OrgDetailsPage extends StatefulWidget {
@@ -40,8 +40,8 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                orgName(widget.org.name),
-                orgAbout(widget.org.about),
+                orgName(widget.org.orgName),
+                // orgAbout(widget.org.or),
                 const SizedBox(height: 20),
                 const Text("Donation Drives"),
                 carouselSlider(),
@@ -111,11 +111,11 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(drive.title,
+                            Text(drive.driveName!,
                                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                             // Text(drive.description, style: const TextStyle(fontSize: 15)),
                             // spacer,
-                            Text(drive.status, style: const TextStyle(fontSize: 15)),
+                            Text(drive.driveStatus!, style: const TextStyle(fontSize: 15)),
                           ],
                         ),
                       )

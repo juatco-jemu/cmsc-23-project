@@ -1,18 +1,18 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:donation_system/pages/donor/home.dart';
-import 'package:donation_system/pages/donor/profile.dart';
+import 'package:donation_system/pages/donor/donor_homepage.dart';
+import 'package:donation_system/pages/donor/donor_profile.dart';
 import 'package:donation_system/pages/org_list.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class DonorMain extends StatefulWidget {
+  const DonorMain({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<DonorMain> createState() => _DonorMainState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _DonorMainState extends State<DonorMain> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
     const DonorHomepage(),

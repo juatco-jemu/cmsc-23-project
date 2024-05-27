@@ -13,15 +13,11 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => DonorsProvider()),
-        ChangeNotifierProvider(create: (context) => OrganizationsProvider()),
-        ChangeNotifierProvider(create: ((context) => UserAuthProvider()))
-      ], child: const MyApp()
-    )
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => DonorsProvider()),
+    ChangeNotifierProvider(create: (context) => OrganizationsProvider()),
+    ChangeNotifierProvider(create: ((context) => UserAuthProvider()))
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
