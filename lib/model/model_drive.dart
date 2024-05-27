@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:donation_system/model/model_donation.dart';
 
 class DonationDrive {
+  int? driveID;
+  String? orgUsername;
   String? driveName;
   String? driveStatus; // Open or Closed
   String? driveDescription;
@@ -10,6 +12,8 @@ class DonationDrive {
   List<Donation>? driveDonationList;
 
   DonationDrive({
+    required this.driveID,
+    required this.orgUsername,
     required this.driveName,
     required this.driveStatus,
     required this.driveDescription,
@@ -20,6 +24,8 @@ class DonationDrive {
 
   factory DonationDrive.fromJson(Map<String, dynamic> json) {
     return DonationDrive(
+      driveID: json['driveID'],
+      orgUsername: json['orgUsername'],
       driveName: json['driveName'],
       driveStatus: json['driveStatus'],
       driveDescription: json['driveDescription'],
@@ -33,6 +39,8 @@ class DonationDrive {
 
   Map<String, dynamic> toJson() {
     return {
+      'driveID': driveID,
+      'orgUsername': orgUsername,
       'driveName': driveName,
       'driveStatus': driveStatus,
       'driveDescription': driveDescription,

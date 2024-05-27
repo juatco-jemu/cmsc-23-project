@@ -16,9 +16,9 @@ class UserAuthProvider with ChangeNotifier {
   Stream<User?> get userStream => _uStream;
   User? get user => authService.getUser();
 
+
   void fetchAuthentication() {
     _uStream = authService.userSignedIn();
-
     notifyListeners();
   }
 
@@ -26,11 +26,23 @@ class UserAuthProvider with ChangeNotifier {
       String orgName,
       String orgEmail,
       String orgUsername,
+      String orgDescription,
       List<String> orgAddressList,
       String orgContactNumber,
       List<DonationDrive> orgDriveList,
-      String password) async {
-    await authService.signUpOrganization(orgName, orgEmail, orgUsername, orgAddressList, orgContactNumber, orgDriveList, password);
+      String orgStatus,
+      String password
+    ) async {
+    await authService.signUpOrganization(
+      orgName,
+      orgEmail,
+      orgUsername,
+      orgDescription,
+      orgAddressList,
+      orgContactNumber,
+      orgDriveList,
+      orgStatus,
+      password);
     notifyListeners();
   }
 
@@ -42,16 +54,28 @@ class UserAuthProvider with ChangeNotifier {
       List<String> addressList,
       String contactNumber,
       List<Donation> donationList,
-      String password) async {
-    await authService.signUpDonor(firstName, lastName, username, email, addressList, contactNumber, donationList, password);
+      String password
+    ) async {
+    await authService.signUpDonor(
+      firstName, 
+      lastName, 
+      username, 
+      email, 
+      addressList, 
+      contactNumber,
+      donationList,
+      password);
     notifyListeners();
   }
 
-  Future<String?> signIn(String email, String password) async {
-    String? message = await authService.signIn(email, password);
-    print('Current user: ${authService.getUser()}');
+  Future<void> signIn(
+    String username,
+    String password
+  ) async {
+    await authService.signIn(
+      username,
+      password);
     notifyListeners();
-    return message;
   }
 
   Future<void> signOut() async {

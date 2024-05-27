@@ -5,6 +5,7 @@ class Organization {
   String? orgName;
   String? orgEmail;
   String? orgUsername;
+  String? orgDescription; // Added orgDescription field
   List<String>? orgAddressList;
   String? orgContactNumber;
   List<DonationDrive>? orgDriveList;
@@ -15,6 +16,7 @@ class Organization {
     required this.orgName,
     required this.orgEmail,
     required this.orgUsername,
+    required this.orgDescription, // Added orgDescription parameter
     required this.orgAddressList,
     required this.orgContactNumber,
     required this.orgDriveList,
@@ -27,6 +29,7 @@ class Organization {
       orgName: json['orgName'],
       orgEmail: json['orgEmail'],
       orgUsername: json['orgUsername'],
+      orgDescription: json['orgDescription'], // Added orgDescription field
       orgAddressList: List<String>.from(json['orgAddressList']),
       orgContactNumber: json['orgContactNumber'],
       orgDriveList: (json['orgDriveList'] as List<dynamic>)
@@ -42,6 +45,7 @@ class Organization {
       'orgName': orgName,
       'orgEmail': orgEmail,
       'orgUsername': orgUsername,
+      'orgDescription': orgDescription, // Added orgDescription field
       'orgAddressList': orgAddressList,
       'orgContactNumber': orgContactNumber,
       'orgDriveList': orgDriveList?.map((drive) => drive.toJson()).toList(),
