@@ -1,3 +1,4 @@
+import 'package:donation_system/pages/donations_list.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,8 @@ import 'donate_page.dart';
 
 class DriveDetailsPage extends StatefulWidget {
   final DonationDrive donationDrive;
-  const DriveDetailsPage({super.key, required this.donationDrive});
+  final bool isDonor;
+  const DriveDetailsPage({super.key, required this.isDonor, required this.donationDrive});
 
   @override
   State<DriveDetailsPage> createState() => _DriveDetailsPageState();
@@ -52,7 +54,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                         spacer,
                         Text("Description: ${widget.donationDrive.driveDescription}"),
                         spacer,
-                        const DonateForm(),
+                        widget.isDonor ? const DonateForm() : Container(),
                       ],
                     ),
                     spacer,
@@ -63,7 +65,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
           ),
         ),
       ),
-      bottomSheet: donateButton(context),
+      bottomSheet: widget.isDonor ? donateButton(context) : viewDonationsButton(context),
     );
   }
 
@@ -82,24 +84,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
               ),
             ),
           ),
-          onPressed: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => const DonatePage()));
-            showModalBottomSheet(
-              context: context,
-              builder: (context) => FractionallySizedBox(
-                  heightFactor: 0.75,
-                  child: Column(
-                    children: [
-                      hBar,
-                      const Flexible(child: DonateForm()),
-                    ],
-                  )),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              isScrollControlled: true,
-            );
-          },
+          onPressed: () {},
           child: const Text(
             "Donate",
             style: TextStyle(color: AppColors.appWhite),
@@ -109,15 +94,37 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
     );
   }
 
-  Widget get hBar => Container(
-        width: 100,
-        height: 4,
-        margin: const EdgeInsets.only(top: 12, bottom: 12),
-        decoration: BoxDecoration(
-          color: Colors.grey[500],
-          borderRadius: BorderRadius.circular(12),
+  Widget viewDonationsButton(context) {
+    return Container(
+      color: AppColors.backgroundYellow,
+      width: screen.width,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DonationsList(
+                          isAllDonations: false,
+                        )));
+          },
+          child: const Text(
+            "View Donations",
+            style: TextStyle(color: AppColors.appWhite),
+          ),
         ),
-      );
+      ),
+    );
+  }
 
   Widget get spacer => const SizedBox(height: 20);
 }

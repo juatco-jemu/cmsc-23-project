@@ -1,4 +1,5 @@
 import 'package:donation_system/theme/widget_designs.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +27,8 @@ class _ProfileButtonState extends State<ProfileButton> {
       child: ListTile(
         onTap: () {
           if (widget.route == 'sign-out') {
-            context.read<UserAuthProvider>().signOut();
+            FirebaseAuth.instance.signOut();
+            Navigator.of(context).popUntil((route) => route.isFirst);
           } else {
             Navigator.pushNamed(context, widget.route);
           }

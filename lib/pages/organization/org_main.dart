@@ -1,25 +1,25 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:donation_system/pages/donor/donor_homepage.dart';
-import 'package:donation_system/pages/donor/donor_profile.dart';
-import 'package:donation_system/pages/org_list_page.dart';
+import 'package:donation_system/pages/organization/org_donation_drives_page.dart';
+import 'package:donation_system/pages/organization/org_homepage.dart';
+import 'package:donation_system/pages/organization/org_profile.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-class DonorMain extends StatefulWidget {
-  const DonorMain({super.key});
+class OrgMain extends StatefulWidget {
+  const OrgMain({super.key});
 
   @override
-  State<DonorMain> createState() => _DonorMainState();
+  State<OrgMain> createState() => _OrgMainState();
 }
 
-class _DonorMainState extends State<DonorMain> {
+class _OrgMainState extends State<OrgMain> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
-    const DonorHomepage(),
-    const OrganizationsList(
+    const OrgHomepage(),
+    const OrgDriveListPage(
       isPage: true,
     ),
-    const DonorProfilePage(),
+    const OrgProfilePage(),
   ];
 
   @override

@@ -1,13 +1,10 @@
 import 'package:donation_system/mock/mock_organization.dart';
-import 'package:donation_system/pages/org_details.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
 import '../model/model_organization.dart';
-
-//TODO:implement recent donation list (can be done by getting the last 3 donations from the database)
-//TODO: add donation list to the database
+import 'org_details_page.dart';
 
 class OrganizationsList extends StatefulWidget {
   final bool isPage;

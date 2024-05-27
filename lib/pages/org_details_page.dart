@@ -92,7 +92,10 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DriveDetailsPage(donationDrive: drive)));
+                          builder: (context) => DriveDetailsPage(
+                                donationDrive: drive,
+                                isDonor: false,
+                              )));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,

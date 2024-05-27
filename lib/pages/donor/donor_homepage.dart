@@ -94,7 +94,10 @@ class _DonorHomepageState extends State<DonorHomepage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DriveDetailsPage(donationDrive: drive)));
+                          builder: (context) => DriveDetailsPage(
+                                donationDrive: drive,
+                                isDonor: true,
+                              )));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
