@@ -1,23 +1,28 @@
-import 'package:donation_system/providers/auth_provider.dart';
+import 'package:donation_system/model/model_donation.dart';
+import 'package:donation_system/pages/signUp_organization.dart';
+import 'package:donation_system/providers/provider_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/colors.dart';
 import '../theme/widget_designs.dart';
-import 'signup_org_page.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignUpDonorPage extends StatefulWidget {
+  const SignUpDonorPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpState();
+  State<SignUpDonorPage> createState() => _SignUpDonorPageState();
 }
 
-class _SignUpState extends State<SignUpPage> {
+class _SignUpDonorPageState extends State<SignUpDonorPage> {
   final _formKey = GlobalKey<FormState>();
-  String? email;
-  String? password;
   String? firstName;
   String? lastName;
+  String? email;
+  String? username;
+  List<String> addressList = [];
+  String contactNumber = "";
+  List<Donation> donationList = [];
+  String? password;
   bool _obscureText = true; // added this to hide password
 
   late Size screen = MediaQuery.of(context).size;
@@ -91,6 +96,7 @@ class _SignUpState extends State<SignUpPage> {
             spacer,
             firstNameField, // added this as a new field required
             lastNameField, // same as above
+            usernameField,
             emailField,
             passwordField,
             submitButton,
@@ -164,6 +170,25 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
+  Widget get usernameField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration: CustomWidgetDesigns.customFormField("Username", "Enter your username"),
+            onSaved: (value) => setState(() => username = value),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter your username";
+              }
+              return null;
+            },
+          ),
+        ),
+      );
+
   Widget get passwordField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: Material(
@@ -206,7 +231,7 @@ class _SignUpState extends State<SignUpPage> {
           await context
               .read<UserAuthProvider>()
               .authService
-              .signUp(firstName!, lastName!, email!, password!); // added firstName and lastName
+              .signUpDonor(firstName!, lastName!, username!, email!, addressList, contactNumber, donationList, password!);
 
           // check if the widget hasn't been disposed of after an asynchronous action
           if (mounted) Navigator.pop(context);

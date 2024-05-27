@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Donation {
   int? donationID;
+  String? donorUsername;
+  String? orgUsername;
   List<String>? itemsToDonate;
   int? weight;
   String? mode; // Pickup or Drop-off
@@ -15,6 +17,8 @@ class Donation {
 
   Donation({
     required this.donationID,
+    required this.donorUsername,
+    required this.orgUsername,
     required this.itemsToDonate,
     required this.weight,
     required this.mode,
@@ -29,6 +33,8 @@ class Donation {
   factory Donation.fromJson(Map<String, dynamic> json) {
     return Donation(
       donationID: json['donationID'],
+      donorUsername: json['donorUsername'],
+      orgUsername: json['orgUsername'],
       itemsToDonate: List<String>.from(json['itemsToDonate']),
       weight: json['weight'],
       mode: json['mode'],
@@ -49,6 +55,8 @@ class Donation {
   Map<String, dynamic> toJson() {
     return {
       'donationID': donationID,
+      'donorUsername': donorUsername,
+      'orgUsername': orgUsername,
       'itemsToDonate': itemsToDonate,
       'weight': weight,
       'mode': mode,

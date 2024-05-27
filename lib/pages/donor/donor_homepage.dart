@@ -2,14 +2,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:donation_system/components/subHeader.dart';
 import 'package:donation_system/mock/mock_donation_drive.dart';
 import 'package:donation_system/mock/mock_donor.dart';
-import 'package:donation_system/model/model_donation_drive.dart';
-import 'package:donation_system/model/model_user.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/listTile.dart';
 import '../../model/model_donation.dart';
+import '../../model/model_donor.dart';
+import '../../model/model_drive.dart';
 import '../drive_details_page.dart';
 
 class DonorHomepage extends StatefulWidget {
@@ -75,7 +75,7 @@ class _DonorHomepageState extends State<DonorHomepage> {
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
                       color: AppColors.yellow03)),
-              Text(donor.name,
+              Text(donor.username!,
                   style: const TextStyle(
                       fontFamily: "Baguet Script",
                       fontSize: 40,
@@ -113,11 +113,11 @@ class _DonorHomepageState extends State<DonorHomepage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(drive.title,
+                            Text(drive.driveName!,
                                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                             // Text(drive.description, style: const TextStyle(fontSize: 15)),
                             // spacer,
-                            Text(drive.status, style: const TextStyle(fontSize: 15)),
+                            Text(drive.driveStatus!, style: const TextStyle(fontSize: 15)),
                           ],
                         ),
                       )
@@ -144,7 +144,7 @@ class _DonorHomepageState extends State<DonorHomepage> {
         child: ListView.builder(
           itemCount: 3,
           itemBuilder: (context, index) {
-            Donation dono = donor.donations[index];
+            Donation dono = donor.donationList![index];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               child: Container(

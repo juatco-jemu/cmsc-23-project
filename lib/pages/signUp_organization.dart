@@ -1,25 +1,28 @@
-import 'package:donation_system/providers/auth_provider.dart';
+import 'package:donation_system/model/model_drive.dart';
+import 'package:donation_system/providers/provider_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../theme/colors.dart';
 import '../theme/widget_designs.dart';
-// import 'package:provider/provider.dart';
-// import '../providers/auth_provider.dart';
 
 class SignUpOrgPage extends StatefulWidget {
   const SignUpOrgPage({super.key});
 
   @override
-  State<SignUpOrgPage> createState() => _SignUpState();
+  State<SignUpOrgPage> createState() => _SignUpOrgPageState();
 }
 
-class _SignUpState extends State<SignUpOrgPage> {
+class _SignUpOrgPageState extends State<SignUpOrgPage> {
   final _formKey = GlobalKey<FormState>();
+  String? orgName;
+  String? orgUsername;
   String? email;
   String? password;
-  String? firstName;
-  String? lastName;
+  List<String> orgAddressList = [];
+  String orgContactNumber = "";
+  List<DonationDrive> orgDriveList = [];
+  String orgProofImgLink = "";
+
   bool _obscureText = true; // added this to hide password
 
   late Size screen = MediaQuery.of(context).size;
@@ -108,10 +111,11 @@ class _SignUpState extends State<SignUpOrgPage> {
         child: Column(
           children: [
             spacer,
-            orgNameField, // added this as a new field required
+            orgNameField,
+            orgUsernameField,
             emailField,
             passwordField,
-            proofsOfLegitimacyField,
+            // proofsOfLegitimacyField,
             submitButton,
             spacer
           ],
@@ -130,7 +134,27 @@ class _SignUpState extends State<SignUpOrgPage> {
           child: TextFormField(
             decoration:
                 CustomWidgetDesigns.customFormField("Organization Name", "Enter organization name"),
-            onSaved: (value) => setState(() => firstName = value),
+            onSaved: (value) => setState(() => orgName = value),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter organization name";
+              }
+              return null;
+            },
+          ),
+        ),
+      );
+
+  Widget get orgUsernameField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: Material(
+          elevation: 2,
+          shadowColor: Colors.grey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: TextFormField(
+            decoration:
+                CustomWidgetDesigns.customFormField("Organization Username", "Enter organization username"),
+            onSaved: (value) => setState(() => orgUsername = value),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "Please enter organization name";
@@ -198,20 +222,20 @@ class _SignUpState extends State<SignUpOrgPage> {
         ),
       );
 
-  Widget get proofsOfLegitimacyField => Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration: CustomWidgetDesigns.customFormField(
-              "Proofs of Legitimacy", "Upload your organization's proofs of legitimacy"),
-          onSaved: (value) => setState(() => email = value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please upload your organization's proofs of legitimacy";
-            }
-            return null;
-          },
-        ),
-      );
+  // Widget get proofsOfLegitimacyField => Padding(
+  //       padding: const EdgeInsets.only(bottom: 30),
+  //       child: TextFormField(
+  //         decoration: CustomWidgetDesigns.customFormField(
+  //             "Proofs of Legitimacy", "Upload your organization's proofs of legitimacy"),
+  //         onSaved: (value) => setState(() => email = value),
+  //         validator: (value) {
+  //           if (value == null || value.isEmpty) {
+  //             return "Please upload your organization's proofs of legitimacy";
+  //           }
+  //           return null;
+  //         },
+  //       ),
+  //     );
 
   Widget get submitButton => ElevatedButton(
       style: CustomWidgetDesigns.customSubmitButton(),
@@ -222,10 +246,13 @@ class _SignUpState extends State<SignUpOrgPage> {
           await context
               .read<UserAuthProvider>()
               .authService
-              .signUp(firstName!, lastName!, email!, password!);
+              .signUpOrganization(orgName!, email!, orgUsername!, orgAddressList, orgContactNumber, orgDriveList, password!);
 
           // check if the widget hasn't been disposed of after an asynchronous action
-          if (mounted) Navigator.pop(context);
+          if (mounted) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
         }
       },
       child: const Text("Sign Up"));

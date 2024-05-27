@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 
 import '../../components/appbar.dart';
 import '../../mock/mock_donor.dart';
-import '../../model/model_user.dart';
+import '../../model/model_donor.dart';
 import '../../theme/widget_designs.dart';
 
-class UserDonationsList extends StatefulWidget {
-  const UserDonationsList({super.key});
+class DonorDonationList extends StatefulWidget {
+  const DonorDonationList({super.key});
 
   @override
-  State<UserDonationsList> createState() => _UserDonationsListState();
+  State<DonorDonationList> createState() => _DonorDonationListState();
 }
 
-class _UserDonationsListState extends State<UserDonationsList> {
+class _DonorDonationListState extends State<DonorDonationList> {
   Donor donor = MockDonor.fetchDonor();
 
   @override
@@ -33,9 +33,9 @@ class _UserDonationsListState extends State<UserDonationsList> {
         // decoration: CustomWidgetDesigns.gradientBackground(),
         color: AppColors.backgroundYellow,
         child: ListView.builder(
-          itemCount: donor.donations.length,
+          itemCount: donor.donationList!.length,
           itemBuilder: ((context, index) {
-            Donation dono = donor.donations[index];
+            Donation dono = donor.donationList![index];
             return Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: CustomWidgetDesigns.customTileContainer(),

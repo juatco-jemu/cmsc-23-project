@@ -1,11 +1,8 @@
 import 'package:donation_system/firebase_options.dart';
-import 'package:donation_system/pages/donor/homepage.dart';
-import 'package:donation_system/pages/donor/list_of_user_donations_page.dart';
-import 'package:donation_system/pages/org_list.dart';
-import 'package:donation_system/pages/signin_page.dart';
-import 'package:donation_system/pages/signup_org_page.dart';
-import 'package:donation_system/pages/signup_page.dart';
-import 'package:donation_system/providers/auth_provider.dart';
+import 'package:donation_system/pages/main_page.dart';
+import 'package:donation_system/providers/provider_auth.dart';
+import 'package:donation_system/providers/provider_donors.dart';
+import 'package:donation_system/providers/provider_organizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,31 +13,23 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(
-    MultiProvider(
-      providers: [ChangeNotifierProvider(create: ((context) => UserAuthProvider()))],
-      child: const MyApp(),
-    ),
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => DonorsProvider()),
+    ChangeNotifierProvider(create: (context) => OrganizationsProvider()),
+    ChangeNotifierProvider(create: ((context) => UserAuthProvider()))
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'CMSC 23 Project',
-      initialRoute: "/",
+      initialRoute: '/',
       routes: {
-        "/sign-in": (context) => const SignInPage(),
-        "/sign-up-donor": (context) => const SignUpPage(),
-        "/sign-up-org": (context) => const SignUpOrgPage(),
-        "/": (context) => const HomePage(),
-        "/org-list": (context) => const OrganizationsList(isPage: false),
-        "/user-donation-list": (context) => const UserDonationsList(),
+        '/': (context) => const MainPage(),
       },
     );
   }
