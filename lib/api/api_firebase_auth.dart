@@ -15,16 +15,29 @@ class FirebaseAuthAPI {
     return auth.authStateChanges();
   }
 
+  Stream<QuerySnapshot> getAllDonors() {
+    return db.collection('donors').snapshots();
+  }
+
+  Stream<QuerySnapshot> getAllOrganizations() {
+    return db.collection('organizations').snapshots();
+  }
+
   Future<String?> signIn(String username, String password) async {
     try {
-      if (username == 'hopehaven_admin') {
-      // Sign in as admin
-      await auth.signInWithEmailAndPassword(
-        email: 'admin@hopehaven.org', // Assuming this is the admin's email
-        password: password,
-      );
-      return "successfully signed in as admin";
-    }
+      // Search for the username in admins collection
+      QuerySnapshot adminStream = await db
+          .collection('admins')
+          .where('adminUsername', isEqualTo: username)
+          .limit(1)
+          .get();
+
+      if (adminStream.docs.isNotEmpty) {
+        // Username found in admins, get the email
+        String email = adminStream.docs.first['adminEmail'];
+        await auth.signInWithEmailAndPassword(email: email, password: password);
+        return 'successfully signed in as admin';
+      }
 
       // Search for the username in donors collection
       QuerySnapshot donorStream = await db
@@ -37,7 +50,7 @@ class FirebaseAuthAPI {
         // Username found in donors, get the email
         String email = donorStream.docs.first['email'];
         await auth.signInWithEmailAndPassword(email: email, password: password);
-        return "successfully signed in as donor";
+        return 'successfully signed in as donor';
       }
 
       // Search for the username in organizations collection
@@ -51,17 +64,17 @@ class FirebaseAuthAPI {
         // Username found in organizations, get the email
         String email = orgStream.docs.first['orgEmail'];
         await auth.signInWithEmailAndPassword(email: email, password: password);
-        return "successfully signed in as organization";
+        return 'successfully signed in as organization';
       }
 
-      return "Username not found";
+      return 'Username not found';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
         return 'Invalid email address.';
       } else if (e.code == 'wrong-password') {
         return 'Wrong password.';
       } else {
-        return "Failed at ${e.code}: ${e.message}";
+        return 'Failed at ${e.code}: ${e.message}';
       }
     }
   }
@@ -95,17 +108,17 @@ class FirebaseAuthAPI {
         password: password,
       );
 
-      await credential.user!.updateDisplayName("$firstName $lastName");
+      await credential.user!.updateDisplayName('$firstName $lastName');
 
       // Save the new user to Firestore
-      await db.collection("donors").doc(credential.user!.uid).set({
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-        "username": username,
-        "addressList": addressList,
-        "contactNumber": contactNumber,
-        "donationList": donationList.map((donation) => donation.toJson()).toList(),
+      await db.collection('donors').doc(credential.user!.uid).set({
+        'firstName': firstName,
+        'lastName': lastName,
+        'email': email,
+        'username': username,
+        'addressList': addressList,
+        'contactNumber': contactNumber,
+        'donationList': donationList.map((donation) => donation.toJson()).toList(),
       });
 
       // Print the object returned by createUserWithEmailAndPassword
@@ -127,9 +140,11 @@ class FirebaseAuthAPI {
       String orgName,
       String orgEmail,
       String orgUsername,
+      String orgDescription,
       List<String> orgAddressList,
       String orgContactNumber,
       List<DonationDrive> orgDriveList,
+      String orgStatus,
       String password) async {
     UserCredential credential;
 
@@ -154,13 +169,15 @@ class FirebaseAuthAPI {
       await credential.user!.updateDisplayName(orgName);
 
       // Save the new organization to Firestore
-      await db.collection("organizations").doc(credential.user!.uid).set({
-        "orgName": orgName,
-        "orgEmail": orgEmail,
-        "orgUsername": orgUsername,
-        "orgAddressList": orgAddressList,
-        "orgContactNumber": orgContactNumber,
-        "orgDriveList": orgDriveList.map((drive) => drive.toJson()).toList(),
+      await db.collection('organizations').doc(credential.user!.uid).set({
+        'orgName': orgName,
+        'orgEmail': orgEmail,
+        'orgUsername': orgUsername,
+        'orgDescription': orgDescription,
+        'orgAddressList': orgAddressList,
+        'orgContactNumber': orgContactNumber,
+        'orgDriveList': orgDriveList.map((drive) => drive.toJson()).toList(),
+        'orgStatus': orgStatus
       });
 
       // Print the object returned by createUserWithEmailAndPassword
@@ -180,5 +197,44 @@ class FirebaseAuthAPI {
 
   Future<void> signOut() async {
     await auth.signOut();
+  }
+
+  Future<bool> isAdmin (String email) async {
+    try {
+      QuerySnapshot adminStream = await db
+          .collection('admins')
+          .where('adminEmail', isEqualTo: email)
+          .limit(1)
+          .get();
+      return adminStream.docs.isNotEmpty;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> isDonor (String email) async {
+    try {
+      QuerySnapshot donorStream = await db
+          .collection('donors')
+          .where('email', isEqualTo: email)
+          .limit(1)
+          .get();
+      return donorStream.docs.isNotEmpty;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> isOrganization (String email) async {
+    try {
+      QuerySnapshot orgStream = await db
+          .collection('organizations')
+          .where('orgEmail', isEqualTo: email)
+          .limit(1)
+          .get();
+      return orgStream.docs.isNotEmpty;
+    } catch (e) {
+      return false;
+    }
   }
 }

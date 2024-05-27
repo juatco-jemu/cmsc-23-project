@@ -18,10 +18,12 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
   String? orgUsername;
   String? email;
   String? password;
+  String orgDescription = "";
   List<String> orgAddressList = [];
   String orgContactNumber = "";
   List<DonationDrive> orgDriveList = [];
   String orgProofImgLink = "";
+  String orgStatus = "Pending";
 
   bool _obscureText = true; // added this to hide password
 
@@ -246,7 +248,7 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
           await context
               .read<UserAuthProvider>()
               .authService
-              .signUpOrganization(orgName!, email!, orgUsername!, orgAddressList, orgContactNumber, orgDriveList, password!);
+              .signUpOrganization(orgName!, email!, orgUsername!, orgDescription, orgAddressList, orgContactNumber, orgDriveList, orgStatus, password!);
 
           // check if the widget hasn't been disposed of after an asynchronous action
           if (mounted) {
