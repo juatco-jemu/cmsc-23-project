@@ -1,6 +1,8 @@
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/provider_auth.dart';
 import '../theme/colors.dart';
 
 class ProfileButton extends StatefulWidget {
@@ -23,7 +25,11 @@ class _ProfileButtonState extends State<ProfileButton> {
       ),
       child: ListTile(
         onTap: () {
-          Navigator.pushNamed(context, widget.route);
+          if (widget.route == 'sign-out') {
+            context.read<UserAuthProvider>().signOut();
+          } else {
+            Navigator.pushNamed(context, widget.route);
+          }
         },
         title: Text(widget.title),
         trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.darkYellow01),

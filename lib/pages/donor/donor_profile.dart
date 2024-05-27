@@ -30,16 +30,10 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
         child: Container(
           color: AppColors.backgroundYellow,
           // decoration: CustomWidgetDesigns.gradientBackground(),
-          // height: screen.height - extraHeight,
+          height: screen.height,
           child: Column(
             children: [
               _buildTop(),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => const SignInPage()));
-                  },
-                  child: const Text("Sign In")),
               _buildButtons(),
             ],
           ),
@@ -55,7 +49,7 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
         ProfileButton(title: "My Addresses", route: "/"),
         ProfileButton(title: "My Favorites", route: "/"),
         ProfileButton(title: "My Donations", route: "/"),
-        ProfileButton(title: "Logout", route: "/"),
+        ProfileButton(title: "Logout", route: "sign-out"),
       ],
     );
   }
