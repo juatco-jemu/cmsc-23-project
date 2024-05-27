@@ -1,37 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donation_system/model/model_donation.dart';
 
 class FirebaseDriveAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<String> addDonationDrive(
-    int? driveID,
-    String? orgUsername,
-    String driveName,
-    String driveStatus,
-    String driveDescription,
-    String driveLocation,
-    List<String> driveImgURL,
-    List<Donation> driveDonationList,
-  ) async {
+  Stream<QuerySnapshot> getAllDonationDrive() {
+    return db.collection('donation_drives').snapshots();
+  }
+
+  Stream<QuerySnapshot> getDonationDrivesForOrganization(String orgUsername) {
+    return db.collection('donation_drives')
+      .where('orgUsername', isEqualTo: orgUsername)
+      .snapshots();
+  }
+
+  Future<String> addDonationDrive(Map<String, dynamic> donationDrive) async {
     try {
-      await db.collection('donation_drives').add({
-        'driveID': driveID,
-        'orgUsername': orgUsername,
-        'driveName': driveName,
-        'driveStatus': driveStatus,
-        'driveDescription': driveDescription,
-        'driveLocation': driveLocation,
-        'driveImgURL': driveImgURL,
-        'driveDonationList': driveDonationList.map((donation) => donation.toJson()).toList(),
-      });
+      await db.collection('donation_drives').add(donationDrive);
       return "Donation drive added successfully";
     } on FirebaseException catch (e) {
       return "Error in ${e.code}: ${e.message}";
     }
   }
 
-  Stream<QuerySnapshot> getAllDonationDrive() {
-    return db.collection('donation_drives').snapshots();
+  Future<String> updateDonationDriveStatus(int driveID, String driveStatus) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+        .collection('donation_drives')
+        .where('driveID', isEqualTo: driveID)
+        .get();
+      
+      if (querySnapshot.docs.isNotEmpty) {
+        DocumentReference docRef = querySnapshot.docs.first.reference;
+        await docRef.update({
+          'driveStatus': driveStatus
+        });
+      }
+      return "Donation drive ID updated successfully";
+    } on FirebaseException catch (e) {
+      return "Error in ${e.code}: ${e.message}";
+    }
   }
+  
 }

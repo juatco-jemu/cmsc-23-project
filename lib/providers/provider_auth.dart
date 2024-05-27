@@ -1,6 +1,4 @@
 import 'package:donation_system/api/api_firebase_auth.dart';
-import 'package:donation_system/model/model_donation.dart';
-import 'package:donation_system/model/model_drive.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +27,7 @@ class UserAuthProvider with ChangeNotifier {
       String orgDescription,
       List<String> orgAddressList,
       String orgContactNumber,
-      List<DonationDrive> orgDriveList,
+      List<int> orgDriveIDList,
       String orgStatus,
       String password
     ) async {
@@ -40,7 +38,7 @@ class UserAuthProvider with ChangeNotifier {
       orgDescription,
       orgAddressList,
       orgContactNumber,
-      orgDriveList,
+      orgDriveIDList,
       orgStatus,
       password);
     notifyListeners();
@@ -53,7 +51,7 @@ class UserAuthProvider with ChangeNotifier {
       String email,
       List<String> addressList,
       String contactNumber,
-      List<Donation> donationList,
+      List<int> donationIDList,
       String password
     ) async {
     await authService.signUpDonor(
@@ -63,7 +61,7 @@ class UserAuthProvider with ChangeNotifier {
       email, 
       addressList, 
       contactNumber,
-      donationList,
+      donationIDList,
       password);
     notifyListeners();
   }

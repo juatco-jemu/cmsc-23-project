@@ -1,4 +1,3 @@
-import 'package:donation_system/model/model_donation.dart';
 import 'package:donation_system/pages/signUp_organization.dart';
 import 'package:donation_system/providers/provider_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class _SignUpDonorPageState extends State<SignUpDonorPage> {
   String? username;
   List<String> addressList = [];
   String contactNumber = "";
-  List<Donation> donationList = [];
+  List<int> donationIDList = [];
   String? password;
   bool _obscureText = true; // added this to hide password
 
@@ -231,7 +230,7 @@ class _SignUpDonorPageState extends State<SignUpDonorPage> {
           await context
               .read<UserAuthProvider>()
               .authService
-              .signUpDonor(firstName!, lastName!, username!, email!, addressList, contactNumber, donationList, password!);
+              .signUpDonor(firstName!, lastName!, username!, email!, addressList, contactNumber, donationIDList, password!);
 
           // check if the widget hasn't been disposed of after an asynchronous action
           if (mounted) Navigator.pop(context);

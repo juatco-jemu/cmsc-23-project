@@ -1,15 +1,14 @@
 import 'dart:convert';
-import 'package:donation_system/model/model_donation.dart';
 
 class DonationDrive {
-  int? driveID;
-  String? orgUsername;
-  String? driveName;
-  String? driveStatus; // Open or Closed
-  String? driveDescription;
-  String? driveLocation;
-  List<String>? driveImgURL;
-  List<Donation>? driveDonationList;
+  int driveID;
+  String orgUsername;
+  String driveName;
+  String driveStatus; // Open or Closed
+  String driveDescription;
+  String driveLocation;
+  List<String> driveImgURL;
+  List<int> driveDonationIDList;
 
   DonationDrive({
     required this.driveID,
@@ -19,7 +18,7 @@ class DonationDrive {
     required this.driveDescription,
     required this.driveLocation,
     required this.driveImgURL,
-    required this.driveDonationList,
+    required this.driveDonationIDList,
   });
 
   factory DonationDrive.fromJson(Map<String, dynamic> json) {
@@ -31,22 +30,20 @@ class DonationDrive {
       driveDescription: json['driveDescription'],
       driveLocation: json['driveLocation'],
       driveImgURL: List<String>.from(json['driveImgURL']),
-      driveDonationList: (json['driveDonationList'] as List<dynamic>)
-          .map((donation) => Donation.fromJson(donation))
-          .toList(),
+      driveDonationIDList: List<int>.from(json['driveDonationIDList']),
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson(DonationDrive donationDrive) {
     return {
-      'driveID': driveID,
-      'orgUsername': orgUsername,
-      'driveName': driveName,
-      'driveStatus': driveStatus,
-      'driveDescription': driveDescription,
-      'driveLocation': driveLocation,
-      'driveImgURL': driveImgURL,
-      'driveDonationList': driveDonationList?.map((donation) => donation.toJson()).toList(),
+      'driveID': donationDrive.driveID,
+      'orgUsername': donationDrive.orgUsername,
+      'driveName': donationDrive.driveName,
+      'driveStatus': donationDrive.driveStatus,
+      'driveDescription': donationDrive.driveDescription,
+      'driveLocation': donationDrive.driveLocation,
+      'driveImgURL': donationDrive.driveImgURL,
+      'driveDonationIDList': donationDrive.driveDonationIDList,
     };
   }
 

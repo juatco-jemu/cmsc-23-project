@@ -1,5 +1,6 @@
 import 'package:donation_system/pages/admin/admin_home_page.dart';
-import 'package:donation_system/pages/signin_page.dart';
+import 'package:donation_system/pages/organization/org_control_page.dart';
+import 'package:donation_system/pages/signIn_page.dart';
 import 'package:donation_system/pages/temp_page.dart';
 import 'package:donation_system/providers/provider_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +18,8 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     Stream<User?> userStream = context.watch<UserAuthProvider>().userStream;
-    return StreamBuilder<User?>(
+
+    return StreamBuilder(
       stream: userStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -35,70 +37,43 @@ class _MainPageState extends State<MainPage> {
         } else if (!snapshot.hasData) {
           return const SignInPage();
         } 
-        // if user is logged in, display the scaffold containing the streambuilder for the todos
-          User? user = snapshot.data;
-          if (user != null) {
-            return FutureBuilder<bool>(
-                future: context
-                    .read<UserAuthProvider>()
-                    .authService
-                    .isAdmin(user.email!),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Scaffold(
-                      body: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                  else if (snapshot.data == true) {
-                    return const AdminHomePage();
-                  } else {
-                    return FutureBuilder<bool>(
-                      future: context
-                          .read<UserAuthProvider>()
-                          .authService
-                          .isAdmin(user.email!),
-                      builder: (context, adminSnapshot) {
-                        if (adminSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Scaffold(
-                            body: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                        else if (adminSnapshot.data == true) {
-                          return const AdminHomePage();
-                        } else {
-                          return FutureBuilder<bool>(
-                              future: context
-                                  .read<UserAuthProvider>()
-                                  .authService
-                                  .isOrganization(user.email!),
-                              builder: (context, orgSnapshot) {
-                                if (orgSnapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Scaffold(
-                                    body: Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
-                                }
-                                else if (orgSnapshot.data == true) {
-                                  return const OrganizationPage();
-                                } else {
-                                  return const DonorPage();
-                                }
-                              });
-                        }
-                      },
-                    );
-                  }
-                });
-          } else {
-            return const SignInPage();
-          }
+
+        User? user = snapshot.data;
+        if (user != null) {
+          return FutureBuilder<bool>(
+            future: context.read<UserAuthProvider>().authService.isAdmin(user.email!),
+            builder: (context, adminSnapshot) {
+              if (adminSnapshot.connectionState == ConnectionState.waiting) {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else if (adminSnapshot.data == true) {
+                return const AdminHomePage();
+              } else {
+                return FutureBuilder<bool>(
+                  future: context.read<UserAuthProvider>().authService.isOrganization(user.email!),
+                  builder: (context, orgSnapshot) {
+                    if (orgSnapshot.connectionState == ConnectionState.waiting) {
+                      return const Scaffold(
+                        body: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    } else if (orgSnapshot.data == true) {
+                      return OrganizationControlPage(userEmail: user.email!);
+                    } else {
+                      return const DonorPage();
+                    }
+                  },
+                );
+              }
+            },
+          );
+        } else {
+          return const SignInPage();
+        }
       },
     );
   }

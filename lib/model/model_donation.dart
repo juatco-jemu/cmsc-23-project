@@ -52,7 +52,7 @@ class Donation {
     return data.map<Donation>((dynamic d) => Donation.fromJson(d)).toList();
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson(Donation donation) {
     return {
       'donationID': donationID,
       'donorUsername': donorUsername,

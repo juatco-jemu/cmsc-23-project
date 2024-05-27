@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'package:donation_system/model/model_drive.dart';
 
 class Organization {
   String? orgName;
   String? orgEmail;
   String? orgUsername;
-  String? orgDescription; // Added orgDescription field
+  String? orgDescription;
   List<String>? orgAddressList;
   String? orgContactNumber;
-  List<DonationDrive>? orgDriveList;
+  List<int>? orgDriveIDList; 
   String? orgProofImgLink;
   String? orgStatus;  // Pending, Approved, Declined
 
@@ -16,10 +15,10 @@ class Organization {
     required this.orgName,
     required this.orgEmail,
     required this.orgUsername,
-    required this.orgDescription, // Added orgDescription parameter
+    required this.orgDescription,
     required this.orgAddressList,
     required this.orgContactNumber,
-    required this.orgDriveList,
+    required this.orgDriveIDList, 
     required this.orgProofImgLink,
     required this.orgStatus,
   });
@@ -29,12 +28,10 @@ class Organization {
       orgName: json['orgName'],
       orgEmail: json['orgEmail'],
       orgUsername: json['orgUsername'],
-      orgDescription: json['orgDescription'], // Added orgDescription field
+      orgDescription: json['orgDescription'],
       orgAddressList: List<String>.from(json['orgAddressList']),
       orgContactNumber: json['orgContactNumber'],
-      orgDriveList: (json['orgDriveList'] as List<dynamic>)
-          .map((drive) => DonationDrive.fromJson(drive))
-          .toList(),
+      orgDriveIDList: List<int>.from(json['orgDriveIDList']),
       orgProofImgLink: json['orgProofImgLink'],
       orgStatus: json['orgStatus'],
     );
@@ -45,10 +42,10 @@ class Organization {
       'orgName': orgName,
       'orgEmail': orgEmail,
       'orgUsername': orgUsername,
-      'orgDescription': orgDescription, // Added orgDescription field
+      'orgDescription': orgDescription,
       'orgAddressList': orgAddressList,
       'orgContactNumber': orgContactNumber,
-      'orgDriveList': orgDriveList?.map((drive) => drive.toJson()).toList(),
+      'orgDriveIDList': orgDriveIDList,
       'orgProofImgLink': orgProofImgLink,
       'orgStatus': orgStatus,
     };

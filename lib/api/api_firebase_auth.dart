@@ -1,5 +1,3 @@
-import 'package:donation_system/model/model_donation.dart';
-import 'package:donation_system/model/model_drive.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -86,7 +84,7 @@ class FirebaseAuthAPI {
       String email,
       List<String> addressList,
       String contactNumber,
-      List<Donation> donationList,
+      List<int> donationIDList,
       String password) async {
     UserCredential credential;
 
@@ -118,7 +116,7 @@ class FirebaseAuthAPI {
         'username': username,
         'addressList': addressList,
         'contactNumber': contactNumber,
-        'donationList': donationList.map((donation) => donation.toJson()).toList(),
+        'donationIDList': donationIDList,
       });
 
       // Print the object returned by createUserWithEmailAndPassword
@@ -143,7 +141,7 @@ class FirebaseAuthAPI {
       String orgDescription,
       List<String> orgAddressList,
       String orgContactNumber,
-      List<DonationDrive> orgDriveList,
+      List<int> orgDriveIDList,
       String orgStatus,
       String password) async {
     UserCredential credential;
@@ -176,7 +174,7 @@ class FirebaseAuthAPI {
         'orgDescription': orgDescription,
         'orgAddressList': orgAddressList,
         'orgContactNumber': orgContactNumber,
-        'orgDriveList': orgDriveList.map((drive) => drive.toJson()).toList(),
+        'orgDriveIDList': orgDriveIDList,
         'orgStatus': orgStatus
       });
 
