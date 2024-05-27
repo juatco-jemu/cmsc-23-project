@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:donation_system/model/model_donation.dart';
 
 class Donor {
   String? firstName;
@@ -8,7 +7,7 @@ class Donor {
   String? username;
   List<String>? addressList;
   String? contactNumber;
-  List<Donation>? donationList;
+  List<int>? donationIDList; 
 
   Donor({
     required this.firstName,
@@ -17,7 +16,7 @@ class Donor {
     required this.username,
     required this.addressList,
     required this.contactNumber,
-    this.donationList,
+    this.donationIDList, 
   });
 
   factory Donor.fromJson(Map<String, dynamic> json) {
@@ -26,12 +25,10 @@ class Donor {
       lastName: json['lastName'],
       email: json['email'],
       username: json['username'],
-      addressList: List<String>.from(json['addresses']),
+      addressList: List<String>.from(json['addressList']), // Changed to 'addressList'
       contactNumber: json['contactNumber'],
-      donationList: json['donationList'] != null
-          ? (json['donationList'] as List)
-              .map((i) => Donation.fromJson(i))
-              .toList()
+      donationIDList: json['donationIDList'] != null
+          ? List<int>.from(json['donationIDList'])
           : [],
     );
   }
@@ -49,7 +46,7 @@ class Donor {
       'username': username,
       'addressList': addressList,
       'contactNumber': contactNumber,
-      'donationList': donationList?.map((d) => d.toJson()).toList(),
+      'donationIDList': donationIDList,
     };
   }
 }

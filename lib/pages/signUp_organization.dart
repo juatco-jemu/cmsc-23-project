@@ -1,4 +1,3 @@
-import 'package:donation_system/model/model_drive.dart';
 import 'package:donation_system/providers/provider_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +20,7 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
   String orgDescription = "";
   List<String> orgAddressList = [];
   String orgContactNumber = "";
-  List<DonationDrive> orgDriveList = [];
+  List<int> orgDriveIDList = [];
   String orgProofImgLink = "";
   String orgStatus = "Pending";
 
@@ -248,7 +247,7 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
           await context
               .read<UserAuthProvider>()
               .authService
-              .signUpOrganization(orgName!, email!, orgUsername!, orgDescription, orgAddressList, orgContactNumber, orgDriveList, orgStatus, password!);
+              .signUpOrganization(orgName!, email!, orgUsername!, orgDescription, orgAddressList, orgContactNumber, orgDriveIDList, orgStatus, password!);
 
           // check if the widget hasn't been disposed of after an asynchronous action
           if (mounted) {

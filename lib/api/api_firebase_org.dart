@@ -26,4 +26,40 @@ class FirebaseOrganizationAPI {
       print(e);
     }
   }
+
+  Future<String?> getOrganizationStatus(String orgUsername) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('organizations')
+          .where('orgUsername', isEqualTo: orgUsername)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first.get('orgStatus') as String?;
+      } else {
+        return null; // If orgUsername is not found
+      }
+    } on FirebaseException catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<String?> getOrganizationUsername(String orgEmail) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('organizations')
+          .where('orgEmail', isEqualTo: orgEmail)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first.get('orgUsername') as String?;
+      } else {
+        return null; // If orgEmail is not found
+      }
+    } on FirebaseException catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

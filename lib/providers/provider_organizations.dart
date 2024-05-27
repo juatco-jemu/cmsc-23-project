@@ -21,4 +21,13 @@ class OrganizationsProvider with ChangeNotifier {
     await firebaseService.updateOrganizationStatus(orgUsername, orgStatus);
     notifyListeners();
   }
+
+  Future<String?> getOrganizationStatus(String orgUsername) async {
+    return firebaseService.getOrganizationStatus(orgUsername);
+  }
+
+  Future<String?> getOrganizationUsername(String orgEmail) async {
+    return firebaseService.getOrganizationUsername(orgEmail);
+  }
+
 }

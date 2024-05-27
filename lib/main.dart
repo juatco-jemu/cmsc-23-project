@@ -2,6 +2,7 @@ import 'package:donation_system/firebase_options.dart';
 import 'package:donation_system/pages/main_page.dart';
 import 'package:donation_system/providers/provider_auth.dart';
 import 'package:donation_system/providers/provider_donors.dart';
+import 'package:donation_system/providers/provider_drive.dart';
 import 'package:donation_system/providers/provider_organizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,16 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => DonorsProvider()),
-    ChangeNotifierProvider(create: (context) => OrganizationsProvider()),
-    ChangeNotifierProvider(create: ((context) => UserAuthProvider()))
-  ], child: const MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DonorsProvider()),
+        ChangeNotifierProvider(create: (context) => OrganizationsProvider()),
+        ChangeNotifierProvider(create: (context) => UserAuthProvider()),
+        ChangeNotifierProvider(create: (context) => DonationDriveProvider())
+      ], child: const MyApp()
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
