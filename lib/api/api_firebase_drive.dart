@@ -3,6 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseDriveAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
+  Future<int> getNextDriveID() async {
+    try {
+      QuerySnapshot querySnapshot = await db
+        .collection('donation_drives')
+        .orderBy('driveID', descending: true)
+        .limit(1)
+        .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        int latestDriveID = querySnapshot.docs.first.get('driveID');
+        return latestDriveID + 1;
+      } else {
+        return 1; // Default to 1 if no drives exist
+      }
+    } on FirebaseException catch (e) {
+      print("Error in ${e.code}: ${e.message}");
+      return 1; // Default to 1 in case of an error
+    }
+  }
+
   Stream<QuerySnapshot> getAllDonationDrive() {
     return db.collection('donation_drives').snapshots();
   }

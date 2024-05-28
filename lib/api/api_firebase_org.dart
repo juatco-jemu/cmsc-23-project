@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:donation_system/model/model_organization.dart';
 
 class FirebaseOrganizationAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -6,6 +7,25 @@ class FirebaseOrganizationAPI {
   // Gets all the organization from Firestore
   Stream<QuerySnapshot> getAllOrganizations() {
     return db.collection('organizations').snapshots();
+  }
+
+  Future<Organization?> getOrganizationByUsername(String orgUsername) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('organizations')
+          .where('orgUsername', isEqualTo: orgUsername)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        Map<String, dynamic>? data = querySnapshot.docs.first.data() as Map<String, dynamic>?;
+        return Organization.fromJson(data!);
+      } else {
+        return null; // If orgUsername is not found
+      }
+    } on FirebaseException catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   Future<void> updateOrganizationStatus(String orgUsername, String orgStatus) async {
@@ -62,4 +82,6 @@ class FirebaseOrganizationAPI {
       return null;
     }
   }
+
+
 }
