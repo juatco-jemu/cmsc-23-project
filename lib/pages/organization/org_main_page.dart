@@ -40,7 +40,7 @@ class _OrganizationMainPageState extends State<OrganizationMainPage> {
 
   CurvedNavigationBar get botNavBar => CurvedNavigationBar(
     color: AppColors.yellow03,
-    backgroundColor: AppColors.appWhite,
+    backgroundColor: AppColors.backgroundYellow,
     onTap: _onItemTapped,
     index: _selectedIndex,
     animationDuration: const Duration(milliseconds: 150),
