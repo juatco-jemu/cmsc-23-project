@@ -38,7 +38,7 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
           children: [
             spacer(40.0),
             _buildHeader(),
-            spacer(10.0),
+            divider,
             _buildList(),
           ],
         ),
@@ -72,38 +72,34 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
       child: MediaQuery.removePadding(
         context: context,
         removeTop: true,
-        child: ListView.builder(
+        child: ListView.separated(
           itemCount: addresses!.length,
+          separatorBuilder: (context, index) => Divider(
+            color: Colors.grey.shade400,
+          ),
           itemBuilder: ((context, index) {
             String address = addresses![index];
-            return Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade400, width: 1),
+            return ListTile(
+              minTileHeight: 60,
+              leading: const Icon(
+                Icons.pin_drop,
+                size: 30,
+                color: AppColors.yellow03,
               ),
-              // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              // decoration: CustomWidgetDesigns.customTileContainer(),
-              child: ListTile(
-                minTileHeight: 70,
-                leading: const Icon(
-                  Icons.pin_drop,
-                  size: 30,
-                  color: AppColors.yellow03,
-                ),
-                title: Text(address, style: const TextStyle(fontWeight: FontWeight.bold)),
-                onTap: () {},
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+              title: Text(address, style: const TextStyle(fontWeight: FontWeight.bold)),
+              onTap: () {},
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {},
+                  ),
+                ],
               ),
             );
           }),
@@ -139,5 +135,9 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
 
   Widget spacer(height) => SizedBox(
         height: height,
+      );
+
+  Widget get divider => Divider(
+        color: Colors.grey.shade400,
       );
 }
