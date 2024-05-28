@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       title: 'CMSC 23 Project',
       initialRoute: '/',
       routes: {
-        '/': (context) => const OrgMain(),
+        '/': (context) => const DonorMain(),
         '/sign-in': (context) => const MainPage(),
       },
     );
