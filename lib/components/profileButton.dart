@@ -1,9 +1,7 @@
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/provider_auth.dart';
 import '../theme/colors.dart';
 
 class ProfileButton extends StatefulWidget {
