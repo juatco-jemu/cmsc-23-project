@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_system/api/api_firebase_org.dart';
+import 'package:donation_system/model/model_organization.dart';
 import 'package:flutter/material.dart';
 
 class OrganizationsProvider with ChangeNotifier {
@@ -15,6 +16,10 @@ class OrganizationsProvider with ChangeNotifier {
   void fetchOrganization() {
     _organizationStream = firebaseService.getAllOrganizations();
     notifyListeners();
+  }
+
+  Future<Organization?> getOrganizationByUsername(String orgUsername) async {
+    return firebaseService.getOrganizationByUsername(orgUsername);
   }
 
   Future<void> updateOrganizationStatus(String orgUsername, String orgStatus) async {
