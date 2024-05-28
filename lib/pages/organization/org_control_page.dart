@@ -1,13 +1,13 @@
-import 'package:donation_system/pages/organization/org_home_page.dart';
+import 'package:donation_system/pages/organization/org_main_page.dart';
 import 'package:donation_system/pages/organization/org_pending_page.dart';
 import 'package:donation_system/providers/provider_organizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OrganizationControlPage extends StatefulWidget {
-  final String userEmail;
+  final String orgEmail;
 
-  const OrganizationControlPage({Key? key, required this.userEmail}) : super(key: key);
+  const OrganizationControlPage({Key? key, required this.orgEmail}) : super(key: key);
 
   @override
   _OrganizationControlPageState createState() => _OrganizationControlPageState();
@@ -26,7 +26,7 @@ class _OrganizationControlPageState extends State<OrganizationControlPage> {
   Future<void> fetchOrganizationDetails() async {
     try {
       // Get organization username and status using the user email
-      String? orgUsername = await context.read<OrganizationsProvider>().getOrganizationUsername(widget.userEmail);
+      String? orgUsername = await context.read<OrganizationsProvider>().getOrganizationUsername(widget.orgEmail);
       String? orgStatus = await context.read<OrganizationsProvider>().getOrganizationStatus(orgUsername!);
       
       setState(() {
@@ -42,7 +42,7 @@ class _OrganizationControlPageState extends State<OrganizationControlPage> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => OrganizationHomePage(orgUsername: _orgUsername)),
+          MaterialPageRoute(builder: (context) => OrganizationMainPage(orgUsername: _orgUsername)),
         );
       }
     } catch (e) {
@@ -53,7 +53,7 @@ class _OrganizationControlPageState extends State<OrganizationControlPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
       ),

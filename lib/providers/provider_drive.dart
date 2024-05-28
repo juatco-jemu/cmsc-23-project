@@ -18,6 +18,10 @@ class DonationDriveProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<int> getNextDriveID() async {
+  return await firebaseService.getNextDriveID();
+}
+
   Stream<QuerySnapshot> getDonationDrivesForOrganization(String orgUsername) {
     return firebaseService.getDonationDrivesForOrganization(orgUsername);
   }
