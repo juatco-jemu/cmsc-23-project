@@ -21,6 +21,8 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
     addresses = widget.isDonor ? widget.user.addressList : widget.user.orgAddressList;
   }
 
+  late Size screen = MediaQuery.of(context).size;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -41,6 +43,7 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
           ],
         ),
       ),
+      bottomSheet: addAddressButton(context),
     );
   }
 
@@ -104,6 +107,31 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
               ),
             );
           }),
+        ),
+      ),
+    );
+  }
+
+  Widget addAddressButton(context) {
+    return Container(
+      color: AppColors.backgroundYellow,
+      width: screen.width,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          onPressed: () {},
+          child: const Text(
+            "Add Address",
+            style: TextStyle(color: AppColors.appWhite),
+          ),
         ),
       ),
     );

@@ -34,7 +34,7 @@ class _OrgProfilePageState extends State<OrgProfilePage> {
         child: Container(
           color: AppColors.backgroundYellow,
           // decoration: CustomWidgetDesigns.gradientBackground(),
-          // height: screen.height - extraHeight,
+          height: screen.height,
           child: Column(
             children: [
               _buildTop(),
