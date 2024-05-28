@@ -5,6 +5,8 @@ import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 
+import 'org_add_drive.dart';
+
 class OrgDriveListPage extends StatefulWidget {
   final bool isPage;
   const OrgDriveListPage({required this.isPage, super.key});
@@ -36,7 +38,17 @@ class _OrgDriveListPageState extends State<OrgDriveListPage> {
           ],
         ),
       ),
+      floatingActionButton: _buildAddDriveButton(),
     );
+  }
+
+  Widget _buildAddDriveButton() {
+    return FloatingActionButton(
+        backgroundColor: AppColors.yellow03,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddDrivePage()));
+        },
+        child: const Icon(Icons.add));
   }
 
   Widget _buildHeader() {
