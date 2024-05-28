@@ -1,5 +1,7 @@
 import 'package:donation_system/mock/mock_organization.dart';
 import 'package:donation_system/model/model_organization.dart';
+import 'package:donation_system/pages/address_list_page.dart';
+import 'package:donation_system/pages/profile_page.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -45,11 +47,11 @@ class _OrgProfilePageState extends State<OrgProfilePage> {
   }
 
   Widget _buildButtons() {
-    return const Column(
+    return Column(
       children: [
-        ProfileButton(title: "My Profile", route: "/"),
-        ProfileButton(title: "My Addresses", route: "/"),
-        ProfileButton(title: "Logout", route: "sign-out"),
+        ProfileButton(title: "My Profile", route: AppProfilePage(user: org)),
+        ProfileButton(title: "My Addresses", route: AppAddressListPage(user: org, isDonor: false)),
+        const ProfileButton(title: "Logout", route: "sign-out"),
       ],
     );
   }

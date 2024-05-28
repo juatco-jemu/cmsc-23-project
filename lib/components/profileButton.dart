@@ -6,7 +6,7 @@ import '../theme/colors.dart';
 
 class ProfileButton extends StatefulWidget {
   final String title;
-  final String route;
+  final dynamic route;
   const ProfileButton({required this.title, required this.route, super.key});
 
   @override
@@ -28,7 +28,7 @@ class _ProfileButtonState extends State<ProfileButton> {
             FirebaseAuth.instance.signOut();
             Navigator.of(context).popUntil((route) => route.isFirst);
           } else {
-            Navigator.pushNamed(context, widget.route);
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => widget.route));
           }
         },
         title: Text(widget.title),
