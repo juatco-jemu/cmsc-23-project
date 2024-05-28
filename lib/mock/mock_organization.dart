@@ -19,7 +19,7 @@ class MockOrganization extends Organization {
       orgName: "Red Cross",
       orgEmail: "redcross@red.com",
       orgProofImgLink: "Business Permit",
-      orgStatus: "Open",
+      orgStatus: "Approved",
       orgUsername: "redcross",
       orgContactNumber: "09123456789",
       orgAddressList: ["Cebu City, Cebu"],
