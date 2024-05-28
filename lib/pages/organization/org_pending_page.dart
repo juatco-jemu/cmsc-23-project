@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../signIn_page.dart';
+
 class PendingOrgPage extends StatelessWidget {
   const PendingOrgPage({super.key});
 
@@ -31,7 +33,8 @@ class PendingOrgPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut();
-                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) => const SignInPage()), (route) => false);
               },
               child: const Text('Sign Out'),
             ),
