@@ -1,4 +1,5 @@
 import 'package:donation_system/firebase_options.dart';
+import 'package:donation_system/pages/donor/donor_main.dart';
 import 'package:donation_system/pages/main_page.dart';
 import 'package:donation_system/pages/organization/org_main.dart';
 import 'package:donation_system/providers/provider_auth.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       title: 'CMSC 23 Project',
       initialRoute: '/',
       routes: {
-        '/': (context) => const OrgMain(),
+        '/': (context) => const DonorMain(),
         '/sign-in': (context) => const MainPage(),
       },
     );

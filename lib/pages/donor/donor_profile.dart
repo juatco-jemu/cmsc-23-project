@@ -1,3 +1,4 @@
+import 'package:donation_system/pages/address_list_page.dart';
 import 'package:donation_system/pages/signin_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -43,10 +44,10 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
   }
 
   Widget _buildButtons() {
-    return const Column(
+    return Column(
       children: [
         ProfileButton(title: "My Profile", route: "/"),
-        ProfileButton(title: "My Addresses", route: "/"),
+        ProfileButton(title: "My Addresses", route: AppAddressListPage(user: donor, isDonor: true)),
         ProfileButton(title: "My Favorites", route: "/"),
         ProfileButton(title: "My Donations", route: "/"),
         ProfileButton(title: "Logout", route: "sign-out"),

@@ -17,7 +17,7 @@ class MockDonor extends Donor {
         lastName: "Juatco",
         username: "jemueljuatco",
         email: "jmjuatco@gmail.com",
-        addressList: ["Cebu City, Cebu"],
+        addressList: ["Cebu City, Cebu", "Mandaue City, Cebu", "Lapu-Lapu City, Cebu"],
         contactNumber: "09123456789",
         donationList: []);
 
