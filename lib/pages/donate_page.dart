@@ -1,6 +1,7 @@
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../theme/colors.dart';
 
@@ -141,9 +142,12 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
       );
 
   Widget get pickupDropoff => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         // height: 60,
-        color: Colors.grey[200],
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: AppColors.yellow01,
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
@@ -179,9 +183,13 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
                       child: const Text("Change")),
                 ],
               ),
-              Text("Date: ${dateTime.year}/${dateTime.month}/${dateTime.day}"),
-              Text(
-                  "Time: ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}")
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Date: ${DateFormat('MM/dd/yyyy').format(dateTime)}"),
+                  Text(DateFormat('hh:mm a').format(dateTime)),
+                ],
+              ),
             ],
           ),
         ),
@@ -229,69 +237,68 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
   Widget _buildPickupDropoff() {
     return DefaultTabController(
       length: 2,
-      child: StatefulBuilder(builder: (context, setStateDT) {
-        return Scaffold(
-          appBar: TabBar(
-            controller: _tabController,
-            tabs: const [
-              Tab(
-                text: "Pickup",
-              ),
-              Tab(
-                text: "Dropoff",
-              ),
-            ],
+      child: Scaffold(
+        appBar: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(
+              text: "Pickup",
+            ),
+            Tab(
+              text: "Dropoff",
+            ),
+          ],
+        ),
+        body: TabBarView(controller: _tabController, children: [
+          Container(
+            color: AppColors.backgroundYellow,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                // spacer(30),
+                formHeader("Pickup time: "),
+                changeDateTime(context),
+                spacer(20),
+                TextField(
+                  decoration: CustomWidgetDesigns.customFormField("Address", "Enter address"),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  decoration:
+                      CustomWidgetDesigns.customFormField("Contact Number", "Enter contact number"),
+                ),
+              ],
+            ),
           ),
-          body: TabBarView(controller: _tabController, children: [
-            Container(
-              color: AppColors.backgroundYellow,
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  spacer(30),
-                  ElevatedButton(
-                      style: CustomWidgetDesigns.customSubmitButton(),
-                      onPressed: () async {
-                        await pickDateTime();
-                        setStateDT(() {});
-                      },
-                      child: Text(
-                          "${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}")),
-                  spacer(20),
-                  TextField(
-                    decoration: CustomWidgetDesigns.customFormField("Address", "Enter address"),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    decoration: CustomWidgetDesigns.customFormField(
-                        "Contact Number", "Enter contact number"),
-                  ),
-                ],
-              ),
+          Container(
+            color: AppColors.backgroundYellow,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                formHeader("Dropoff time:"),
+                changeDateTime(context),
+              ],
             ),
-            Container(
-              color: AppColors.backgroundYellow,
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  spacer(30),
-                  ElevatedButton(
-                      style: CustomWidgetDesigns.customSubmitButton(),
-                      onPressed: () async {
-                        await pickDateTime();
-                        setStateDT(() {});
-                      },
-                      child: Text(
-                          "${dateTime.year}/${dateTime.month}/${dateTime.day} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}")),
-                  // spacer(20),
-                ],
-              ),
-            ),
-          ]),
-          bottomSheet: donateButton(context),
-        );
-      }),
+          ),
+        ]),
+        bottomSheet: donateButton(context),
+      ),
     );
+  }
+
+  Widget changeDateTime(context) {
+    return StatefulBuilder(builder: (context, setStateTD) {
+      return ElevatedButton(
+        style: CustomWidgetDesigns.customSubmitButton(),
+        onPressed: () async {
+          await pickDateTime();
+          setStateTD(
+            () {},
+          );
+        },
+        child: Text(DateFormat('MM/dd/yyyy hh:mm a').format(dateTime)),
+      );
+    });
   }
 
   Future pickDateTime() async {
