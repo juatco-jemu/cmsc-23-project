@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donation_system/model/model_organization.dart';
-import 'package:donation_system/pages/admin/admin_org_detail_page.dart';
-import 'package:donation_system/providers/provider_organizations.dart';
+import 'package:donation_system/model/model_donor.dart';
+import 'package:donation_system/providers/provider_donors.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({super.key});
+class AdminDonorList extends StatefulWidget {
+  const AdminDonorList({super.key});
 
   @override
-  State<AdminHomePage> createState() => _AdminHomePageState();
+  State<AdminDonorList> createState() => _AdminDonorListState();
 }
 
-class _AdminHomePageState extends State<AdminHomePage> {
+class _AdminDonorListState extends State<AdminDonorList> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -23,7 +22,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Admin - Organization List"),
+        title: const Text("Admin - Donor List"),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -39,16 +38,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
         width: screenWidth,
         // decoration: CustomWidgetDesigns.gradientBackground(),
         color: AppColors.backgroundYellow,
-        child: showOrganizations(context)
+        child: showDonors(context)
       ),
     );
   }
 }
 
-Widget showOrganizations(BuildContext context) {
-  Stream<QuerySnapshot> organizationStream = context.watch<OrganizationsProvider>().organization;
+Widget showDonors(BuildContext context) {
+  Stream<QuerySnapshot> donorStream = context.watch<DonorsProvider>().donor;
   return StreamBuilder<QuerySnapshot>(
-    stream: organizationStream,
+    stream: donorStream,
     builder: (context, snapshot) {
       if (snapshot.hasError) {
         return Center(
@@ -60,18 +59,18 @@ Widget showOrganizations(BuildContext context) {
         );
       } else if (!snapshot.hasData) {
         return const Center(
-          child: Text("No Organizations Yet!"),
+          child: Text("No Donors Yet!"),
         );
       }
 
-      var organizations = snapshot.data!.docs.map((doc) {
-        return Organization.fromJson(doc.data() as Map<String, dynamic>);
+      var donors = snapshot.data!.docs.map((doc) {
+        return Donor.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
 
       return ListView.builder(
-        itemCount: organizations.length,
+        itemCount: donors.length,
         itemBuilder: (context, index) {
-        Organization organization = organizations[index];
+        Donor donor = donors[index];
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: CustomWidgetDesigns.customTileContainer(),
@@ -80,7 +79,7 @@ Widget showOrganizations(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Username: ${organization.orgUsername}',
+                  'Username: ${donor.username}',
                   style: const TextStyle(
                     fontSize: 12, 
                     color: Colors.grey, 
@@ -88,38 +87,18 @@ Widget showOrganizations(BuildContext context) {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  organization.orgName ?? 'No Name',
+                  '${donor.firstName ?? ''} ${donor.lastName ?? ''}'.trim().isEmpty ? 'No Name' : '${donor.firstName ?? ''} ${donor.lastName ?? ''}'.trim(),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 4), // Space between text and status container
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: organization.orgStatus == 'Approved' ? Colors.green : Colors.grey,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    organization.orgStatus!.toUpperCase(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OrganizationDetailPage(organization: organization),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => OrganizationDetailPage(organization: organization),
+              //   ),
+              // );
             },
           )
         );
