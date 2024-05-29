@@ -118,8 +118,13 @@ class _DonationsListState extends State<DonationsList> {
                 subtitle: Text(subtitle),
                 onTap: () {
                   if (widget.isAllDonations) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => OrgDetailsPage(org: item)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OrgDetailsPage(
+                                  org: item,
+                                  isDonor: false,
+                                )));
                   } else {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const DonationDetailsPage()));

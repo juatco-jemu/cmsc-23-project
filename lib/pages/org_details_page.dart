@@ -14,7 +14,8 @@ import 'drive_details_page.dart';
 
 class OrgDetailsPage extends StatefulWidget {
   final Organization org;
-  const OrgDetailsPage({super.key, required this.org});
+  final bool isDonor;
+  const OrgDetailsPage({super.key, required this.org, required this.isDonor});
 
   @override
   State<OrgDetailsPage> createState() => _OrgDetailsPageState();
@@ -94,7 +95,7 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
                       MaterialPageRoute(
                           builder: (context) => DriveDetailsPage(
                                 donationDrive: drive,
-                                isDonor: false,
+                                isDonor: widget.isDonor,
                               )));
                 },
                 child: Container(

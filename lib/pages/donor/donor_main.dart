@@ -17,6 +17,7 @@ class _DonorMainState extends State<DonorMain> {
   final List<Widget> _pages = [
     const DonorHomepage(),
     const OrganizationsList(
+      isDonor: true,
       isPage: true,
     ),
     const DonorProfilePage(),

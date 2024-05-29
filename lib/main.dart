@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'CMSC 23 Project',
       initialRoute: '/',
       routes: {
-        '/': (context) => const SignUpOrgPage(),
+        '/': (context) => const DonorMain(),
         '/sign-in': (context) => const MainPage(),
       },
     );

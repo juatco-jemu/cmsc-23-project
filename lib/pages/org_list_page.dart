@@ -7,8 +7,9 @@ import '../model/model_organization.dart';
 import 'org_details_page.dart';
 
 class OrganizationsList extends StatefulWidget {
+  final bool isDonor;
   final bool isPage;
-  const OrganizationsList({required this.isPage, super.key});
+  const OrganizationsList({required this.isPage, required this.isDonor, super.key});
 
   @override
   State<OrganizationsList> createState() => _OrganizationsListState();
@@ -98,7 +99,12 @@ class _OrganizationsListState extends State<OrganizationsList> {
                 subtitle: Text(org.orgStatus!),
                 onTap: () {
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => OrgDetailsPage(org: org)));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrgDetailsPage(
+                                org: org,
+                                isDonor: widget.isDonor,
+                              )));
                 },
               ),
             );
