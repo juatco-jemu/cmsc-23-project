@@ -1,5 +1,6 @@
 import 'package:donation_system/components/appbar.dart';
 import 'package:donation_system/model/model_organization.dart';
+import 'package:donation_system/pages/organization/org_drive_list_page.dart';
 import 'package:donation_system/providers/provider_organizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +55,18 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
                   child: const Text('Reject'),
                 ),
               ],
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrgDonationDriveListPage(orgUsername: widget.organization.orgUsername!, isPage: false),
+                  ),
+                );
+              },
+              child: const Text('View Donation Drives'),
             ),
           ],
         ),
