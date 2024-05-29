@@ -3,7 +3,6 @@ import 'package:donation_system/pages/organization/org_profile_details_page.dart
 import 'package:donation_system/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../components/profileButton.dart';
 
 class OrgProfilePage extends StatefulWidget {
   final Organization organization;

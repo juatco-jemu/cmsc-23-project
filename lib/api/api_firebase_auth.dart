@@ -13,14 +13,6 @@ class FirebaseAuthAPI {
     return auth.authStateChanges();
   }
 
-  Stream<QuerySnapshot> getAllDonors() {
-    return db.collection('donors').snapshots();
-  }
-
-  Stream<QuerySnapshot> getAllOrganizations() {
-    return db.collection('organizations').snapshots();
-  }
-
   Future<String?> signIn(String username, String password) async {
     try {
       // Search for the username in admins collection

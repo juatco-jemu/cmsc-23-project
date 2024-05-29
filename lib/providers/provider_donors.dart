@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:donation_system/api/api_firebase_donor.dart';
 import 'package:flutter/material.dart';
 
 class DonorsProvider with ChangeNotifier {
+  FirebaseDonorAPI firebaseService = FirebaseDonorAPI();
   late Stream<QuerySnapshot> _donorStream;
   
   DonorsProvider() {
@@ -11,7 +13,7 @@ class DonorsProvider with ChangeNotifier {
   Stream<QuerySnapshot> get donor => _donorStream;
 
   void fetchDonors() {
-    _donorStream = FirebaseFirestore.instance.collection('donors').snapshots();
+    _donorStream = firebaseService.getAllDonors();
     notifyListeners();
   }
 }
