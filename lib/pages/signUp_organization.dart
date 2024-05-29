@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:donation_system/model/model_drive.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:donation_system/providers/provider_auth.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/colors.dart';
@@ -22,6 +26,7 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
   String orgContactNumber = "";
   List<DonationDrive> orgDriveList = [];
   String orgProofImgLink = "";
+  List<String> fileNames = [];
 
   bool _obscureText = true; // added this to hide password
 
@@ -116,6 +121,8 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
             emailField,
             passwordField,
             // proofsOfLegitimacyField,
+            _buildFileUpload(),
+            spacer,
             submitButton,
             spacer
           ],
@@ -152,8 +159,8 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
           shadowColor: Colors.grey,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
-            decoration:
-                CustomWidgetDesigns.customFormField("Organization Username", "Enter organization username"),
+            decoration: CustomWidgetDesigns.customFormField(
+                "Organization Username", "Enter organization username"),
             onSaved: (value) => setState(() => orgUsername = value),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -236,6 +243,49 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
   //         },
   //       ),
   //     );
+  Widget _buildFileUpload() {
+    return DottedBorder(
+      color: Colors.grey.shade400,
+      strokeWidth: 2,
+      dashPattern: const [5, 5],
+      borderType: BorderType.RRect,
+      radius: const Radius.circular(10),
+      child: Container(
+        decoration: CustomWidgetDesigns.customContainer(),
+        child: ListTile(
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.upload_file, size: 50),
+              SizedBox(height: 10),
+              ...fileNames.map((fileName) => Text(fileName)).toList(),
+              if (fileNames.isEmpty) Text("Upload your organization's proofs of legitimacy"),
+            ],
+          ),
+          onTap: pickFile,
+        ),
+      ),
+    );
+  }
+
+  Future<void> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf', 'docx'],
+      allowMultiple: true,
+    );
+
+    if (result != null) {
+      for (var file in result.files) {
+        setState(() {
+          fileNames.add(file.name); // Add the file name to the list
+        });
+      }
+    } else {
+      // User canceled the picker
+      return;
+    }
+  }
 
   Widget get submitButton => ElevatedButton(
       style: CustomWidgetDesigns.customSubmitButton(),
@@ -243,10 +293,8 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
 
-          await context
-              .read<UserAuthProvider>()
-              .authService
-              .signUpOrganization(orgName!, email!, orgUsername!, orgAddressList, orgContactNumber, orgDriveList, password!);
+          await context.read<UserAuthProvider>().authService.signUpOrganization(orgName!, email!,
+              orgUsername!, orgAddressList, orgContactNumber, orgDriveList, password!);
 
           // check if the widget hasn't been disposed of after an asynchronous action
           if (mounted) {
