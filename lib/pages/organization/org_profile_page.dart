@@ -1,6 +1,7 @@
 import 'package:donation_system/model/model_organization.dart';
 import 'package:donation_system/pages/organization/org_profile_details_page.dart';
 import 'package:donation_system/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../components/profileButton.dart';
 
@@ -62,7 +63,7 @@ class _OrgProfilePageState extends State<OrgProfilePage> {
         ),
         ElevatedButton(
           onPressed: () {
-            // Implement logout functionality
+            FirebaseAuth.instance.signOut();
           },
           child: Text("Logout"),
         ),
