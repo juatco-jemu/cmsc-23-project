@@ -1,7 +1,5 @@
 // import 'package:donation_system/theme/widget_designs.dart';
 // import 'package:flutter/material.dart';
-// import 'package:flutter/widgets.dart';
-
 // import '../theme/colors.dart';
 
 // class DonateForm extends StatefulWidget {
@@ -52,23 +50,35 @@
 //     return SingleChildScrollView(
 //         child: Align(
 //       alignment: Alignment.center,
-//       child: Container(
-//         decoration: CustomWidgetDesigns.customContainer(),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             formHeader("Donation Categories"),
-//             donationCategory,
-//             spacer(10),
-//             weightForm,
-//             spacer(30),
-//             pickupDropoff,
-//             spacer(50),
-//             // addressField,
-//             // contactNoField,
-//             const SizedBox(height: 20)
-//           ],
-//         ),
+//       child: Column(
+//         children: [
+//           Container(
+//             decoration: CustomWidgetDesigns.customContainer(),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 formHeader("Donation Categories"),
+//                 donationCategory,
+//                 spacer(10),
+//                 weightForm,
+//                 spacer(30),
+//               ],
+//             ),
+//           ),
+//           spacer(20),
+//           Container(
+//             decoration: CustomWidgetDesigns.customContainer(),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 formHeader("Pickup/Dropoff Details"),
+//                 pickupDropoff,
+//                 !isPickup ? generateQR : Container(),
+//               ],
+//             ),
+//           ),
+//           spacer(50),
+//         ],
 //       ),
 //     ));
 //   }
@@ -76,6 +86,39 @@
 //   Widget spacer(double size) {
 //     return SizedBox(height: size);
 //   }
+
+//   Widget get generateQR => Align(
+//         alignment: Alignment.center,
+//         child: Padding(
+//           padding: const EdgeInsets.only(bottom: 12.0),
+//           child: TextButton(
+//             // style: ButtonStyle(
+//             //   minimumSize: WidgetStateProperty.all(Size(screen.width, 40)),
+//             //   backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
+//             //   shape: WidgetStateProperty.all(
+//             //     RoundedRectangleBorder(
+//             //       borderRadius: BorderRadius.circular(12),
+//             //     ),
+//             //   ),
+//             // ),
+//             onPressed: () {
+//               setState(() {
+//                 if (_tabController.index == 0) {
+//                   isPickup = true;
+//                 } else {
+//                   isPickup = false;
+//                 }
+//               });
+
+//               Navigator.pop(context);
+//             },
+//             child: const Text(
+//               "Generate QR Code",
+//               style: TextStyle(color: AppColors.yellow03),
+//             ),
+//           ),
+//         ),
+//       );
 
 //   Widget get weightForm => Row(
 //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -96,7 +139,7 @@
 //       );
 
 //   Widget get pickupDropoff => Container(
-//         margin: const EdgeInsets.symmetric(horizontal: 30),
+//         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
 //         // height: 60,
 //         color: Colors.grey[200],
 //         child: Padding(
