@@ -19,38 +19,23 @@ class DonorMainPage extends StatefulWidget {
 
 class _DonorMainPageState extends State<DonorMainPage> {
   int _selectedIndex = 0;
-  final List<Widget> _pages = [
-    const DonorHomePage(),
-    const OrganizationsList(isPage: true, isDonor: true),
-    const DonorProfilePage(),
-  ];
-  Donor? donor;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<DonorsProvider>().getDonorByEmail(widget.email);
-    });
-    // _fetchDonor();
+    context.read<DonorsProvider>().getDonorByEmail(widget.email);
   }
-
-  // Future<void> _fetchDonor() async {
-  //   final getDonor = await context.read<DonorsProvider>().getDonorByEmail(widget.email);
-  //   setState(() {
-  //     donor = getDonor;
-  //     _pages = [
-  //       const DonorHomePage(),
-  //       const OrganizationsList(isPage: true, isDonor: true),
-  //       DonorProfilePage(donor: donor!),
-  //     ];
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
+    Donor? donor = context.watch<DonorsProvider>().donorData;
+    final List<Widget> pages = [
+      const DonorHomePage(),
+      const OrganizationsList(isPage: true, isDonor: true),
+      DonorProfilePage(donor: donor),
+    ];
     return Scaffold(
-        bottomNavigationBar: botNavBar, body: Center(child: _pages.elementAt(_selectedIndex)));
+        bottomNavigationBar: botNavBar, body: Center(child: pages.elementAt(_selectedIndex)));
   }
 
   CurvedNavigationBar get botNavBar => CurvedNavigationBar(
