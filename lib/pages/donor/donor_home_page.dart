@@ -7,7 +7,11 @@ import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../components/listTile.dart';
+import '../../model/model_donation.dart';
+import '../../model/model_donor.dart';
 import '../../model/model_drive.dart';
+import '../../providers/provider_donors.dart';
 import '../drive_details_page.dart';
 
 class DonorHomePage extends StatefulWidget {
@@ -42,7 +46,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                   title: "Recent Donations",
                   route: "/user-donation-list",
                 ),
-                // _buildRecentDonations(),
+                _buildRecentDonations(),
                 spacer
               ],
             )),
@@ -132,7 +136,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(drive.driveName,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                           Text(drive.driveStatus, style: const TextStyle(fontSize: 15)),
                         ],
                       ),
@@ -156,28 +160,34 @@ class _DonorHomePageState extends State<DonorHomePage> {
 
   Widget get spacer => const SizedBox(height: 30);
 
-  // Widget _buildRecentDonations() {
-  //   return Expanded(
-  //     child: MediaQuery.removePadding(
-  //       context: context,
-  //       removeTop: true,
-  //       child: ListView.builder(
-  //         itemCount: 3,
-  //         itemBuilder: (context, index) {
-  //           Donation dono = donor.donationList![index];
-  //           return Padding(
-  //             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-  //             child: Container(
-  //               decoration: CustomWidgetDesigns.customTileContainer(),
-  //               child: customDonorListTile(
-  //                 title: "Donation ID: ${dono.donationID}",
-  //                 subtitle: dono.status!,
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _buildRecentDonations() {
+    Donor? donor = context.watch<DonorsProvider>().donorData;
+
+    if (donor?.donationIDList == null || donor!.donationIDList!.isEmpty) {
+      return const Center(child: Text('No donations yet'));
+    }
+
+    return Expanded(
+      child: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: ListView.builder(
+          itemCount: (donor.donationIDList!.length > 3) ? 3 : donor.donationIDList!.length,
+          itemBuilder: (context, index) {
+            int? dono = donor.donationIDList![index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+              child: Container(
+                decoration: CustomWidgetDesigns.customTileContainer(),
+                child: customDonorListTile(
+                  title: "Donation ID: $dono",
+                  subtitle: dono.toString(),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
 }
