@@ -23,13 +23,10 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    // Stream<QuerySnapshot> todosStream = context.watch<TodoListProvider>().todo;
     return Scaffold(
       body: Container(
-        height: screenHeight,
-        width: screenWidth,
+        height: screen.height,
+        width: screen.width,
         // decoration: CustomWidgetDesigns.gradientBackground(),
         color: AppColors.backgroundYellow,
         child: Column(
@@ -37,11 +34,32 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
             spacer(40.0),
             _buildHeader(),
             divider,
-            _buildList(),
+            Expanded(child: addresses!.isEmpty ? noAddressWidget() : _buildList()),
           ],
         ),
       ),
-      bottomSheet: addAddressButton(context),
+      bottomSheet: addresses!.isEmpty ? null : addAddressButton(context),
+    );
+  }
+
+  Widget noAddressWidget() {
+    return Center(
+      child: Container(
+        color: AppColors.backgroundYellow,
+        width: screen.width,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const Text(
+                "No Address Found",
+                style: TextStyle(color: AppColors.darkYellow01),
+              ),
+              TextButton(onPressed: addAddress, child: const Text("Add Address"))
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -121,7 +139,7 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
               ),
             ),
           ),
-          onPressed: () {},
+          onPressed: addAddress,
           child: const Text(
             "Add Address",
             style: TextStyle(color: AppColors.appWhite),
@@ -129,6 +147,25 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
         ),
       ),
     );
+  }
+
+  Future addAddress() {
+    return showDialog(
+        context: (context),
+        builder: (context) => AlertDialog(
+              title: const Text("Add Address"),
+              content: const TextField(
+                decoration: const InputDecoration(hintText: "Enter Address"),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Cancel")),
+                ElevatedButton(onPressed: () {}, child: const Text("Add"))
+              ],
+            ));
   }
 
   Widget spacer(height) => SizedBox(
