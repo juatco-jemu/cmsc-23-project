@@ -5,6 +5,8 @@ import 'package:donation_system/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../address_list_page.dart';
+
 class OrgProfilePage extends StatefulWidget {
   final Organization organization;
 
@@ -46,6 +48,9 @@ class _OrgProfilePageState extends State<OrgProfilePage> {
       children: [
         ProfileButton(
             title: "Profile", route: OrgProfileDetailsPage(organization: widget.organization)),
+        ProfileButton(
+            title: "Addresses",
+            route: AppAddressListPage(user: widget.organization, isDonor: false)),
         const ProfileButton(title: "Logout", route: "sign-out")
       ],
     );

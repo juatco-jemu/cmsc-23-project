@@ -1,4 +1,7 @@
+import 'package:donation_system/providers/provider_address_list.dart';
+import 'package:donation_system/providers/provider_donors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../theme/colors.dart';
 
 class AppAddressListPage extends StatefulWidget {
@@ -11,18 +14,22 @@ class AppAddressListPage extends StatefulWidget {
 }
 
 class _AppAddressesPagesState extends State<AppAddressListPage> {
-  List<String>? addresses = [];
+  Stream<List<dynamic>> addresses = const Stream.empty();
+  String user = "";
 
   @override
   void initState() {
     super.initState();
-    addresses = widget.isDonor ? widget.user.addressList : widget.user.orgAddressList;
+    // addresses = widget.isDonor ? widget.user.addressList : widget.user.orgAddressList;
+    user = widget.isDonor ? "donors" : "organizations";
+    context.read<AddressListProvider>().fetchAddress(user);
   }
 
   late Size screen = MediaQuery.of(context).size;
 
   @override
   Widget build(BuildContext context) {
+    addresses = context.watch<AddressListProvider>().addressList;
     return Scaffold(
       body: Container(
         height: screen.height,
@@ -34,11 +41,25 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
             spacer(40.0),
             _buildHeader(),
             divider,
-            Expanded(child: addresses!.isEmpty ? noAddressWidget() : _buildList()),
+            Expanded(
+              child: StreamBuilder<List<dynamic>>(
+                stream: context.watch<AddressListProvider>().addressList,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator(); // or some other loading indicator
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}'); // or some other error indicator
+                  } else {
+                    List<dynamic> addresses = snapshot.data!;
+                    return addresses.isEmpty ? noAddressWidget() : _buildList(addresses);
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
-      bottomSheet: addresses!.isEmpty ? null : addAddressButton(context),
+      bottomSheet: addAddressButton(context),
     );
   }
 
@@ -83,18 +104,18 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
             onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios)),
       );
 
-  Widget _buildList() {
+  Widget _buildList(List<dynamic> addresses) {
     return Expanded(
       child: MediaQuery.removePadding(
         context: context,
         removeTop: true,
         child: ListView.separated(
-          itemCount: addresses!.length,
+          itemCount: addresses.length,
           separatorBuilder: (context, index) => Divider(
             color: Colors.grey.shade400,
           ),
           itemBuilder: ((context, index) {
-            String address = addresses![index];
+            String address = addresses[index];
             return ListTile(
               minTileHeight: 60,
               leading: const Icon(
@@ -150,11 +171,13 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
   }
 
   Future addAddress() {
+    final TextEditingController addressController = TextEditingController();
     return showDialog(
         context: (context),
         builder: (context) => AlertDialog(
               title: const Text("Add Address"),
-              content: const TextField(
+              content: TextField(
+                controller: addressController,
                 decoration: const InputDecoration(hintText: "Enter Address"),
               ),
               actions: [
@@ -163,7 +186,12 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
                       Navigator.pop(context);
                     },
                     child: const Text("Cancel")),
-                ElevatedButton(onPressed: () {}, child: const Text("Add"))
+                ElevatedButton(
+                    onPressed: () {
+                      context.read<AddressListProvider>().addAddress(user, addressController.text);
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Add"))
               ],
             ));
   }
