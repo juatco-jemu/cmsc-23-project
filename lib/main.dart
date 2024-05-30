@@ -1,5 +1,6 @@
 import 'package:donation_system/firebase_options.dart';
 import 'package:donation_system/pages/donor/donor_main.dart';
+import 'package:donation_system/pages/donor/generate_qr_page.dart';
 import 'package:donation_system/pages/main_page.dart';
 import 'package:donation_system/pages/organization/org_main.dart';
 import 'package:donation_system/pages/organization/org_scan_qr_page.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'CMSC 23 Project',
       initialRoute: '/',
       routes: {
-        '/': (context) => const OrgScanQRCodePage(),
+        '/': (context) => const DonorGenerateQRPage(),
         '/sign-in': (context) => const MainPage(),
       },
     );
