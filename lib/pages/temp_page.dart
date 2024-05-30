@@ -1,3 +1,4 @@
+import 'package:donation_system/model/model_donor.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -58,7 +59,7 @@ class OrganizationPage extends StatelessWidget {
 }
 
 class AdminPage extends StatelessWidget {
-  const AdminPage({Key? key});
+  const AdminPage(Donor donor, {Key? key});
 
   @override
   Widget build(BuildContext context) {

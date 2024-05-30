@@ -64,7 +64,7 @@ class _MainPageState extends State<MainPage> {
                     } else if (orgSnapshot.data == true) {
                       return OrganizationControlPage(orgEmail: user.email!);
                     } else {
-                      return const DonorMainPage();
+                      return DonorMainPage(email: user.email!);
                     }
                   },
                 );
