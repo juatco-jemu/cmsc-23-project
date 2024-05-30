@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:donation_system/pages/admin/admin_donor_list_page.dart';
-import 'package:donation_system/pages/admin/admin_org_list_page.dart';
+import 'package:donation_system/pages/org_list_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class AdminMainPage extends StatefulWidget {
 class _AdminMainPageState extends State<AdminMainPage> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
-    const AdminOrganizationList(),
+    const OrganizationsList(isPage: true, isDonor: false),
     const AdminDonorList()
   ];
 

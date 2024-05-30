@@ -1,11 +1,12 @@
 import 'package:donation_system/theme/widget_designs.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
 
 class ProfileButton extends StatefulWidget {
   final String title;
-  final String route;
+  final dynamic route;
   const ProfileButton({required this.title, required this.route, super.key});
 
   @override
@@ -23,7 +24,12 @@ class _ProfileButtonState extends State<ProfileButton> {
       ),
       child: ListTile(
         onTap: () {
-          Navigator.pushNamed(context, widget.route);
+          if (widget.route == 'sign-out') {
+            FirebaseAuth.instance.signOut();
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => widget.route));
+          }
         },
         title: Text(widget.title),
         trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.darkYellow01),

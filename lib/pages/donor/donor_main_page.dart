@@ -1,11 +1,17 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:donation_system/model/model_donor.dart';
 import 'package:donation_system/pages/donor/donor_home_page.dart';
-import 'package:donation_system/pages/temp_page.dart';
+import 'package:donation_system/pages/donor/donor_profile_page.dart';
+import 'package:donation_system/pages/org_list_page.dart';
+import 'package:donation_system/providers/provider_donors.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DonorMainPage extends StatefulWidget {
-  const DonorMainPage({super.key});
+  final String email;
+  
+  const DonorMainPage({super.key, required this.email});
 
   @override
   State<DonorMainPage> createState() => _DonorMainPageState();
@@ -13,16 +19,27 @@ class DonorMainPage extends StatefulWidget {
 
 class _DonorMainPageState extends State<DonorMainPage> {
   int _selectedIndex = 0;
-  final List<Widget> _pages = [
-    const DonorHomePage(),
-    const OrganizationPage(),
-    const AdminPage(),
-    // const OrganizationsList(
-    //   isDonor: true,
-    //   isPage: true,
-    // ),
-    // const DonorProfilePage(),
-  ];
+  late final List<Widget> _pages;
+  Donor? donor;
+
+  @override 
+  void initState() {
+    super.initState();
+    _fetchDonor();
+  }
+
+  Future<void> _fetchDonor() async {
+    final getDonor = await context.read<DonorsProvider>().getDonorByEmail(widget.email);
+    setState(() {
+      donor = getDonor;
+      _pages = [
+        const DonorHomePage(),
+        const OrganizationsList(isPage: true, isDonor: true),
+        DonorProfilePage(donor: donor!),
+      ];
+    });
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +59,7 @@ class _DonorMainPageState extends State<DonorMainPage> {
           animationDuration: const Duration(milliseconds: 150),
           items: const [
             Icon(Icons.home),
-            Icon(Icons.approval),
+            Icon(Icons.home_work_sharp),
             Icon(Icons.account_circle),
           ]);
 
