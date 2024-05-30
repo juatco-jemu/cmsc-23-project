@@ -6,19 +6,22 @@ import 'package:flutter/material.dart';
 class DonorsProvider with ChangeNotifier {
   FirebaseDonorAPI firebaseService = FirebaseDonorAPI();
   late Stream<QuerySnapshot> _donorStream;
-  
+  late Donor? _donorData;
+
   DonorsProvider() {
     fetchDonors();
   }
 
   Stream<QuerySnapshot> get donor => _donorStream;
+  Donor? get donorData => _donorData;
 
   void fetchDonors() {
     _donorStream = firebaseService.getAllDonors();
     notifyListeners();
   }
 
-  Future<Donor?> getDonorByEmail(String email) async {
-    return firebaseService.getDonorByEmail(email);
+  void getDonorByEmail(String email) async {
+    _donorData = await firebaseService.getDonorByEmail(email);
+    notifyListeners();
   }
 }

@@ -2,13 +2,15 @@ import 'package:donation_system/pages/address_list_page.dart';
 import 'package:donation_system/pages/donor/donor_profile_details_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../components/profileButton.dart';
 import '../../model/model_donor.dart';
+import '../../providers/provider_donors.dart';
 
 class DonorProfilePage extends StatefulWidget {
-  final Donor donor;
+  // final Donor donor;
 
-  const DonorProfilePage({super.key, required this.donor});
+  const DonorProfilePage({super.key});
 
   @override
   State<DonorProfilePage> createState() => _DonorProfilePageState();
@@ -21,8 +23,10 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
   final double imageSize = 120;
 
   late Size screen = MediaQuery.of(context).size;
+
   @override
   Widget build(BuildContext context) {
+    Donor? donor = context.watch<DonorsProvider>().donorData;
     return Scaffold(
       // appBar: CustomAppBar(title: "${donor.name}'s Profile Page"),
       body: SingleChildScrollView(
@@ -32,8 +36,8 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
           height: screen.height,
           child: Column(
             children: [
-              _buildTop(),
-              _buildButtons(),
+              _buildTop(donor),
+              _buildButtons(context),
             ],
           ),
         ),
@@ -41,11 +45,12 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
     );
   }
 
-  Widget _buildButtons() {
+  Widget _buildButtons(context) {
     return Column(
       children: [
-        ProfileButton(title: "My Profile", route: DonorProfileDetailsPage(donor: widget.donor)),
-        ProfileButton(title: "My Addresses", route: AppAddressListPage(user: widget.donor, isDonor: true)),
+        // ProfileButton(title: "My Profile", route: DonorProfileDetailsPage(donor: donor)),
+        // ProfileButton(
+        //     title: "My Addresses", route: AppAddressListPage(isDonor: true)),
         ProfileButton(title: "My Favorites", route: "/"),
         ProfileButton(title: "My Donations", route: "/"),
         ProfileButton(title: "Logout", route: "sign-out"),
@@ -53,7 +58,7 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
     );
   }
 
-  Widget _buildTop() {
+  Widget _buildTop(donor) {
     return Column(
       children: [
         Stack(clipBehavior: Clip.none, alignment: Alignment.bottomCenter, children: [
@@ -62,7 +67,7 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
         ]),
         spacer,
         spacer,
-        Text("Hello, ${widget.donor.username!}",
+        Text("Hello, ${donor?.username}",
             style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
         const Text(
           "Donor",

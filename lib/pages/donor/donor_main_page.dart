@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class DonorMainPage extends StatefulWidget {
   final String email;
-  
+
   const DonorMainPage({super.key, required this.email});
 
   @override
@@ -19,36 +19,38 @@ class DonorMainPage extends StatefulWidget {
 
 class _DonorMainPageState extends State<DonorMainPage> {
   int _selectedIndex = 0;
-  late final List<Widget> _pages;
+  final List<Widget> _pages = [
+    const DonorHomePage(),
+    const OrganizationsList(isPage: true, isDonor: true),
+    const DonorProfilePage(),
+  ];
   Donor? donor;
 
-  @override 
+  @override
   void initState() {
     super.initState();
-    _fetchDonor();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<DonorsProvider>().getDonorByEmail(widget.email);
+    });
+    // _fetchDonor();
   }
 
-  Future<void> _fetchDonor() async {
-    final getDonor = await context.read<DonorsProvider>().getDonorByEmail(widget.email);
-    setState(() {
-      donor = getDonor;
-      _pages = [
-        const DonorHomePage(),
-        const OrganizationsList(isPage: true, isDonor: true),
-        DonorProfilePage(donor: donor!),
-      ];
-    });
-    }
-
+  // Future<void> _fetchDonor() async {
+  //   final getDonor = await context.read<DonorsProvider>().getDonorByEmail(widget.email);
+  //   setState(() {
+  //     donor = getDonor;
+  //     _pages = [
+  //       const DonorHomePage(),
+  //       const OrganizationsList(isPage: true, isDonor: true),
+  //       DonorProfilePage(donor: donor!),
+  //     ];
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: const CustomAppBar(
-        //   title: 'Elbi Donation System',
-        // ),
-        bottomNavigationBar: botNavBar,
-        body: Center(child: _pages.elementAt(_selectedIndex)));
+        bottomNavigationBar: botNavBar, body: Center(child: _pages.elementAt(_selectedIndex)));
   }
 
   CurvedNavigationBar get botNavBar => CurvedNavigationBar(

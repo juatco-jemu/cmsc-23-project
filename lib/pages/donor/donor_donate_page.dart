@@ -7,10 +7,11 @@ class DonateForm extends StatefulWidget {
   const DonateForm({super.key});
 
   @override
-  State<DonateForm> createState() => _DonateFormState();
+  State<DonateForm> createState() => DonateFormState();
 }
 
-class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateMixin {
+class DonateFormState extends State<DonateForm> with SingleTickerProviderStateMixin {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final List<String> _category = [
     "Food",
     "Clothes",
@@ -51,35 +52,38 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
     return SingleChildScrollView(
         child: Align(
       alignment: Alignment.center,
-      child: Column(
-        children: [
-          Container(
-            decoration: CustomWidgetDesigns.customContainer(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                formHeader("Donation Categories"),
-                donationCategory,
-                spacer(10),
-                weightForm,
-                spacer(30),
-              ],
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            Container(
+              decoration: CustomWidgetDesigns.customContainer(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  formHeader("Donation Categories"),
+                  donationCategory,
+                  spacer(10),
+                  weightForm,
+                  spacer(30),
+                ],
+              ),
             ),
-          ),
-          spacer(20),
-          Container(
-            decoration: CustomWidgetDesigns.customContainer(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                formHeader("Pickup/Dropoff Details"),
-                pickupDropoff,
-                !isPickup ? generateQR : Container(),
-              ],
+            spacer(20),
+            Container(
+              decoration: CustomWidgetDesigns.customContainer(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  formHeader("Pickup/Dropoff Details"),
+                  pickupDropoff,
+                  !isPickup ? generateQR : Container(),
+                ],
+              ),
             ),
-          ),
-          spacer(50),
-        ],
+            spacer(50),
+          ],
+        ),
       ),
     ));
   }
@@ -131,10 +135,17 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
           SizedBox(
             width: 130,
             // margin: const EdgeInsets.all(20),
-            child: TextField(
-                decoration: CustomWidgetDesigns.customFormField("", "Enter weight").copyWith(
-              border: const OutlineInputBorder(),
-            )),
+            child: TextFormField(
+              decoration: CustomWidgetDesigns.customFormField("", "Enter weight").copyWith(
+                border: const OutlineInputBorder(),
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Please enter weight";
+                }
+                return null;
+              },
+            ),
           ),
         ],
       );
@@ -279,7 +290,7 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
             ),
           ),
         ]),
-        bottomSheet: donateButton(context),
+        bottomSheet: updateModeButton(context),
       ),
     );
   }
@@ -322,7 +333,7 @@ class _DonateFormState extends State<DonateForm> with SingleTickerProviderStateM
         initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute),
       );
 
-  Widget donateButton(context) {
+  Widget updateModeButton(context) {
     return Container(
       color: AppColors.appWhite,
       width: screen.width,

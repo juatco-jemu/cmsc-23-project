@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Donation {
-  int? donationID;
+  // int? donationID;
   String? donorUsername;
   String? orgUsername;
   List<String>? itemsToDonate;
@@ -16,7 +16,7 @@ class Donation {
   String? status; // Pending, Confirmed, Scheduled for Pick-up, Completed, Canceled
 
   Donation({
-    required this.donationID,
+    // required this.donationID,
     required this.donorUsername,
     required this.orgUsername,
     required this.itemsToDonate,
@@ -32,7 +32,7 @@ class Donation {
 
   factory Donation.fromJson(Map<String, dynamic> json) {
     return Donation(
-      donationID: json['donationID'],
+      // donationID: json['donationID'],
       donorUsername: json['donorUsername'],
       orgUsername: json['orgUsername'],
       itemsToDonate: List<String>.from(json['itemsToDonate']),
@@ -54,7 +54,7 @@ class Donation {
 
   Map<String, dynamic> toJson(Donation donation) {
     return {
-      'donationID': donationID,
+      // 'donationID': donationID,
       'donorUsername': donorUsername,
       'orgUsername': orgUsername,
       'itemsToDonate': itemsToDonate,

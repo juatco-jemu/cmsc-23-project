@@ -13,6 +13,7 @@ class DriveDetailsPage extends StatefulWidget {
 }
 
 class _DriveDetailsPageState extends State<DriveDetailsPage> {
+  final _formKey = GlobalKey<FormState>();
   late Size screen = MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(widget.donationDrive.driveName!,
+                        Text(widget.donationDrive.driveName,
                             style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                         const Icon(Icons.favorite_border),
                       ],
@@ -47,7 +48,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.donationDrive.driveStatus!),
+                        Text(widget.donationDrive.driveStatus),
                         Text("Location: ${widget.donationDrive.driveLocation}"),
                         spacer,
                         Text("Description: ${widget.donationDrive.driveDescription}"),
@@ -76,13 +77,24 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
         child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
+            // : WidgetStateProperty.all(Colors.grey),
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              print("Donation Successful");
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const DonorDonatePage(),
+              //   ),
+              // );
+            }
+          },
           child: const Text(
             "Donate",
             style: TextStyle(color: AppColors.appWhite),

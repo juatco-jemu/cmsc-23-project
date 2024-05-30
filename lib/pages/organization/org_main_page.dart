@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:donation_system/components/navBarItem.dart';
 import 'package:donation_system/model/model_organization.dart';
 import 'package:donation_system/pages/organization/org_drive_list_page.dart';
 import 'package:donation_system/pages/organization/org_home_page.dart';
@@ -29,7 +30,8 @@ class _OrganizationMainPageState extends State<OrganizationMainPage> {
   }
 
   Future<void> _fetchOrganization() async {
-    final org = await context.read<OrganizationsProvider>().getOrganizationByUsername(widget.orgUsername);
+    final org =
+        await context.read<OrganizationsProvider>().getOrganizationByUsername(widget.orgUsername);
     setState(() {
       organization = org;
       _pages = [
@@ -49,17 +51,18 @@ class _OrganizationMainPageState extends State<OrganizationMainPage> {
   }
 
   CurvedNavigationBar get botNavBar => CurvedNavigationBar(
-    color: AppColors.yellow03,
-    backgroundColor: AppColors.backgroundYellow,
-    onTap: _onItemTapped,
-    index: _selectedIndex,
-    animationDuration: const Duration(milliseconds: 150),
-    items: const [
-      Icon(Icons.home),
-      Icon(Icons.approval),
-      Icon(Icons.account_circle),
-    ],
-  );
+        color: AppColors.yellow03,
+        backgroundColor: AppColors.backgroundYellow,
+        onTap: _onItemTapped,
+        index: _selectedIndex,
+        animationDuration: const Duration(milliseconds: 200),
+        items: const [
+          // CustomNavbarItem(icon: Icons.home, label: "Home"),
+          Icon(Icons.home),
+          Icon(Icons.approval),
+          Icon(Icons.account_circle),
+        ],
+      );
 
   void _onItemTapped(int index) {
     setState(() {
