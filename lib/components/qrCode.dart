@@ -41,6 +41,7 @@ class _GenerateQRCodeState extends State<GenerateQRCode> {
                   builder: (context) => Dialog(
                         child: qrDialog(qrData),
                       ));
+              
             });
   }
 

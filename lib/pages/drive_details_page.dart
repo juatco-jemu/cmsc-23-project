@@ -1,6 +1,5 @@
 import 'package:donation_system/model/model_donor.dart';
 import 'package:donation_system/pages/donor/donor_donate.dart';
-import 'package:donation_system/pages/donor/donor_donate_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 import '../model/model_drive.dart';
@@ -16,7 +15,6 @@ class DriveDetailsPage extends StatefulWidget {
 }
 
 class _DriveDetailsPageState extends State<DriveDetailsPage> {
-  final _formKey = GlobalKey<FormState>();
   late Size screen = MediaQuery.of(context).size;
 
   @override
