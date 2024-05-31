@@ -55,7 +55,7 @@ class _AddPhotosState extends State<AddPhotos> {
             images.isEmpty
                 ? Center(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
                           onPressed: _takePhoto,
@@ -158,7 +158,8 @@ class _AddPhotosState extends State<AddPhotos> {
                         child: const Text("Add more photos"),
                       ),
                     ],
-                  )
+                  ),
+            spacer(20),
           ],
         ),
       ),
