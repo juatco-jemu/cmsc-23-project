@@ -1,6 +1,5 @@
 import 'package:donation_system/model/model_donor.dart';
 import 'package:donation_system/pages/donor/donor_donate.dart';
-import 'package:donation_system/pages/donor/donor_donate_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 import '../model/model_drive.dart';
@@ -9,14 +8,14 @@ class DriveDetailsPage extends StatefulWidget {
   final Donor? donor;
   final DonationDrive donationDrive;
   final bool isDonor;
-  const DriveDetailsPage({super.key, required this.isDonor, required this.donationDrive, required this.donor});
+  const DriveDetailsPage(
+      {super.key, required this.isDonor, required this.donationDrive, required this.donor});
 
   @override
   State<DriveDetailsPage> createState() => _DriveDetailsPageState();
 }
 
 class _DriveDetailsPageState extends State<DriveDetailsPage> {
-  final _formKey = GlobalKey<FormState>();
   late Size screen = MediaQuery.of(context).size;
 
   @override
@@ -80,8 +79,8 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(AppColors.yellow02),
-            shape: MaterialStateProperty.all(
+            backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
+            shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -112,8 +111,8 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(AppColors.yellow02),
-            shape: MaterialStateProperty.all(
+            backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
+            shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
