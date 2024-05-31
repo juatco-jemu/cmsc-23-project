@@ -1,106 +1,79 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donation_system/components/subHeader.dart';
 import 'package:donation_system/model/model_donation.dart';
-import 'package:donation_system/pages/organization/org_scan_qr_page.dart';
 import 'package:donation_system/providers/provider_donation.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OrgHomePage extends StatefulWidget {
-  final String orgUsername;
-  const OrgHomePage({super.key, required this.orgUsername});
+class DonationsList extends StatefulWidget {
+  final bool isDonor;
+  final int driveID;
+  final String username;
+  const DonationsList({super.key, required this.isDonor, required this.driveID, required this.username});
 
   @override
-  State<OrgHomePage> createState() => _OrgHomePageState();
+  State<DonationsList> createState() => _DonationsListState();
 }
 
-class _OrgHomePageState extends State<OrgHomePage> {
-  late Size screen = MediaQuery.of(context).size;
-
+class _DonationsListState extends State<DonationsList> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-            color: AppColors.backgroundYellow,
-            height: screen.height + 100,
-            child: Column(
-              children: [
-                spacer,
-                header,
-                spacer,
-                const SubHeader(
-                  title: "List of Donations",
-                  route: "/user-donation-list",
-                ),
-                _buildRecentDonations(),
-                spacer
-              ],
-            )),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.yellow03,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const OrgScanQRCodePage(),
-            ),
-          );
-        },
-        child: const Icon(Icons.qr_code),
+      body: Container(
+        height: screenHeight,
+        width: screenWidth,
+        color: AppColors.backgroundYellow,
+        child: Column(
+          children: [
+            spacer,
+            _buildHeader(),
+            _buildList(context),
+          ],
+        ),
       ),
     );
   }
 
-  Widget get header => Column(
-        children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Image.asset(
-                'assets/images/cloud01.png',
-                // width: screen.width,
-                height: 80,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Hello, ",
-                  style: TextStyle(
-                      fontFamily: "Baguet Script",
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.yellow03)),
-              Text(widget.orgUsername,
-                  style: const TextStyle(
-                      fontFamily: "Baguet Script",
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.darkYellow01)),
-            ],
-          ),
-          const Text("A little help goes a long way!"),
-        ],
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        backButton,
+        const Text("Donations",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Image.asset('assets/images/cloud01.png', height: 80),
+        )
+      ],
+    );
+  }
+
+  Widget get backButton => Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: IconButton(
+            onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios)),
       );
 
-  Widget get spacer => const SizedBox(height: 30);
-
-  Widget _buildRecentDonations() {
+  Widget _buildList(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: context.watch<DonationsProvider>().getDonationForOrganization(widget.orgUsername),
+      stream: widget.isDonor ? context.watch<DonationsProvider>().getDonationForDonor(widget.username) : context.watch<DonationsProvider>().getDonationForDrive(widget.driveID),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        }
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Text('No donation yet');
+        if (snapshot.hasError) {
+          return Center(
+            child: Text("Error encountered! ${snapshot.error}"),
+          );
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (!snapshot.hasData) {
+          return const Center(
+            child: Text("No Organizations Yet!"),
+          );
         }
 
         var donations = snapshot.data!.docs.map((doc) {
@@ -188,4 +161,5 @@ class _OrgHomePageState extends State<OrgHomePage> {
     );
   }
 
+  Widget get spacer => const SizedBox(height: 40);
 }

@@ -33,9 +33,15 @@ class FirebaseDonationAPI {
       .snapshots();
   }
 
-  Stream<QuerySnapshot> getDonationForOrganization(String username) {
+  Stream<QuerySnapshot> getDonationForDrive(int driveID) {
     return db.collection('donations')
-      .where('orgUsername', isEqualTo: username)
+      .where('driveID', isEqualTo: driveID)
+      .snapshots();
+  }
+
+  Stream<QuerySnapshot> getDonationForOrganization(String orgUsername) {
+    return db.collection('donations')
+      .where('orgUsername', isEqualTo: orgUsername)
       .snapshots();
   }
 
@@ -46,5 +52,23 @@ class FirebaseDonationAPI {
     } on FirebaseException catch (e) {
       return "Error in ${e.code}: ${e.message}";
     }
+  }
+
+  Future<String?> getDriveNameByDriveID(int driveID) async {
+    try {
+      QuerySnapshot driveStream = await db
+        .collection('donation_drives')
+        .where('driveID', isEqualTo: driveID)
+        .limit(1)
+        .get();
+
+      if (driveStream.docs.isNotEmpty) {
+        String driveName = driveStream.docs.first['driveName'];
+        return driveName;
+      }
+    } on FirebaseException catch (e) {
+      return "Error in ${e.code}: ${e.message}";
+    }
+    return null;
   }
 }

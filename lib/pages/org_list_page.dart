@@ -157,7 +157,7 @@ class _OrganizationsListState extends State<OrganizationsList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => (!widget.isAdmin)
-                              ? OrgDetailsPage(organization: organization, isDonor: false)
+                              ? OrgDetailsPage(organization: organization, isDonor: widget.isDonor)
                               : OrganizationDetailPage(organization: organization),
                         ),
                       );

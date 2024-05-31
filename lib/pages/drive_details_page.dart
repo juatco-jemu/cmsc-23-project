@@ -1,4 +1,5 @@
 import 'package:donation_system/model/model_donor.dart';
+import 'package:donation_system/pages/donation_list.dart';
 import 'package:donation_system/pages/donor/donor_donate.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
@@ -154,7 +155,12 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
             ),
           ),
           onPressed: () {
-            // Implement view donations navigation here
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DonationsList(isDonor: widget.isDonor, driveID: widget.donationDrive.driveID, username: widget.donor!.username!),
+              ),
+            );
           },
           child: const Text(
             "View Donations",

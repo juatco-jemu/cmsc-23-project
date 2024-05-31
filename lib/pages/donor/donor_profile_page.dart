@@ -1,4 +1,5 @@
 import 'package:donation_system/pages/address_list_page.dart';
+import 'package:donation_system/pages/donation_list.dart';
 import 'package:donation_system/pages/donor/donor_profile_details_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
         ProfileButton(
             title: "My Addresses", route: AppAddressListPage(user: widget.donor, isDonor: true)),
         // ProfileButton(title: "My Favorites", route: "/"),
-        ProfileButton(title: "My Donations", route: "/"),
+        ProfileButton(title: "My Donations", route: DonationsList(isDonor: true, driveID: 0, username: widget.donor!.username!)),
         const ProfileButton(title: "Logout", route: "sign-out"),
       ],
     );
