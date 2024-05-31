@@ -31,7 +31,11 @@ class _DonorMainPageState extends State<DonorMainPage> {
     Donor? donor = context.watch<DonorsProvider>().donorData;
     final List<Widget> pages = [
       DonorHomePage(donor: donor),
-      const OrganizationsList(isPage: true, isDonor: true),
+      const OrganizationsList(
+        isPage: true,
+        isDonor: true,
+        isAdmin: false,
+      ),
       DonorProfilePage(donor: donor),
     ];
     return Scaffold(

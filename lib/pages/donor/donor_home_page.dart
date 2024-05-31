@@ -38,7 +38,12 @@ class _DonorHomePageState extends State<DonorHomePage> {
                 spacer,
                 header,
                 const SubHeader(
-                    title: "Recent Drives", route: OrganizationsList(isPage: false, isDonor: true)),
+                    title: "Recent Drives",
+                    route: OrganizationsList(
+                      isPage: false,
+                      isDonor: true,
+                      isAdmin: false,
+                    )),
                 carouselSlider(),
                 spacer,
                 const SubHeader(

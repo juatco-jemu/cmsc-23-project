@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_system/model/model_organization.dart';
+import 'package:donation_system/pages/admin/admin_org_detail_page.dart';
 import 'package:donation_system/pages/org_details_page.dart';
 import 'package:donation_system/providers/provider_organizations.dart';
 import 'package:donation_system/theme/colors.dart';
@@ -8,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OrganizationsList extends StatefulWidget {
+  final bool isAdmin;
   final bool isDonor;
   final bool isPage;
-  const OrganizationsList({required this.isPage, required this.isDonor, super.key});
+  const OrganizationsList(
+      {required this.isPage, required this.isDonor, required this.isAdmin, super.key});
 
   @override
   State<OrganizationsList> createState() => _OrganizationsListState();
@@ -45,7 +48,7 @@ class _OrganizationsListState extends State<OrganizationsList> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         !widget.isPage ? backButton : Container(),
-        const Text("Choose an organization\nto donate to",
+        Text((!widget.isAdmin) ? "Choose an organization\nto donate to" : "Admin: Organizations",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
@@ -153,8 +156,9 @@ class _OrganizationsListState extends State<OrganizationsList> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              OrgDetailsPage(organization: organization, isDonor: false),
+                          builder: (context) => (!widget.isAdmin)
+                              ? OrgDetailsPage(organization: organization, isDonor: false)
+                              : OrganizationDetailPage(organization: organization),
                         ),
                       );
                     },

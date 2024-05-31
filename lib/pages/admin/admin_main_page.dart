@@ -14,7 +14,7 @@ class AdminMainPage extends StatefulWidget {
 class _AdminMainPageState extends State<AdminMainPage> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
-    const OrganizationsList(isPage: true, isDonor: false),
+    const OrganizationsList(isPage: true, isDonor: false, isAdmin: true),
     const AdminDonorList()
   ];
 
@@ -27,16 +27,16 @@ class _AdminMainPageState extends State<AdminMainPage> {
   }
 
   CurvedNavigationBar get botNavBar => CurvedNavigationBar(
-    color: AppColors.yellow03,
-    backgroundColor: AppColors.backgroundYellow,
-    onTap: _onItemTapped,
-    index: _selectedIndex,
-    animationDuration: const Duration(milliseconds: 150),
-    items: const [
-      Icon(Icons.home_work_sharp),
-      Icon(Icons.groups),
-    ],
-  );
+        color: AppColors.yellow03,
+        backgroundColor: AppColors.backgroundYellow,
+        onTap: _onItemTapped,
+        index: _selectedIndex,
+        animationDuration: const Duration(milliseconds: 150),
+        items: const [
+          Icon(Icons.home_work_sharp),
+          Icon(Icons.groups),
+        ],
+      );
 
   void _onItemTapped(int index) {
     setState(() {
