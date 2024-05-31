@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../signIn_page.dart';
-
 class PendingOrgPage extends StatelessWidget {
   const PendingOrgPage({super.key});
 

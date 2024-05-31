@@ -23,7 +23,7 @@ class _AddPhotosState extends State<AddPhotos> {
   late Size screen = MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
-    List<bool> _isZoomable = List.filled(images.length, false);
+    // List<bool> _isZoomable = List.filled(images.length, false);
     return buildAddPhotos();
   }
 

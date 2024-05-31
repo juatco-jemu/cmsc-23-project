@@ -21,13 +21,13 @@ class OrgDetailsPage extends StatefulWidget {
 class _OrgDetailsPageState extends State<OrgDetailsPage> {
   // Donor donor = MockDonor.fetchDonor();
   // List<DonationDrive> drive = MockDonationDrive.fetchMany();
-  String? _status;
+  // String? _status;
 
-  @override
-  void initState() {
-    super.initState();
-    _status = widget.organization.orgStatus;
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _status = widget.organization.orgStatus;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +113,10 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => DriveDetailsPage(
-                      donationDrive: drive,
-                      isDonor: true,
-                    ),
+                      isDonor: false, 
+                      donationDrive: drive, 
+                      donor: null
+                    )
                   ),
                 );
               },

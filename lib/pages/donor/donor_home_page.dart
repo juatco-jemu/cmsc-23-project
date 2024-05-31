@@ -8,32 +8,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/listTile.dart';
-import '../../model/model_donation.dart';
 import '../../model/model_donor.dart';
 import '../../model/model_drive.dart';
 import '../../providers/provider_donors.dart';
 import '../drive_details_page.dart';
 
 class DonorHomePage extends StatefulWidget {
-  const DonorHomePage({super.key});
+  final Donor? donor;
+
+  const DonorHomePage({super.key, this.donor});
 
   @override
   State<DonorHomePage> createState() => _DonorHomePageState();
 }
 
 class _DonorHomePageState extends State<DonorHomePage> {
-  // Donor donor = MockDonor.fetchDonor();
-  // List<DonationDrive> drive = MockDonationDrive.fetchMany();
   late Size screen = MediaQuery.of(context).size;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: const CustomAppBar(title: 'HopeHaven'),
       body: SingleChildScrollView(
         child: Container(
             color: AppColors.backgroundYellow,
-            // decoration: CustomWidgetDesigns.gradientBackground(),
             height: screen.height + 100,
             child: Column(
               children: [
@@ -62,23 +59,22 @@ class _DonorHomePageState extends State<DonorHomePage> {
               padding: const EdgeInsets.only(left: 20),
               child: Image.asset(
                 'assets/images/cloud01.png',
-                // width: screen.width,
                 height: 110,
                 fit: BoxFit.contain,
               ),
             ),
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Hello, ",
+              const Text("Hello, ",
                   style: TextStyle(
                       fontFamily: "Baguet Script",
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
                       color: AppColors.yellow03)),
-              Text("Daphne",
-                  style: TextStyle(
+              Text(widget.donor?.firstName ?? '',
+                  style: const TextStyle(
                       fontFamily: "Baguet Script",
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
@@ -112,9 +108,10 @@ class _DonorHomePageState extends State<DonorHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => DriveDetailsPage(
-                      donationDrive: drive,
-                      isDonor: true,
-                    ),
+                      isDonor: true, 
+                      donationDrive: drive, 
+                      donor: widget.donor
+                    )
                   ),
                 );
               },

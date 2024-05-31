@@ -1,12 +1,15 @@
+import 'package:donation_system/model/model_donor.dart';
+import 'package:donation_system/pages/donor/donor_donate.dart';
 import 'package:donation_system/pages/donor/donor_donate_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
 import '../model/model_drive.dart';
 
 class DriveDetailsPage extends StatefulWidget {
+  final Donor? donor;
   final DonationDrive donationDrive;
   final bool isDonor;
-  const DriveDetailsPage({super.key, required this.isDonor, required this.donationDrive});
+  const DriveDetailsPage({super.key, required this.isDonor, required this.donationDrive, required this.donor});
 
   @override
   State<DriveDetailsPage> createState() => _DriveDetailsPageState();
@@ -15,6 +18,7 @@ class DriveDetailsPage extends StatefulWidget {
 class _DriveDetailsPageState extends State<DriveDetailsPage> {
   final _formKey = GlobalKey<FormState>();
   late Size screen = MediaQuery.of(context).size;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +57,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                         spacer,
                         Text("Description: ${widget.donationDrive.driveDescription}"),
                         spacer,
-                        widget.isDonor ? const DonateForm() : Container(),
+                        // widget.isDonor ? const DonateForm() : Container(),
                       ],
                     ),
                     spacer,
@@ -76,27 +80,23 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
-            // : WidgetStateProperty.all(Colors.grey),
-            shape: WidgetStateProperty.all(
+            backgroundColor: MaterialStateProperty.all(AppColors.yellow02),
+            shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
           ),
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              print("Donation Successful");
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const DonorDonatePage(),
-              //   ),
-              // );
-            }
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DonatePage(donor: widget.donor, drive: widget.donationDrive),
+              ),
+            );
           },
           child: const Text(
-            "Donate",
+            "Donate Here",
             style: TextStyle(color: AppColors.appWhite),
           ),
         ),
@@ -112,20 +112,15 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
-            shape: WidgetStateProperty.all(
+            backgroundColor: MaterialStateProperty.all(AppColors.yellow02),
+            shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
           ),
           onPressed: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => const DonationsList(
-            //               isAllDonations: false,
-            //             )));
+            // Implement view donations navigation here
           },
           child: const Text(
             "View Donations",
