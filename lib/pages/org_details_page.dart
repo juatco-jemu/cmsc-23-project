@@ -113,7 +113,7 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => DriveDetailsPage(
-                      isDonor: false, 
+                      isDonor: widget.isDonor, 
                       donationDrive: drive, 
                       donor: null
                     )

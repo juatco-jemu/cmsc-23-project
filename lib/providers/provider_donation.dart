@@ -26,13 +26,17 @@ class DonationsProvider with ChangeNotifier {
     return firebaseService.getDonationForDonor(username);
   }
 
-  Stream<QuerySnapshot> getDonationForOrganization(String username) {
-    return firebaseService.getDonationForOrganization(username);
+  Stream<QuerySnapshot> getDonationForDrive(int driveID) {
+    return firebaseService.getDonationForDrive(driveID);
   }
 
   void addDonation(Donation donation) async {
     String message = await firebaseService.addDonation(donation.toJson(donation));
     print(message);
     notifyListeners();
+  }
+
+  Future<String?> getDriveNameByDriveID(int driveID) async {
+    return firebaseService.getDriveNameByDriveID(driveID);
   }
 }

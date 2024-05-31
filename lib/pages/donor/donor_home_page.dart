@@ -1,16 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_system/components/subHeader.dart';
+import 'package:donation_system/model/model_donation.dart';
+import 'package:donation_system/providers/provider_donation.dart';
 import 'package:donation_system/providers/provider_drive.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../components/listTile.dart';
 import '../../model/model_donor.dart';
 import '../../model/model_drive.dart';
-import '../../providers/provider_donors.dart';
 import '../drive_details_page.dart';
 
 class DonorHomePage extends StatefulWidget {
@@ -90,10 +89,10 @@ class _DonorHomePageState extends State<DonorHomePage> {
       stream: context.watch<DonationDriveProvider>().donationDrive,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Text('No donation drives available');
+          return const Text('No donation drives available');
         }
 
         var donationDrive = snapshot.data!.docs.map((doc) {
@@ -158,33 +157,99 @@ class _DonorHomePageState extends State<DonorHomePage> {
   Widget get spacer => const SizedBox(height: 30);
 
   Widget _buildRecentDonations() {
-    Donor? donor = context.watch<DonorsProvider>().donorData;
+    return StreamBuilder<QuerySnapshot>(
+      stream: context.watch<DonationsProvider>().getDonationForDonor(widget.donor!.username!),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const Text('No donation yet');
+        }
 
-    if (donor?.donationIDList == null || donor!.donationIDList!.isEmpty) {
-      return const Center(child: Text('No donations yet'));
-    }
+        var donations = snapshot.data!.docs.map((doc) {
+          return Donation.fromJson(doc.data() as Map<String, dynamic>);
+        }).toList();
 
-    return Expanded(
-      child: MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: ListView.builder(
-          itemCount: (donor.donationIDList!.length > 3) ? 3 : donor.donationIDList!.length,
-          itemBuilder: (context, index) {
-            int? dono = donor.donationIDList![index];
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-              child: Container(
-                decoration: CustomWidgetDesigns.customTileContainer(),
-                child: customDonorListTile(
-                  title: "Donation ID: $dono",
-                  subtitle: dono.toString(),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+        return Expanded(
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+              itemCount: donations.length,
+              itemBuilder: (context, index) {
+                Donation donation = donations[index];
+
+                return FutureBuilder<String?>(
+                  future: context.watch<DonationsProvider>().getDriveNameByDriveID(donation.driveID),
+                  builder: (context, driveNameSnapshot) {
+                    if (driveNameSnapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: CustomWidgetDesigns.customTileContainer(),
+                        child: const ListTile(
+                          title: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+
+                    if (!driveNameSnapshot.hasData || driveNameSnapshot.data == null) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: CustomWidgetDesigns.customTileContainer(),
+                        child: const ListTile(
+                          title: Text('Drive name not found'),
+                        ),
+                      );
+                    }
+
+                    String driveName = driveNameSnapshot.data!;
+
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: CustomWidgetDesigns.customTileContainer(),
+                      child: ListTile(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'ID: ${donation.donationID}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Text(
+                              driveName,
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        trailing: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color:
+                                donation.status == 'Confirmed' ? Colors.green : Colors.grey,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            donation.status.toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
+
 }

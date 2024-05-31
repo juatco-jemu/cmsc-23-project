@@ -154,7 +154,7 @@ class _OrganizationsListState extends State<OrganizationsList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              OrgDetailsPage(organization: organization, isDonor: false),
+                              OrgDetailsPage(organization: organization, isDonor: widget.isDonor),
                         ),
                       );
                     },
