@@ -100,19 +100,17 @@ class _DonorHomePageState extends State<DonorHomePage> {
           return DonationDrive.fromJson(doc.data() as Map<String, dynamic>);
         }).toList();
 
+        var firstFiveDrives = donationDrive.take(5).toList();
+
         return CarouselSlider(
-          items: donationDrive.map((drive) {
+          items: firstFiveDrives.map((drive) {
             return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DriveDetailsPage(
-                      isDonor: true, 
-                      donationDrive: drive, 
-                      donor: widget.donor
-                    )
-                  ),
+                      builder: (context) => DriveDetailsPage(
+                          isDonor: true, donationDrive: drive, donor: widget.donor)),
                 );
               },
               child: Container(
