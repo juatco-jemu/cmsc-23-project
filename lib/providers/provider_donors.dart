@@ -13,6 +13,14 @@ class DonorsProvider with ChangeNotifier {
 
   DonorsProvider() {
     fetchDonors();
+    _donorData = Donor(
+        firstName: "",
+        lastName: "",
+        email: "",
+        username: "",
+        addressList: [],
+        contactNumber: "",
+        donationIDList: []);
   }
 
   Stream<QuerySnapshot> get donor => _donorStream;
