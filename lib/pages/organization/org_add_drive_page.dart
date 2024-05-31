@@ -1,3 +1,4 @@
+import 'package:donation_system/components/addPhotos.dart';
 import 'package:donation_system/components/appbar.dart';
 import 'package:donation_system/model/model_drive.dart';
 import 'package:donation_system/providers/provider_drive.dart';
@@ -81,6 +82,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
             driveLocationField,
             _inputLabel("Is the event ongoing?"),
             driveStatusSwitch,
+            const AddPhotos(),
             submitButton,
           ],
         ),

@@ -1,7 +1,14 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:donation_system/components/addPhotos.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DonateForm extends StatefulWidget {
   const DonateForm({super.key});
@@ -35,10 +42,20 @@ class DonateFormState extends State<DonateForm> with SingleTickerProviderStateMi
   late Size screen = MediaQuery.of(context).size;
   late TabController _tabController;
 
+  List<XFile> images = [];
+  int _current = 0;
+  final ImagePicker _picker = ImagePicker();
+
+  List<CameraDescription> cameras = [];
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    availableCameras().then((availableCameras) {
+      cameras = availableCameras;
+    }).catchError((err) {
+      print('Error: $err.code\nError Message: $err.message');
+    });
   }
 
   @override
@@ -81,6 +98,8 @@ class DonateFormState extends State<DonateForm> with SingleTickerProviderStateMi
                 ],
               ),
             ),
+            spacer(20),
+            const AddPhotos(),
             spacer(50),
           ],
         ),
@@ -97,15 +116,6 @@ class DonateFormState extends State<DonateForm> with SingleTickerProviderStateMi
         child: Padding(
           padding: const EdgeInsets.only(bottom: 12.0),
           child: TextButton(
-            // style: ButtonStyle(
-            //   minimumSize: WidgetStateProperty.all(Size(screen.width, 40)),
-            //   backgroundColor: WidgetStateProperty.all(AppColors.yellow02),
-            //   shape: WidgetStateProperty.all(
-            //     RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(12),
-            //     ),
-            //   ),
-            // ),
             onPressed: () {
               setState(() {
                 if (_tabController.index == 0) {
@@ -368,4 +378,26 @@ class DonateFormState extends State<DonateForm> with SingleTickerProviderStateMi
       ),
     );
   }
+
+  // Future<void> _takePhoto() async {
+  //   final CameraController controller = CameraController(
+  //     cameras[0], // Use index 0 for rear camera, 1 for front camera
+  //     ResolutionPreset.medium,
+  //   );
+
+  //   await controller.initialize();
+
+  //   final XFile? photo = await controller.takePicture();
+
+  //   if (photo != null) {
+  //     final File file = File(photo.path);
+  //     final XFile xfile = XFile(file.path);
+
+  //     setState(() {
+  //       images.add(xfile);
+  //     });
+  //   }
+
+  //   controller.dispose();
+  // }
 }
