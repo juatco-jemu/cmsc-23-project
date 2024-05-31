@@ -37,7 +37,8 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
             Text('Username: ${widget.organization.orgUsername ?? 'No Username'}'),
             Text('Email: ${widget.organization.orgEmail ?? 'No Email'}'),
             Text('Description: ${widget.organization.orgDescription ?? 'No Description'}'),
-            Text('Address List: ${widget.organization.orgAddressList?.join(', ') ?? 'No Addresses'}'),
+            Text(
+                'Address List: ${widget.organization.orgAddressList?.join(', ') ?? 'No Addresses'}'),
             Text('Contact Number: ${widget.organization.orgContactNumber ?? 'No Contact Number'}'),
             Text('Status: ${_status ?? 'No Status'}'),
             const SizedBox(height: 20),
@@ -61,7 +62,8 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => OrgDonationDriveListPage(orgUsername: widget.organization.orgUsername!, isPage: false),
+                    builder: (context) =>
+                        OrgDonationDriveListPage(orgUsername: widget.organization.orgUsername!),
                   ),
                 );
               },
@@ -75,7 +77,9 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
 
   Future<void> _updateStatus(String status) async {
     try {
-      context.read<OrganizationsProvider>().updateOrganizationStatus(widget.organization.orgUsername!, status);
+      context
+          .read<OrganizationsProvider>()
+          .updateOrganizationStatus(widget.organization.orgUsername!, status);
       setState(() {
         _status = status;
       });
@@ -89,4 +93,3 @@ class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
     }
   }
 }
-

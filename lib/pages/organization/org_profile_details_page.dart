@@ -107,6 +107,7 @@ class _OrgProfileDetailsPageState extends State<OrgProfileDetailsPage> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
             readOnly: true,
+            enabled: false,
             decoration: CustomWidgetDesigns.customFormField(
                 widget.organization.orgName, "Enter your new Organization name"),
             // onSaved: (value) => setState(() => username = value),
@@ -128,6 +129,7 @@ class _OrgProfileDetailsPageState extends State<OrgProfileDetailsPage> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
             readOnly: true,
+            enabled: false,
             decoration: CustomWidgetDesigns.customFormField(
                 widget.organization.orgEmail, "Enter your new Organization email"),
             // onSaved: (value) => setState(() => username = value),
@@ -149,8 +151,12 @@ class _OrgProfileDetailsPageState extends State<OrgProfileDetailsPage> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
             readOnly: true,
+            enabled: false,
             decoration: CustomWidgetDesigns.customFormField(
-                widget.organization.orgContactNumber, "Enter your new Organization contact number"),
+                (widget.organization.orgContactNumber == "")
+                    ? "No number provided"
+                    : widget.organization.orgContactNumber,
+                "Enter your new Organization contact number"),
             // onSaved: (value) => setState(() => username = value),
             // validator: (value) {
             //   if (value == null || value.isEmpty) {

@@ -46,9 +46,9 @@ class _OrgProfilePageState extends State<OrgProfilePage> {
       children: [
         ProfileButton(
             title: "Profile", route: OrgProfileDetailsPage(organization: widget.organization)),
-        ProfileButton(
-            title: "Addresses",
-            route: AppAddressListPage(user: widget.organization, isDonor: false)),
+        // ProfileButton(
+        //     title: "Addresses",
+        //     route: AppAddressListPage(user: widget.organization, isDonor: false)),
         const ProfileButton(title: "Logout", route: "sign-out")
       ],
     );

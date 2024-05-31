@@ -17,7 +17,6 @@ class OrganizationsList extends StatefulWidget {
 }
 
 class _OrganizationsListState extends State<OrganizationsList> {
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -99,84 +98,81 @@ class _OrganizationsListState extends State<OrganizationsList> {
         var organizations = snapshot.data!.docs.map((doc) {
           return Organization.fromJson(doc.data() as Map<String, dynamic>);
         }).toList();
-    
-      return Expanded(
-        child: MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: ListView.builder(
-            itemCount: organizations.length,
-            itemBuilder: ((context, index) {
-            Organization organization = organizations[index];
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: CustomWidgetDesigns.customTileContainer(),
-              child: ListTile(
-                leading: const Icon(
-                  Icons.circle,
-                  size: 50,
-                  color: AppColors.yellow03,
-                ),
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      organization.orgName ?? 'No Name',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+
+        return Expanded(
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+              itemCount: organizations.length,
+              itemBuilder: ((context, index) {
+                Organization organization = organizations[index];
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: CustomWidgetDesigns.customTileContainer(),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.circle,
+                      size: 50,
+                      color: AppColors.yellow03,
                     ),
-                    Text(
-                      '@${organization.orgUsername}',
-                      style: const TextStyle(
-                        fontSize: 12, 
-                        color: Colors.grey, 
-                      ),
-                    ),
-                  ],
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 4), // Space between text and status container
-                    if (!widget.isDonor)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: organization.orgStatus == 'Approved' ? Colors.green : Colors.grey,
-                          borderRadius: BorderRadius.circular(15),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          organization.orgName ?? 'No Name',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        child: Text(
-                          organization.orgStatus!.toUpperCase(),
+                        Text(
+                          '@${organization.orgUsername}',
                           style: const TextStyle(
-                            color: Colors.white,
                             fontSize: 12,
+                            color: Colors.grey,
                           ),
                         ),
-                      ),
-                  ],
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OrgDetailsPage(organization: organization, isDonor: false),
+                      ],
                     ),
-                  );
-                },
-                // onTap: () {
-                //   Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => OrgDetailsPage(
-                //                 org: org,
-                //                 isDonor: widget.isDonor,
-                //               )));
-                // },
-              ),
-            );
-            }),
+                    trailing: (!widget.isDonor)
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color:
+                                  organization.orgStatus == 'Approved' ? Colors.green : Colors.grey,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Text(
+                              organization.orgStatus!.toUpperCase(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          )
+                        : null,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              OrgDetailsPage(organization: organization, isDonor: false),
+                        ),
+                      );
+                    },
+                    // onTap: () {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => OrgDetailsPage(
+                    //                 org: org,
+                    //                 isDonor: widget.isDonor,
+                    //               )));
+                    // },
+                  ),
+                );
+              }),
+            ),
           ),
-        ),
-      );
+        );
       },
     );
   }

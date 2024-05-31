@@ -36,7 +36,7 @@ class CustomWidgetDesigns {
         borderSide: BorderSide.none, // Remove the outline
         borderRadius: BorderRadius.circular(10), // Add rounded corners
       ),
-      label: Text(label),
+      label: Text(label, style: const TextStyle(color: Colors.black)),
       hintText: hint,
       // Add a shadow
     );

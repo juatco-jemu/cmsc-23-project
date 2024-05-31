@@ -19,29 +19,54 @@ class _AdminDonorListState extends State<AdminDonorList> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Admin - Donor List"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              // Navigator.of(context).popUntil((route) => route.isFirst);
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        height: screenHeight,
-        width: screenWidth,
-        // decoration: CustomWidgetDesigns.gradientBackground(),
-        color: AppColors.backgroundYellow,
-        child: showDonors(context)
+      body: SingleChildScrollView(
+        child: Container(
+            height: screenHeight,
+            width: screenWidth,
+            // decoration: CustomWidgetDesigns.gradientBackground(),
+            color: AppColors.backgroundYellow,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                spacer(50),
+                _buildHeader(),
+                showDonors(context),
+              ],
+            )),
       ),
     );
   }
+}
+
+Widget spacer(double height) {
+  return SizedBox(height: height);
+}
+
+Widget _buildHeader() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          "Admin - Donor List",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(right: 8.0),
+        //   child: Image.asset('assets/images/cloud01.png', height: 80),
+        // ),
+        IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+          },
+        ),
+      ],
+    ),
+  );
 }
 
 Widget showDonors(BuildContext context) {
@@ -67,42 +92,43 @@ Widget showDonors(BuildContext context) {
         return Donor.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
 
-      return ListView.builder(
-        itemCount: donors.length,
-        itemBuilder: (context, index) {
-        Donor donor = donors[index];
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: CustomWidgetDesigns.customTileContainer(),
-          child: ListTile(
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Username: ${donor.username}',
-                  style: const TextStyle(
-                    fontSize: 12, 
-                    color: Colors.grey, 
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${donor.firstName ?? ''} ${donor.lastName ?? ''}'.trim().isEmpty ? 'No Name' : '${donor.firstName ?? ''} ${donor.lastName ?? ''}'.trim(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => OrganizationDetailPage(organization: organization),
-              //   ),
-              // );
+      return Expanded(
+        child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: ListView.builder(
+            itemCount: donors.length,
+            itemBuilder: (context, index) {
+              Donor donor = donors[index];
+              return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: CustomWidgetDesigns.customTileContainer(),
+                  child: ListTile(
+                    title: Text(
+                      '${donor.firstName ?? ''} ${donor.lastName ?? ''}'.trim().isEmpty
+                          ? 'No Name'
+                          : '${donor.firstName ?? ''} ${donor.lastName ?? ''}'.trim(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      'Username: ${donor.username}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => OrganizationDetailPage(organization: organization),
+                      //   ),
+                      // );
+                    },
+                  ));
             },
-          )
-        );
-        },
+          ),
+        ),
       );
     },
   );
