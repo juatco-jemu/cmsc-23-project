@@ -162,15 +162,6 @@ class _OrganizationsListState extends State<OrganizationsList> {
                         ),
                       );
                     },
-                    // onTap: () {
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => OrgDetailsPage(
-                    //                 org: org,
-                    //                 isDonor: widget.isDonor,
-                    //               )));
-                    // },
                   ),
                 );
               }),

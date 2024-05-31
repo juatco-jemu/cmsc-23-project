@@ -52,23 +52,18 @@ Widget spacer(double height) {
 }
 
 Widget _buildHeader() {
-  return const Padding(
-    padding: EdgeInsets.symmetric(horizontal: 20),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(
-          "Admin - Donor List",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        // Padding(
-        //   padding: const EdgeInsets.only(right: 8.0),
-        //   child: Image.asset('assets/images/cloud01.png', height: 80),
-        // ),
+        const Text('Admin: Donors',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Image.asset('assets/images/cloud01.png', height: 80),
+        )
       ],
-    ),
-  );
-}
+    );
+  }
 
 Widget showDonors(BuildContext context) {
   Stream<QuerySnapshot> donorStream = context.watch<DonorsProvider>().donor;
