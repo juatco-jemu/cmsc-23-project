@@ -12,7 +12,8 @@ class OrgDonationDriveListPage extends StatefulWidget {
   final String orgUsername;
   final bool isPage;
 
-  const OrgDonationDriveListPage({Key? key, required this.orgUsername, required this.isPage}) : super(key: key);
+  const OrgDonationDriveListPage({Key? key, required this.orgUsername, required this.isPage})
+      : super(key: key);
 
   @override
   State<OrgDonationDriveListPage> createState() => _OrgDonationDriveListPageState();
@@ -23,7 +24,7 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    
+
     return Scaffold(
       body: Container(
         height: screenHeight,
@@ -44,7 +45,8 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
   }
 
   Widget _buildAddDriveButton(String orgUsername) {
-    return FloatingActionButton(
+    return FloatingActionButton.extended(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       backgroundColor: AppColors.yellow03,
       onPressed: () {
         Navigator.push(
@@ -54,7 +56,7 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
           ),
         );
       },
-      child: const Icon(Icons.add),
+      label: const Text("ADD DRIVE"),
     );
   }
 
@@ -76,12 +78,12 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
   }
 
   Widget get backButton => Padding(
-    padding: const EdgeInsets.only(left: 8.0),
-    child: IconButton(
-      onPressed: () => Navigator.pop(context),
-      icon: const Icon(Icons.arrow_back_ios),
-    ),
-  );
+        padding: const EdgeInsets.only(left: 8.0),
+        child: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      );
 
   Widget _buildSearch() {
     return Container(
@@ -99,7 +101,8 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
   }
 
   Widget _buildList(String orgUsername) {
-    Stream<QuerySnapshot> donationDriveStream = context.watch<DonationDriveProvider>().getDonationDrivesForOrganization(orgUsername);
+    Stream<QuerySnapshot> donationDriveStream =
+        context.watch<DonationDriveProvider>().getDonationDrivesForOrganization(orgUsername);
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: donationDriveStream,
@@ -132,13 +135,13 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'ID: ${donationDrive.driveID}',
-                        style: const TextStyle(
-                          fontSize: 12, 
-                          color: Colors.grey, 
-                        ),
-                      ),
+                      // Text(
+                      //   'ID: ${donationDrive.driveID}',
+                      //   style: const TextStyle(
+                      //     fontSize: 12,
+                      //     color: Colors.grey,
+                      //   ),
+                      // ),
                       const SizedBox(height: 4),
                       Text(
                         donationDrive.driveName,
@@ -146,36 +149,30 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
                       ),
                     ],
                   ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  subtitle: Row(
                     children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.location_on,
-                            size: 16,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(donationDrive.driveLocation),
-                        ],
+                      const Icon(
+                        Icons.location_on,
+                        size: 16,
+                        color: Colors.grey,
                       ),
-                      const SizedBox(height: 4), // Space between text and status container
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: donationDrive.driveStatus == 'Open' ? Colors.green : Colors.grey,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Text(
-                          donationDrive.driveStatus.toUpperCase(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
+                      const SizedBox(width: 4),
+                      Text(donationDrive.driveLocation),
                     ],
+                  ),
+                  trailing: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: donationDrive.driveStatus == 'Open' ? Colors.green : Colors.grey,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      donationDrive.driveStatus.toUpperCase(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
                   onTap: () {
                     Navigator.push(

@@ -1,8 +1,11 @@
+import 'package:donation_system/components/profileButton.dart';
 import 'package:donation_system/model/model_organization.dart';
 import 'package:donation_system/pages/organization/org_profile_details_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../address_list_page.dart';
 
 class OrgProfilePage extends StatefulWidget {
   final Organization organization;
@@ -28,7 +31,7 @@ class _OrgProfilePageState extends State<OrgProfilePage> {
         child: Container(
           color: AppColors.backgroundYellow,
           // decoration: CustomWidgetDesigns.gradientBackground(),
-          // height: screen.height - extraHeight,
+          height: screen.height,
           child: Column(
             children: [
               _buildTop(),
@@ -43,29 +46,12 @@ class _OrgProfilePageState extends State<OrgProfilePage> {
   Widget _buildButtons() {
     return Column(
       children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OrgProfileDetailsPage(organization: widget.organization),
-              ),
-            );
-          },
-          child: Text("My Profile"),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            // Navigator.pushNamed(context, '/AppAddressListPage');
-          },
-          child: Text("My Addresses"),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            FirebaseAuth.instance.signOut();
-          },
-          child: Text("Logout"),
-        ),
+        ProfileButton(
+            title: "Profile", route: OrgProfileDetailsPage(organization: widget.organization)),
+        ProfileButton(
+            title: "Addresses",
+            route: AppAddressListPage(user: widget.organization, isDonor: false)),
+        const ProfileButton(title: "Logout", route: "sign-out")
       ],
     );
   }
@@ -79,7 +65,8 @@ class _OrgProfilePageState extends State<OrgProfilePage> {
         ]),
         spacer,
         spacer,
-        Text(widget.organization.orgName!, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+        Text(widget.organization.orgName!,
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
         Text(
           widget.organization.orgUsername!,
           style: const TextStyle(fontSize: 20),

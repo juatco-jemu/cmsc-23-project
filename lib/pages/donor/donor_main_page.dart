@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class DonorMainPage extends StatefulWidget {
   final String email;
-  
+
   const DonorMainPage({super.key, required this.email});
 
   @override
@@ -19,36 +19,23 @@ class DonorMainPage extends StatefulWidget {
 
 class _DonorMainPageState extends State<DonorMainPage> {
   int _selectedIndex = 0;
-  late final List<Widget> _pages;
-  Donor? donor;
 
-  @override 
+  @override
   void initState() {
     super.initState();
-    _fetchDonor();
+    context.read<DonorsProvider>().getDonorByEmail(widget.email);
   }
-
-  Future<void> _fetchDonor() async {
-    final getDonor = await context.read<DonorsProvider>().getDonorByEmail(widget.email);
-    setState(() {
-      donor = getDonor;
-      _pages = [
-        const DonorHomePage(),
-        const OrganizationsList(isPage: true, isDonor: true),
-        DonorProfilePage(donor: donor!),
-      ];
-    });
-    }
-
 
   @override
   Widget build(BuildContext context) {
+    Donor? donor = context.watch<DonorsProvider>().donorData;
+    final List<Widget> pages = [
+      const DonorHomePage(),
+      const OrganizationsList(isPage: true, isDonor: true),
+      DonorProfilePage(donor: donor),
+    ];
     return Scaffold(
-        // appBar: const CustomAppBar(
-        //   title: 'Elbi Donation System',
-        // ),
-        bottomNavigationBar: botNavBar,
-        body: Center(child: _pages.elementAt(_selectedIndex)));
+        bottomNavigationBar: botNavBar, body: Center(child: pages.elementAt(_selectedIndex)));
   }
 
   CurvedNavigationBar get botNavBar => CurvedNavigationBar(

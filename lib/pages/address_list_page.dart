@@ -1,4 +1,7 @@
+import 'package:donation_system/providers/provider_address_list.dart';
+import 'package:donation_system/providers/provider_donors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../theme/colors.dart';
 
 class AppAddressListPage extends StatefulWidget {
@@ -11,25 +14,26 @@ class AppAddressListPage extends StatefulWidget {
 }
 
 class _AppAddressesPagesState extends State<AppAddressListPage> {
-  List<String>? addresses = [];
+  Stream<List<dynamic>> addresses = const Stream.empty();
+  String user = "";
 
   @override
   void initState() {
     super.initState();
-    addresses = widget.isDonor ? widget.user.addressList : widget.user.orgAddressList;
+    // addresses = widget.isDonor ? widget.user.addressList : widget.user.orgAddressList;
+    user = widget.isDonor ? "donors" : "organizations";
+    context.read<AddressListProvider>().fetchAddress(user);
   }
 
   late Size screen = MediaQuery.of(context).size;
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    // Stream<QuerySnapshot> todosStream = context.watch<TodoListProvider>().todo;
+    addresses = context.watch<AddressListProvider>().addressList;
     return Scaffold(
       body: Container(
-        height: screenHeight,
-        width: screenWidth,
+        height: screen.height,
+        width: screen.width,
         // decoration: CustomWidgetDesigns.gradientBackground(),
         color: AppColors.backgroundYellow,
         child: Column(
@@ -37,11 +41,46 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
             spacer(40.0),
             _buildHeader(),
             divider,
-            _buildList(),
+            Expanded(
+              child: StreamBuilder<List<dynamic>>(
+                stream: context.watch<AddressListProvider>().addressList,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator(); // or some other loading indicator
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}'); // or some other error indicator
+                  } else {
+                    List<dynamic> addresses = snapshot.data!;
+                    return addresses.isEmpty ? noAddressWidget() : _buildList(addresses);
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
       bottomSheet: addAddressButton(context),
+    );
+  }
+
+  Widget noAddressWidget() {
+    return Center(
+      child: Container(
+        color: AppColors.backgroundYellow,
+        width: screen.width,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const Text(
+                "No Address Found",
+                style: TextStyle(color: AppColors.darkYellow01),
+              ),
+              TextButton(onPressed: addAddress, child: const Text("Add Address"))
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -65,18 +104,18 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
             onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_ios)),
       );
 
-  Widget _buildList() {
+  Widget _buildList(List<dynamic> addresses) {
     return Expanded(
       child: MediaQuery.removePadding(
         context: context,
         removeTop: true,
         child: ListView.separated(
-          itemCount: addresses!.length,
+          itemCount: addresses.length,
           separatorBuilder: (context, index) => Divider(
             color: Colors.grey.shade400,
           ),
           itemBuilder: ((context, index) {
-            String address = addresses![index];
+            String address = addresses[index];
             return ListTile(
               minTileHeight: 60,
               leading: const Icon(
@@ -121,7 +160,7 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
               ),
             ),
           ),
-          onPressed: () {},
+          onPressed: addAddress,
           child: const Text(
             "Add Address",
             style: TextStyle(color: AppColors.appWhite),
@@ -129,6 +168,32 @@ class _AppAddressesPagesState extends State<AppAddressListPage> {
         ),
       ),
     );
+  }
+
+  Future addAddress() {
+    final TextEditingController addressController = TextEditingController();
+    return showDialog(
+        context: (context),
+        builder: (context) => AlertDialog(
+              title: const Text("Add Address"),
+              content: TextField(
+                controller: addressController,
+                decoration: const InputDecoration(hintText: "Enter Address"),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Cancel")),
+                ElevatedButton(
+                    onPressed: () {
+                      context.read<AddressListProvider>().addAddress(user, addressController.text);
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Add"))
+              ],
+            ));
   }
 
   Widget spacer(height) => SizedBox(

@@ -33,8 +33,7 @@ class PendingOrgPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut();
-                Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (context) => const SignInPage()), (route) => false);
+                Navigator.of(context).popUntil((route) => route.isFirst);
               },
               child: const Text('Sign Out'),
             ),
