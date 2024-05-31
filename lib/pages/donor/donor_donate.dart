@@ -94,64 +94,60 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Donation Form',
-      ),
-      body: donationID == null
+        appBar: const CustomAppBar(
+          title: 'Donation Form',
+        ),
+        body: donationID == null
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Container(
                   color: AppColors.backgroundYellow,
                   child: Column(
-                    children: [
-                      _buildForm()
-                    ],
+                    children: [spacer(20), _buildForm(), spacer(20)],
                   ),
                 ),
-            )
-    );
+              ));
   }
 
   Widget _buildForm() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Container(
-              decoration: CustomWidgetDesigns.customContainer(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  formHeader("Donation Categories"),
-                  donationCategory,
-                  spacer(10),
-                  weightForm,
-                  spacer(30),
-                ],
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Container(
+                decoration: CustomWidgetDesigns.customContainer(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    formHeader("Donation Categories"),
+                    donationCategory,
+                    spacer(10),
+                    weightForm,
+                    spacer(30),
+                  ],
+                ),
               ),
-            ),
-            spacer(20),
-            Container(
-              decoration: CustomWidgetDesigns.customContainer(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  formHeader("Pickup/Dropoff Details"),
-                  pickupDropoff,
-                  !isPickup ? generateQR() : Container(),
-                ],
+              spacer(20),
+              Container(
+                decoration: CustomWidgetDesigns.customContainer(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    formHeader("Pickup/Dropoff Details"),
+                    pickupDropoff,
+                    !isPickup ? generateQR() : Container(),
+                  ],
+                ),
               ),
-            ),
-            spacer(20),
-            const AddPhotos(),
-            spacer(50),
-            donateButton,
-          ],
-        ),
-      )
-    );
+              spacer(20),
+              const AddPhotos(),
+              spacer(50),
+              donateButton,
+            ],
+          ),
+        ));
   }
 
   Widget spacer(double size) {
@@ -159,45 +155,40 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
   }
 
   Widget get donateButton => ElevatedButton(
-    style: CustomWidgetDesigns.customSubmitButton(),
-    onPressed: () async {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
+      style: CustomWidgetDesigns.customSubmitButton(),
+      onPressed: () async {
+        if (_formKey.currentState!.validate()) {
+          _formKey.currentState!.save();
 
-        if (donationID != null) {
-          Donation newDonation = Donation(
-            donationID: donationID!, 
-            driveID: widget.drive.driveID,
-            donorUsername: widget.donor!.username!, 
-            orgUsername: widget.drive.orgUsername, 
-            itemsToDonate: itemsToDonate, 
-            weight: weight!, 
-            mode: isPickup ? "Pickup" : "Dropoff", 
-            dateTime: dateTime, 
-            selectedAddress: isPickup ? selectedAddress! : "", 
-            contactNumber: widget.donor!.contactNumber!, 
-            imageURL: [], 
-            qrCode: "", 
-            status: "Pending"
-          );
+          if (donationID != null) {
+            Donation newDonation = Donation(
+                donationID: donationID!,
+                driveID: widget.drive.driveID,
+                donorUsername: widget.donor!.username!,
+                orgUsername: widget.drive.orgUsername,
+                itemsToDonate: itemsToDonate,
+                weight: weight!,
+                mode: isPickup ? "Pickup" : "Dropoff",
+                dateTime: dateTime,
+                selectedAddress: isPickup ? selectedAddress! : "",
+                contactNumber: widget.donor!.contactNumber!,
+                imageURL: [],
+                qrCode: "",
+                status: "Pending");
 
-          print(donationID);
-          context.read<DonationsProvider>().addDonation(newDonation);
-      
-          if (mounted) Navigator.pop(context);
+            print(donationID);
+            context.read<DonationsProvider>().addDonation(newDonation);
 
-        } else {
-          // Handle the case where driveID is null
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Error: Donation ID is null')),
-          );
+            if (mounted) Navigator.pop(context);
+          } else {
+            // Handle the case where driveID is null
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Error: Donation ID is null')),
+            );
+          }
         }
-      }
-    },
-    child: const Text("Submit Donation")
-  
-  );
-
+      },
+      child: const Text("Submit Donation"));
 
   Widget generateQR() {
     return const Align(
@@ -233,7 +224,7 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
             ),
           ),
         ],
-  );
+      );
 
   Widget get pickupDropoff => Container(
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -300,23 +291,23 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
       );
 
   Widget get donationCategory => Column(
-    children: _category
-      .map((e) => CheckboxListTile(
-        title: Text(e),
-        value: itemsToDonate.contains(e),
-        onChanged: (bool? val) {
-          setState(() {
-            if (val == true) {
-              itemsToDonate.add(e);
-            } else {
-              itemsToDonate.remove(e);
-            }
-          });
-        },
-        controlAffinity: ListTileControlAffinity.leading,
-      ))
-      .toList(),
-  );
+        children: _category
+            .map((e) => CheckboxListTile(
+                  title: Text(e),
+                  value: itemsToDonate.contains(e),
+                  onChanged: (bool? val) {
+                    setState(() {
+                      if (val == true) {
+                        itemsToDonate.add(e);
+                      } else {
+                        itemsToDonate.remove(e);
+                      }
+                    });
+                  },
+                  controlAffinity: ListTileControlAffinity.leading,
+                ))
+            .toList(),
+      );
 
   Widget formHeader(String title) {
     return Container(
@@ -394,12 +385,12 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
                       CustomWidgetDesigns.customFormField("Contact Number", "Enter contact number"),
                   onSaved: (value) => setState(() => contactNumber = value),
                   validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a contact number';
-                  }
-                  // You can add additional validation logic here
-                  return null;
-                },
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a contact number';
+                    }
+                    // You can add additional validation logic here
+                    return null;
+                  },
                 ),
               ],
             ),
@@ -498,5 +489,4 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
       ),
     );
   }
-
 }
