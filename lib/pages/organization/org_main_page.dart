@@ -35,7 +35,7 @@ class _OrganizationMainPageState extends State<OrganizationMainPage> {
       organization = org;
       _pages = [
         OrgHomePage(orgUsername: widget.orgUsername),
-        OrgDonationDriveListPage(orgUsername: widget.orgUsername, isPage: true),
+        OrgDonationDriveListPage(orgUsername: widget.orgUsername),
         OrgProfilePage(organization: organization!),
       ];
     });

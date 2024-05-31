@@ -1,6 +1,7 @@
 import 'package:donation_system/model/model_donor.dart';
 import 'package:donation_system/pages/donor/donor_donate.dart';
 import 'package:donation_system/theme/colors.dart';
+import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 import '../model/model_drive.dart';
 
@@ -29,6 +30,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
         child: Container(
           color: AppColors.backgroundYellow,
           width: screen.width,
+          height: screen.height,
           child: Column(
             children: [
               Container(
@@ -45,21 +47,20 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
                       children: [
                         Text(widget.donationDrive.driveName,
                             style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                        const Icon(Icons.favorite_border),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.donationDrive.driveStatus),
-                        Text("Location: ${widget.donationDrive.driveLocation}"),
-                        spacer,
-                        Text("Description: ${widget.donationDrive.driveDescription}"),
-                        spacer,
-                        // widget.isDonor ? const DonateForm() : Container(),
+                        location(widget.donationDrive.driveLocation),
+                        spacer(10),
+                        driveStatus(widget.donationDrive.driveStatus),
+                        spacer(20),
+                        description(widget.donationDrive.driveDescription),
+                        spacer(20),
                       ],
                     ),
-                    spacer,
+                    spacer(20),
                   ],
                 ),
               ),
@@ -68,6 +69,40 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
         ),
       ),
       bottomSheet: widget.isDonor ? donateButton(context) : viewDonationsButton(context),
+    );
+  }
+
+  Widget description(description) {
+    return Container(
+      width: screen.width,
+      padding: const EdgeInsets.all(20),
+      decoration: CustomWidgetDesigns.customContainer(),
+      child: Text("         $description",
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+    );
+  }
+
+  Widget location(location) {
+    return Row(children: [
+      const Icon(Icons.location_on, size: 16, color: Colors.grey),
+      Text(location),
+    ]);
+  }
+
+  Widget driveStatus(status) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: status == 'Open' ? Colors.green : Colors.grey,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Text(
+        status.toUpperCase(),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+        ),
+      ),
     );
   }
 
@@ -130,5 +165,7 @@ class _DriveDetailsPageState extends State<DriveDetailsPage> {
     );
   }
 
-  Widget get spacer => const SizedBox(height: 20);
+  Widget spacer(double height) {
+    return SizedBox(height: height);
+  }
 }

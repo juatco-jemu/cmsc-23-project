@@ -10,10 +10,8 @@ import 'package:provider/provider.dart';
 
 class OrgDonationDriveListPage extends StatefulWidget {
   final String orgUsername;
-  final bool isPage;
 
-  const OrgDonationDriveListPage({Key? key, required this.orgUsername, required this.isPage})
-      : super(key: key);
+  const OrgDonationDriveListPage({Key? key, required this.orgUsername}) : super(key: key);
 
   @override
   State<OrgDonationDriveListPage> createState() => _OrgDonationDriveListPageState();
@@ -33,10 +31,11 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
         color: AppColors.backgroundYellow,
         child: Column(
           children: [
-            spacer,
+            spacer(50),
             _buildHeader(),
             _buildSearch(),
             _buildList(widget.orgUsername),
+            spacer(80),
           ],
         ),
       ),
@@ -61,19 +60,21 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        !widget.isPage ? backButton : Container(),
-        const Text(
-          "All Donation Drives\nin your organization",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Image.asset('assets/images/cloud01.png', height: 80),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            "All Donation Drives in\n your organization",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Image.asset('assets/images/cloud01.png', height: 80),
+          ),
+        ],
+      ),
     );
   }
 
@@ -117,83 +118,85 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
 
           var donationDrives = snapshot.data!.docs;
 
-          return ListView.builder(
-            itemCount: donationDrives.length,
-            itemBuilder: (context, index) {
-              var document = donationDrives[index];
-              Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-              DonationDrive donationDrive = DonationDrive.fromJson(data);
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: CustomWidgetDesigns.customTileContainer(),
-                child: ListTile(
-                  // leading: const Icon(
-                  //   Icons.circle,
-                  //   size: 50,
-                  //   color: AppColors.yellow03,
-                  // ),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Text(
-                      //   'ID: ${donationDrive.driveID}',
-                      //   style: const TextStyle(
-                      //     fontSize: 12,
-                      //     color: Colors.grey,
-                      //   ),
-                      // ),
-                      const SizedBox(height: 4),
-                      Text(
-                        donationDrive.driveName,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  subtitle: Row(
-                    children: [
-                      const Icon(
-                        Icons.location_on,
-                        size: 16,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(donationDrive.driveLocation),
-                    ],
-                  ),
-                  trailing: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: donationDrive.driveStatus == 'Open' ? Colors.green : Colors.grey,
-                      borderRadius: BorderRadius.circular(15),
+          return MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+              itemCount: donationDrives.length,
+              itemBuilder: (context, index) {
+                var document = donationDrives[index];
+                Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                DonationDrive donationDrive = DonationDrive.fromJson(data);
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: CustomWidgetDesigns.customTileContainer(),
+                  child: ListTile(
+                    // leading: const Icon(
+                    //   Icons.circle,
+                    //   size: 50,
+                    //   color: AppColors.yellow03,
+                    // ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Text(
+                        //   'ID: ${donationDrive.driveID}',
+                        //   style: const TextStyle(
+                        //     fontSize: 12,
+                        //     color: Colors.grey,
+                        //   ),
+                        // ),
+                        spacer(4),
+                        Text(
+                          donationDrive.driveName,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      donationDrive.driveStatus.toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
+                    subtitle: Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                        spacer(4),
+                        Text(donationDrive.driveLocation),
+                      ],
+                    ),
+                    trailing: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: donationDrive.driveStatus == 'Open' ? Colors.green : Colors.grey,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        donationDrive.driveStatus.toUpperCase(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DriveDetailsPage(
+                                isDonor: false, donationDrive: donationDrive, donor: null)),
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DriveDetailsPage(
-                          isDonor: false, 
-                          donationDrive: donationDrive, 
-                          donor: null
-                        )
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         },
       ),
     );
   }
 
-  Widget get spacer => const SizedBox(height: 40);
+  Widget spacer(double height) {
+    return SizedBox(height: height);
+  }
 }
