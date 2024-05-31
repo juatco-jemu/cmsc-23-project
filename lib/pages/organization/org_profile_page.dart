@@ -3,7 +3,6 @@ import 'package:donation_system/model/model_organization.dart';
 import 'package:donation_system/pages/organization/org_profile_details_page.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:flutter/material.dart';
-import '../address_list_page.dart';
 
 class OrgProfilePage extends StatefulWidget {
   final Organization organization;

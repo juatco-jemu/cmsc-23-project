@@ -35,6 +35,7 @@ class _DonorProfilePageState extends State<DonorProfilePage> {
           child: Column(
             children: [
               _buildTop(),
+              spacer,
               _buildButtons(),
             ],
           ),

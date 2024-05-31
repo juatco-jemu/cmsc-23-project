@@ -88,85 +88,42 @@ class _OrgProfileDetailsPageState extends State<OrgProfileDetailsPage> {
         children: [
           spacer,
           _inputLabel("Organization Name"),
-          nameField,
+          _formField(widget.organization.orgName),
           _inputLabel("Organization Email"),
-          emailField,
+          _formField(widget.organization.orgEmail),
           _inputLabel("Organization Contact Number"),
-          contactField,
+          _formField((widget.organization.orgContactNumber == "")
+              ? "Not provided"
+              : widget.organization.orgContactNumber!),
           spacer,
         ],
       ),
     );
   }
 
-  Widget get nameField => Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: Material(
-          elevation: 2,
-          shadowColor: Colors.grey,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          child: TextFormField(
-            readOnly: true,
-            enabled: false,
-            decoration: CustomWidgetDesigns.customFormField(
-                widget.organization.orgName, "Enter your new Organization name"),
-            // onSaved: (value) => setState(() => username = value),
-            // validator: (value) {
-            //   if (value == null || value.isEmpty) {
-            //     return "Please enter your username";
-            //   }
-            //   return null;
-            // },
-          ),
+  Widget _formField(data) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Material(
+        elevation: 2,
+        shadowColor: Colors.grey,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: TextFormField(
+          readOnly: true,
+          enabled: false,
+          decoration:
+              CustomWidgetDesigns.customFormField(data, "Enter your new ${data.toLowerCase()}"),
+          // onSaved: (value) => setState(() => username = value),
+          // validator: (value) {
+          //   if (value == null || value.isEmpty) {
+          //     return "Please enter your username";
+          //   }
+          //   return null;
+          // },
         ),
-      );
-
-  Widget get emailField => Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: Material(
-          elevation: 2,
-          shadowColor: Colors.grey,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          child: TextFormField(
-            readOnly: true,
-            enabled: false,
-            decoration: CustomWidgetDesigns.customFormField(
-                widget.organization.orgEmail, "Enter your new Organization email"),
-            // onSaved: (value) => setState(() => username = value),
-            // validator: (value) {
-            //   if (value == null || value.isEmpty) {
-            //     return "Please enter your username";
-            //   }
-            //   return null;
-            // },
-          ),
-        ),
-      );
-
-  Widget get contactField => Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: Material(
-          elevation: 2,
-          shadowColor: Colors.grey,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          child: TextFormField(
-            readOnly: true,
-            enabled: false,
-            decoration: CustomWidgetDesigns.customFormField(
-                (widget.organization.orgContactNumber == "")
-                    ? "No number provided"
-                    : widget.organization.orgContactNumber,
-                "Enter your new Organization contact number"),
-            // onSaved: (value) => setState(() => username = value),
-            // validator: (value) {
-            //   if (value == null || value.isEmpty) {
-            //     return "Please enter your username";
-            //   }
-            //   return null;
-            // },
-          ),
-        ),
-      );
+      ),
+    );
+  }
 
   Widget _inputLabel(label) {
     return Padding(

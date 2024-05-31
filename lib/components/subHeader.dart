@@ -4,7 +4,7 @@ import '../theme/colors.dart';
 
 class SubHeader extends StatelessWidget {
   final String title;
-  final String route;
+  final dynamic route;
   const SubHeader({super.key, required this.title, required this.route});
 
   @override
@@ -20,7 +20,11 @@ class SubHeader extends StatelessWidget {
                 foregroundColor: WidgetStateProperty.all<Color>(AppColors.yellow03),
               ),
               onPressed: () {
-                Navigator.pushNamed(context, route);
+                // Navigator.pushNamed(context, route);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => route),
+                );
               },
               child: const Text("View All",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),

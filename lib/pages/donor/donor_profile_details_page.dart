@@ -73,7 +73,8 @@ class _DonorProfileDetailsPageState extends State<DonorProfileDetailsPage> {
           _inputLabel("Email"),
           _formField(widget.donor.email),
           _inputLabel("Contact Number"),
-          _formField(widget.donor.contactNumber),
+          _formField(
+              (widget.donor.contactNumber == "") ? "Not provided" : widget.donor.contactNumber!),
           spacer,
         ],
       ),
@@ -89,6 +90,7 @@ class _DonorProfileDetailsPageState extends State<DonorProfileDetailsPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
           readOnly: true,
+          enabled: false,
           decoration:
               CustomWidgetDesigns.customFormField(data, "Enter your new ${data.toLowerCase()}"),
           // onSaved: (value) => setState(() => username = value),

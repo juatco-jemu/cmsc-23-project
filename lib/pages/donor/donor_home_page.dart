@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_system/components/subHeader.dart';
+import 'package:donation_system/pages/org_list_page.dart';
 import 'package:donation_system/providers/provider_drive.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
@@ -36,7 +37,8 @@ class _DonorHomePageState extends State<DonorHomePage> {
               children: [
                 spacer,
                 header,
-                const SubHeader(title: "Featured Drives", route: "/org-list"),
+                const SubHeader(
+                    title: "Recent Drives", route: OrganizationsList(isPage: false, isDonor: true)),
                 carouselSlider(),
                 spacer,
                 const SubHeader(
@@ -142,6 +144,8 @@ class _DonorHomePageState extends State<DonorHomePage> {
             );
           }).toList(),
           options: CarouselOptions(
+            autoPlay: true,
+            autoPlayInterval: const Duration(seconds: 4),
             height: 350,
             initialPage: 0,
             enableInfiniteScroll: false,

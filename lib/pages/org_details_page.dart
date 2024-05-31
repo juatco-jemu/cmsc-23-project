@@ -9,6 +9,8 @@ import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/appbar.dart';
+
 class OrgDetailsPage extends StatefulWidget {
   final Organization organization;
   final bool isDonor;
@@ -19,21 +21,12 @@ class OrgDetailsPage extends StatefulWidget {
 }
 
 class _OrgDetailsPageState extends State<OrgDetailsPage> {
-  // Donor donor = MockDonor.fetchDonor();
-  // List<DonationDrive> drive = MockDonationDrive.fetchMany();
-  // String? _status;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _status = widget.organization.orgStatus;
-  // }
-
+  late Size screen = MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.organization.orgName ?? 'Organization Details'),
+      appBar: CustomAppBar(
+        title: widget.organization.orgName ?? 'Organization Details',
       ),
       body: Container(
         // decoration: CustomWidgetDesigns.gradientBackground(),
@@ -45,10 +38,8 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                orgName(widget.organization.orgName),
-                // orgAbout(widget.organizationor),
+                header("Donation Drives"),
                 const SizedBox(height: 20),
-                const Text("Donation Drives"),
                 carouselSlider(widget.organization.orgUsername),
               ],
             ),
@@ -58,7 +49,7 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
     );
   }
 
-  Widget orgName(name) {
+  Widget header(name) {
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: Text(
@@ -90,6 +81,23 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
     );
   }
 
+  Widget driveStatus(status) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: status == 'Open' ? Colors.green : Colors.grey,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Text(
+        status.toUpperCase(),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+
   Widget carouselSlider(orgUsername) {
     return StreamBuilder<QuerySnapshot>(
       stream: context.watch<DonationDriveProvider>().getDonationDrivesForOrganization(orgUsername),
@@ -112,17 +120,13 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DriveDetailsPage(
-                      isDonor: false, 
-                      donationDrive: drive, 
-                      donor: null
-                    )
-                  ),
+                      builder: (context) =>
+                          DriveDetailsPage(isDonor: true, donationDrive: drive, donor: null)),
                 );
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
                 decoration: CustomWidgetDesigns.customContainer(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,8 +142,9 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(drive.driveName,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text(drive.driveStatus, style: const TextStyle(fontSize: 15)),
+                              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                          spacer(10),
+                          driveStatus(drive.driveStatus),
                         ],
                       ),
                     ),
@@ -149,10 +154,12 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
             );
           }).toList(),
           options: CarouselOptions(
-            height: 350,
+            autoPlay: true,
+            autoPlayInterval: const Duration(seconds: 2),
+            height: screen.height * 0.7,
             initialPage: 0,
             enableInfiniteScroll: false,
-            scrollDirection: Axis.horizontal,
+            scrollDirection: Axis.vertical,
             clipBehavior: Clip.antiAlias,
           ),
         );
@@ -160,5 +167,7 @@ class _OrgDetailsPageState extends State<OrgDetailsPage> {
     );
   }
 
-  Widget get spacer => const SizedBox(height: 30);
+  Widget spacer(double height) {
+    return SizedBox(height: height);
+  }
 }
