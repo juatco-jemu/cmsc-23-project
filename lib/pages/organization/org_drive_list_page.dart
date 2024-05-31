@@ -179,9 +179,10 @@ class _OrgDonationDriveListPageState extends State<OrgDonationDriveListPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DriveDetailsPage(
-                          donationDrive: donationDrive,
-                          isDonor: false,
-                        ),
+                          isDonor: false, 
+                          donationDrive: donationDrive, 
+                          donor: null
+                        )
                       ),
                     );
                   },

@@ -2,6 +2,7 @@ import 'package:donation_system/firebase_options.dart';
 import 'package:donation_system/pages/main_page.dart';
 import 'package:donation_system/providers/provider_address_list.dart';
 import 'package:donation_system/providers/provider_auth.dart';
+import 'package:donation_system/providers/provider_donation.dart';
 import 'package:donation_system/providers/provider_donors.dart';
 import 'package:donation_system/providers/provider_drive.dart';
 import 'package:donation_system/providers/provider_organizations.dart';
@@ -20,7 +21,8 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (context) => OrganizationsProvider()),
     ChangeNotifierProvider(create: (context) => UserAuthProvider()),
     ChangeNotifierProvider(create: (context) => DonationDriveProvider()),
-    ChangeNotifierProvider(create: (context) => AddressListProvider())
+    ChangeNotifierProvider(create: (context) => AddressListProvider()),
+    ChangeNotifierProvider(create: (context) => DonationsProvider()),
   ], child: const MyApp()));
 }
 

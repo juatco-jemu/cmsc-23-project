@@ -30,7 +30,7 @@ class _DonorMainPageState extends State<DonorMainPage> {
   Widget build(BuildContext context) {
     Donor? donor = context.watch<DonorsProvider>().donorData;
     final List<Widget> pages = [
-      const DonorHomePage(),
+      DonorHomePage(donor: donor),
       const OrganizationsList(isPage: true, isDonor: true),
       DonorProfilePage(donor: donor),
     ];
