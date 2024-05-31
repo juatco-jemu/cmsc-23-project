@@ -1,5 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/provider_auth.dart';
 
 class PendingOrgPage extends StatelessWidget {
   const PendingOrgPage({super.key});
@@ -30,7 +32,7 @@ class PendingOrgPage extends StatelessWidget {
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                FirebaseAuth.instance.signOut();
+                context.read<UserAuthProvider>().signOut();
                 Navigator.of(context).popUntil((route) => route.isFirst);
               },
               child: const Text('Sign Out'),

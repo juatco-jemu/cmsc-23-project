@@ -4,6 +4,8 @@ import 'package:donation_system/providers/provider_organizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'org_rejected_page.dart';
+
 class OrganizationControlPage extends StatefulWidget {
   final String orgEmail;
 
@@ -26,9 +28,11 @@ class _OrganizationControlPageState extends State<OrganizationControlPage> {
   Future<void> fetchOrganizationDetails() async {
     try {
       // Get organization username and status using the user email
-      String? orgUsername = await context.read<OrganizationsProvider>().getOrganizationUsername(widget.orgEmail);
-      String? orgStatus = await context.read<OrganizationsProvider>().getOrganizationStatus(orgUsername!);
-      
+      String? orgUsername =
+          await context.read<OrganizationsProvider>().getOrganizationUsername(widget.orgEmail);
+      String? orgStatus =
+          await context.read<OrganizationsProvider>().getOrganizationStatus(orgUsername!);
+
       setState(() {
         _orgUsername = orgUsername;
         _orgStatus = orgStatus!;
@@ -38,6 +42,11 @@ class _OrganizationControlPageState extends State<OrganizationControlPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => PendingOrgPage()),
+        );
+      } else if (_orgStatus == "Rejected") {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => OrgRejectedPage()),
         );
       } else {
         Navigator.pushReplacement(
