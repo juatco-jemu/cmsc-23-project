@@ -64,7 +64,7 @@ class Donation {
       'itemsToDonate': donation.itemsToDonate,
       'weight': donation.weight,
       'mode': donation.mode,
-      'dateTime': Timestamp.fromDate(donation.dateTime!), // Convert DateTime to Timestamp
+      'dateTime': Timestamp.fromDate(donation.dateTime), // Convert DateTime to Timestamp
       'selectedAddress': donation.selectedAddress,
       'contactNumber': donation.contactNumber,
       'imageURL': donation.imageURL,

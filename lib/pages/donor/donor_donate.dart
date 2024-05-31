@@ -45,7 +45,7 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
   List<String> itemsToDonate = [];
   String? weight;
   String? mode; // Pickup or Drop-off
-  DateTime? dateTimeOfDonation;
+  DateTime? _selectedDate;
   String? selectedAddress;
   String? contactNumber;
   List<String>? imageURL; // Image as proof
@@ -69,6 +69,20 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
     setState(() {
       donationID = nextDonationID;
     });
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
   }
 
   @override
@@ -365,6 +379,9 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
               children: [
                 // spacer(30),
                 formHeader("Pickup time: "),
+                // DatePickerButton(),
+                // spacer(20),
+                // TimePickerDropdown(),
                 changeDateTime(context),
                 spacer(20),
                 _buildAddressDropdown(),
@@ -427,6 +444,8 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
 
     final newDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
     setState(() => dateTime = newDateTime);
+
+    print(dateTime);
   }
 
   Future<DateTime?> pickDate() => showDatePicker(
@@ -441,7 +460,7 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
         initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute),
       );
 
-  Widget updateModeButton(context) {
+  Widget updateModeButton(BuildContext context) {
     return Container(
       color: AppColors.appWhite,
       width: screen.width,
@@ -458,15 +477,18 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
             ),
           ),
           onPressed: () {
-            setState(() {
-              if (_tabController.index == 0) {
-                isPickup = true;
-              } else {
-                isPickup = false;
-              }
-            });
-
-            Navigator.pop(context);
+            if (selectedAddress == null || selectedAddress!.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Please select an address'),
+                ),
+              );
+            } else {
+              setState(() {
+                isPickup = _tabController.index == 0;
+              });
+              Navigator.pop(context);
+            }
           },
           child: const Text(
             "Update",
@@ -476,4 +498,5 @@ class _DonatePageState extends State<DonatePage> with SingleTickerProviderStateM
       ),
     );
   }
+
 }
