@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:donation_system/components/addPhotos.dart';
+import 'package:donation_system/components/qrCode.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class DonateFormState extends State<DonateForm> with SingleTickerProviderStateMi
                 children: [
                   formHeader("Pickup/Dropoff Details"),
                   pickupDropoff,
-                  !isPickup ? generateQR : Container(),
+                  !isPickup ? generateQR() : Container(),
                 ],
               ),
             ),
@@ -111,29 +112,15 @@ class DonateFormState extends State<DonateForm> with SingleTickerProviderStateMi
     return SizedBox(height: size);
   }
 
-  Widget get generateQR => Align(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                if (_tabController.index == 0) {
-                  isPickup = true;
-                } else {
-                  isPickup = false;
-                }
-              });
-
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Generate QR Code",
-              style: TextStyle(color: AppColors.yellow03),
-            ),
-          ),
-        ),
-      );
+  Widget generateQR() {
+    return const Align(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 12.0),
+        child: GenerateQRCode(),
+      ),
+    );
+  }
 
   Widget get weightForm => Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
