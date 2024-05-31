@@ -1,4 +1,5 @@
 import 'package:donation_system/components/appbar.dart';
+import 'package:donation_system/pages/signIn_page.dart';
 
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,8 @@ class _OrgRejectedPageState extends State<OrgRejectedPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, "/");
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const SignInPage()));
               },
               child: const Text('Close'),
             ),

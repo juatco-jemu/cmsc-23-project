@@ -33,7 +33,7 @@ class PendingOrgPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 context.read<UserAuthProvider>().signOut();
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                // Navigator.of(context).popUntil((route) => route.isFirst);
               },
               child: const Text('Sign Out'),
             ),
