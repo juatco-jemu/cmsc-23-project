@@ -5,7 +5,7 @@ This project demonstrates the basic functionalities that mobile computing and de
 
 ## Developers 
 - Juatco, Jemuel - 2019-05804
-- Maiso, Zerene Daphne - 2022-13580
+- Maiso, Zerine Daphne - 2022-13580
 
 ## Getting Started
 
