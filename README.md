@@ -1,4 +1,4 @@
-# CMSC 23 U1L LAB PROJECT: HOPEHAVEN 
+# CMSC 23 U-1L LAB PROJECT: HOPEHAVEN 
 
 HopeHaven is a donation system based on the University of the Philippines Los Banos. It is a mobile application that utilizes the basic features of Flutter as the framework and Firebase as the database.
 This project demonstrates the basic functionalities that mobile computing and development offers.
@@ -58,11 +58,6 @@ These instructions will help you set up the project on your local machine for de
 - Register and log in to the donor panel.
 - Browse organizations and their donation drives.
 - Donate to selected donation drives.
-
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## References
 
