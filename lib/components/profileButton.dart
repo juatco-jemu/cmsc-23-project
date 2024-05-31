@@ -27,7 +27,7 @@ class _ProfileButtonState extends State<ProfileButton> {
         onTap: () {
           if (widget.route == 'sign-out') {
             context.read<UserAuthProvider>().signOut();
-            Navigator.of(context).popUntil((route) => route.isFirst);
+            Navigator.pushReplacementNamed(context, "/");
           } else {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => widget.route));
           }

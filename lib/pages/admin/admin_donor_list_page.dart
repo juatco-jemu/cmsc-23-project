@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_system/model/model_donor.dart';
+import 'package:donation_system/providers/provider_auth.dart';
 import 'package:donation_system/providers/provider_donors.dart';
 import 'package:donation_system/theme/colors.dart';
 import 'package:donation_system/theme/widget_designs.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +36,13 @@ class _AdminDonorListState extends State<AdminDonorList> {
               ],
             )),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.yellow03,
+        onPressed: () {
+          context.read<UserAuthProvider>().signOut();
+        },
+        child: const Icon(Icons.logout),
+      ),
     );
   }
 }
@@ -45,12 +52,12 @@ Widget spacer(double height) {
 }
 
 Widget _buildHeader() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
+  return const Padding(
+    padding: EdgeInsets.symmetric(horizontal: 20),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
+        Text(
           "Admin - Donor List",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
@@ -58,12 +65,6 @@ Widget _buildHeader() {
         //   padding: const EdgeInsets.only(right: 8.0),
         //   child: Image.asset('assets/images/cloud01.png', height: 80),
         // ),
-        IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: () {
-            FirebaseAuth.instance.signOut();
-          },
-        ),
       ],
     ),
   );
